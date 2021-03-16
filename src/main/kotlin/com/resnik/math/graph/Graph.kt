@@ -2,20 +2,18 @@ package com.resnik.math.graph
 
 import com.resnik.math.Point
 
-class Graph(vararg points: Point) {
+open class Graph {
 
-    var vertices: Set<Vertex> = points.map { Vertex(*it.values) }.toSet()
-    var edges: Set<Edge>
+    var vertices: Set<Vertex>
+    var edges: Set<Edge> = mutableSetOf()
 
-    init {
-        vertices.forEach { curr ->
-            vertices.forEach { other ->
-                if(curr != other){
-                    curr.connect(other)
-                }
-            }
-        }
-        edges = vertices.flatMap { nd -> nd.edges }.toSet()
+    constructor(vararg points: Point){
+        this.vertices = points.map { Vertex(*it.values) }.toSet()
+    }
+
+    constructor(vertices: Set<Vertex>, edges: Set<Edge>){
+        this.vertices = vertices
+        this.edges = edges
     }
 
 }

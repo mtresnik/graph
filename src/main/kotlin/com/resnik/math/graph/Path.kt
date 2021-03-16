@@ -1,6 +1,10 @@
 package com.resnik.math.graph
 
-class Path(edges: Collection<Edge>) : ArrayList<Edge>(edges) {
+class Path : ArrayList<Edge> {
+
+    constructor(edges: Collection<Edge>) : super(edges)
+
+    constructor() : super()
 
     fun getDistance() : Double = this.map { edge -> edge.getDistance() }.sum()
 

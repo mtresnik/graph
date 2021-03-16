@@ -1,8 +1,10 @@
 package com.resnik.math.graph
 
-class Edge(val from: Vertex, val to: Vertex) {
+open class Edge(val from: Vertex, val to: Vertex, val weight: Double = 0.0) {
 
-    fun getDistance() : Double = from.distanceTo(to)
+    open fun getDistance() : Double {
+        return from.distanceTo(to)
+    }
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true

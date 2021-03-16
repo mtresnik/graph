@@ -1,7 +1,9 @@
 package com.resnik.math.graph.tsp
 
 import com.resnik.math.Point
+import com.resnik.math.graph.ui.GraphCollection
 import org.junit.jupiter.api.Test
+import java.awt.Color
 import java.lang.Math.random
 
 class TestTSP {
@@ -36,6 +38,12 @@ class TestTSP {
         val bruteResult = brute.evaluate()
         println(bruteResult)
         println("Time: ${System.currentTimeMillis() - start}")
+
+        var collection = GraphCollection("Test TSP")
+        collection.addGraph(random.connectedGraph)
+        // collection.addPath(randomResult, Color.GREEN)
+        collection.addPath(bruteResult, Color.RED)
+        collection.render()
 
     }
 

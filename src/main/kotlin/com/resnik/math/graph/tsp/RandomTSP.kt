@@ -9,7 +9,7 @@ import com.resnik.math.graph.Vertex
 class RandomTSP(vararg points: Point, private val seedFunction: (Int) -> Int = { n -> defaultSeedFunction(n) }): TSP(*points)  {
 
     override fun evaluate(): Path {
-        val ITERATIONS: Int = seedFunction.invoke(graph.vertices.size)
+        val ITERATIONS: Int = seedFunction.invoke(connectedGraph.vertices.size)
         var minDistance = Double.MAX_VALUE
         var minPath: Path? = null
         for(i in 0 until ITERATIONS){
@@ -23,9 +23,9 @@ class RandomTSP(vararg points: Point, private val seedFunction: (Int) -> Int = {
     }
 
     fun randomPathOptimized(): Path {
-        val maxVertex: Vertex = graph.vertices.maxBy { vertex -> vertex.edges.sumByDouble { edge -> edge.getDistance() } }!!
+        val maxVertex: Vertex = connectedGraph.vertices.maxBy { vertex -> vertex.edges.sumByDouble { edge -> edge.getDistance() } }!!
         val exploredEdges: MutableSet<Edge> = mutableSetOf()
-        val toExplore: ArrayDeque<Vertex> = ArrayDeque(graph.vertices)
+        val toExplore: ArrayDeque<Vertex> = ArrayDeque(connectedGraph.vertices)
         val visited: MutableSet<Vertex> = mutableSetOf()
         var curr: Vertex = maxVertex
         toExplore.remove(curr)
@@ -45,7 +45,7 @@ class RandomTSP(vararg points: Point, private val seedFunction: (Int) -> Int = {
     }
 
     companion object {
-        fun defaultSeedFunction(n: Int): Int = n * n * 1000
+        fun defaultSeedFunction(n: Int): Int = n * n * 2000
     }
 
 }

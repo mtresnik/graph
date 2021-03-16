@@ -2,6 +2,7 @@ package com.resnik.math
 
 import com.resnik.math.graph.Edge
 import com.resnik.math.graph.Vertex
+import kotlin.math.pow
 
 fun <T> permuteRecursive(set: Set<T>) : Set<List<T>> {
     if(set.isEmpty()) return emptySet()
@@ -28,4 +29,16 @@ fun verticesToEdges(vertices: List<Vertex>): List<Edge> {
         }
     }
     return ret
+}
+
+fun haversine(lat1: Double, lon1: Double, lat2: Double, lon2:Double): Double{
+    val EARTH_RADIUS_METERS = 6371e3
+    val lat1Rads = Math.toRadians(lat1)
+    val lat2Rads = Math.toRadians(lat2)
+    val dLat = Math.toRadians(lat2 - lat1)
+    val dLon = Math.toRadians(lon2 - lon1)
+    val a: Double = Math.sin(dLat / 2).pow(2) +
+            Math.cos(lat1Rads) * Math.cos(lat2Rads) * Math.sin(dLon / 2).pow(2)
+    val c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a))
+    return EARTH_RADIUS_METERS * c
 }

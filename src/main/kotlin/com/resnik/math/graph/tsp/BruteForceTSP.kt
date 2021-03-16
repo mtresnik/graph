@@ -9,7 +9,7 @@ import com.resnik.math.permuteRecursive
 class BruteForceTSP(vararg points: Point) : TSP(*points) {
 
     override fun evaluate(): Path =
-        permuteRecursive(graph.vertices)
+        permuteRecursive(connectedGraph.vertices)
         .map { Path(verticesToEdges(it)) }
         .minBy { it.getDistance() }!!
 
