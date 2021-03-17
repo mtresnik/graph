@@ -7,7 +7,7 @@ import com.resnik.math.graph.Vertex
 
 abstract class GraphAlgorithm(protected val start: Vertex, protected val dest: Vertex, protected val graph: Graph) : Traversal {
 
-    protected val visited: MutableSet<Vertex> = mutableSetOf()
+    private val visited: MutableSet<Vertex> = mutableSetOf()
 
     protected fun Vertex.visit() = visited.add(this)
 
@@ -23,7 +23,7 @@ abstract class GraphAlgorithm(protected val start: Vertex, protected val dest: V
         }
         vertexList.add(currVertex)
         vertexList.reverse()
-        for(i in 0 until (vertexList.size - 1)){
+        for(i in 0 until vertexList.lastIndex){
             currVertex = vertexList[i]
             val nextVertex = vertexList[i + 1]
             val edge = currVertex.getEdge(nextVertex)

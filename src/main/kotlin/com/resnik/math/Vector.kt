@@ -10,6 +10,8 @@ class Vector(private vararg val values: Double) {
 
     operator fun times(other: Vector): Double = values.zip(other.values) {a, b -> a * b}.sum()
 
+    operator fun get(index: Int) : Double = values[index]
+
     fun magnitude(): Double = values.map { v -> v.pow(2) }.sum().pow(0.5)
 
     override fun equals(other: Any?): Boolean {

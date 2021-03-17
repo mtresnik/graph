@@ -18,6 +18,7 @@ class GraphCollection(val name: String) {
 
     private val graphs: MutableMap<Graph, Color> = mutableMapOf()
     private val paths: MutableMap<Path, Color> = mutableMapOf()
+    private val points: MutableMap<Point, Color> = mutableMapOf()
     private val bounds: BoundingBox = BoundingBox()
     var background: Color = Color.WHITE
     var width: Int = 1000
@@ -31,6 +32,18 @@ class GraphCollection(val name: String) {
 
     fun addPath(path: Path, color:Color = Color.BLUE){
         paths[path] = color
+        updateBounds()
+    }
+
+    fun addPoint(point: Point, color:Color = Color.CYAN){
+        points[point] = color
+        updateBounds()
+    }
+
+    fun addPoints(points: Collection<Point>, color:Color = Color.CYAN){
+        points.forEach {
+            this.points[it] = color
+        }
         updateBounds()
     }
 
@@ -50,12 +63,15 @@ class GraphCollection(val name: String) {
                 bounds.update(it.to)
             }
         }
+        points.keys.forEach { point ->
+            bounds.update(point)
+        }
     }
 
     fun drawCenteredCircle(g: Graphics2D, x: Int, y: Int, r: Int) = g.fillOval(x - r / 2, y - r / 2, r, r)
 
-    fun drawPoint(color: Color, vertex: Vertex, graphics2D: Graphics2D){
-        val coordinate = convertPixels(vertex)
+    fun drawPoint(color: Color, point: Point, graphics2D: Graphics2D){
+        val coordinate = convertPixels(point)
         graphics2D.paint = color
         drawCenteredCircle(graphics2D, coordinate.first, coordinate.second, 20)
     }
@@ -102,6 +118,9 @@ class GraphCollection(val name: String) {
             graph.vertices.forEach { vertex ->
                 drawPoint(color, vertex, graphics)
             }
+        }
+        points.forEach { (point, color) ->
+            drawPoint(color, point, graphics)
         }
         paths.entries.forEachIndexed{ index, (path, color) ->
             path.forEach { edge ->

@@ -2,7 +2,7 @@ package com.resnik.math.graph
 
 import com.resnik.math.Point
 
-open class Vertex(vararg values: Double) : Point(*values), Comparable<Vertex> {
+open class Vertex(vararg values: Double) : Point(*values) {
 
     val edges: MutableSet<Edge> = mutableSetOf()
     var previous: Vertex? = null
@@ -23,6 +23,11 @@ open class Vertex(vararg values: Double) : Point(*values), Comparable<Vertex> {
 
     fun getEdge(other: Vertex): Edge? = edges.firstOrNull { it.to == other }
 
-    override fun compareTo(other: Vertex): Int = value.compareTo(other.value)
+    override fun compareTo(other: Point): Int {
+        if(other is Vertex){
+            return value.compareTo(other.value)
+        }
+        return super.compareTo(other)
+    }
 
 }

@@ -23,8 +23,8 @@ class BoundingBox(var minX: Double, var minY: Double, var maxX: Double, var maxY
         if(point.values.size < 2){
             throw IllegalArgumentException("Must be >= 2 dim")
         }
-        val x = point.values[0]
-        val y = point.values[1]
+        val x = point.x()
+        val y = point.y()
         minX = min(x, minX)
         minY = min(y, minY)
         maxX = max(x, maxX)
