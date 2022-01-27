@@ -1,13 +1,13 @@
 package com.resnik.math.graph.hull
 
-import com.resnik.math.Point
+import com.resnik.math.linear.array.ArrayPoint
 import java.util.*
 
 class ConvexHull {
 
-    fun convexHull(points: List<Point>) : Collection<Point>{
+    fun convexHull(points: List<ArrayPoint>) : Collection<ArrayPoint>{
         Collections.sort(points)
-        val hull = mutableListOf<Point>()
+        val hull = mutableListOf<ArrayPoint>()
         points.forEach {
             while(hull.size >= 2 && !isCounterClockwise(hull[hull.lastIndex - 1], hull.last(), it)){
                 hull.removeAt(hull.lastIndex)
@@ -27,7 +27,7 @@ class ConvexHull {
     }
 
     // Well established CCW reference
-    private fun isCounterClockwise(a: Point, b: Point, c: Point) = ((b.x() - a.x()) * (c.y() - a.y())) > ((b.y() - a.y()) * (c.x() - a.x()))
+    private fun isCounterClockwise(a: ArrayPoint, b: ArrayPoint, c: ArrayPoint) = ((b.x() - a.x()) * (c.y() - a.y())) > ((b.y() - a.y()) * (c.x() - a.x()))
 
 
 }

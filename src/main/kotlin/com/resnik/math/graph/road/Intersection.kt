@@ -1,13 +1,13 @@
 package com.resnik.math.graph.road
 
-import com.resnik.math.Point
 import com.resnik.math.graph.Edge
 import com.resnik.math.graph.Vertex
 import com.resnik.math.haversine
+import com.resnik.math.linear.array.ArrayPoint
 
 class Intersection(val lat: Double, val lon: Double) : Vertex(lon, lat) {
 
-    override fun distanceTo(other: Point): Double {
+    override fun distanceTo(other: ArrayPoint): Double {
         if(other is Intersection){
             return haversine(lat, lon, other.lat, other.lon)
         }

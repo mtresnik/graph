@@ -1,7 +1,7 @@
 package com.resnik.math.graph
 
-import com.resnik.math.Point
-import com.resnik.math.graph.ui.BoundingBox
+import com.resnik.math.linear.array.ArrayPoint
+import com.resnik.math.linear.array.geometry.BoundingBox
 
 class Path : ArrayList<Edge> {
 
@@ -16,17 +16,17 @@ class Path : ArrayList<Edge> {
     fun wrap() = this.add(Edge(this.last().to, this.first().from))
 
     fun getBounds() : BoundingBox {
-        val ret = BoundingBox()
+        val pointlist = mutableListOf<ArrayPoint>()
         this.forEach {
-            ret.update(it.from)
-            ret.update(it.to)
+            pointlist.add(it.from)
+            pointlist.add(it.to)
         }
-        return ret
+        return BoundingBox(*pointlist.toTypedArray())
     }
 
     companion object {
 
-        fun fromPoints(points: Collection<Point>) : Path = Path(points.map { pt -> Vertex(*pt.values) }.zipWithNext { a, b -> Edge(a, b) })
+        fun fromPoints(points: Collection<ArrayPoint>) : Path = Path(points.map { pt -> Vertex(*pt.values) }.zipWithNext { a, b -> Edge(a, b) })
 
     }
 

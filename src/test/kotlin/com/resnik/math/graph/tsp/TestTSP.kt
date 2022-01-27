@@ -1,19 +1,15 @@
 package com.resnik.math.graph.tsp
 
-import com.resnik.math.Point
 import com.resnik.math.graph.ui.GraphCollection
+import com.resnik.math.linear.array.ArrayPoint
 import org.junit.jupiter.api.Test
 import java.awt.Color
 import java.lang.Math.random
 
 class TestTSP {
 
-    fun randomPoints(max:Int = 9): Array<Point> {
-        val points: Array<Point> = Array(max) {index -> Point()}
-        for(i in 0 until max){
-            points[i] = Point(random(), random())
-        }
-        return points
+    fun randomPoints(max:Int = 9): Array<ArrayPoint> {
+        return Array(max) { ArrayPoint(random(), random())}
     }
 
     @ExperimentalStdlibApi

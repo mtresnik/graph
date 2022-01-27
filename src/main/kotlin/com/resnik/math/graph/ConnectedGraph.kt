@@ -1,8 +1,8 @@
 package com.resnik.math.graph
 
-import com.resnik.math.Point
+import com.resnik.math.linear.array.ArrayPoint
 
-class ConnectedGraph(vararg points: Point) : Graph(*points) {
+class ConnectedGraph(vararg points: ArrayPoint) : Graph(*points) {
 
     init {
         vertices.forEach { curr ->

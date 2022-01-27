@@ -1,10 +1,10 @@
 package com.resnik.math.graph.ui
 
-import com.resnik.math.Point
 import com.resnik.math.graph.Edge
 import com.resnik.math.graph.Graph
 import com.resnik.math.graph.Path
-import com.resnik.math.graph.Vertex
+import com.resnik.math.linear.array.ArrayPoint
+import com.resnik.math.linear.array.geometry.PaddedBoundingBox
 import java.awt.BasicStroke
 import java.awt.Color
 import java.awt.Graphics2D
@@ -18,8 +18,8 @@ class GraphCollection(val name: String) {
 
     private val graphs: MutableMap<Graph, Color> = mutableMapOf()
     private val paths: MutableMap<Path, Color> = mutableMapOf()
-    private val points: MutableMap<Point, Color> = mutableMapOf()
-    private val bounds: BoundingBox = BoundingBox()
+    private val points: MutableMap<ArrayPoint, Color> = mutableMapOf()
+    private lateinit var bounds: PaddedBoundingBox
     var background: Color = Color.WHITE
     var width: Int = 1000
     var height: Int = 1000
@@ -35,12 +35,12 @@ class GraphCollection(val name: String) {
         updateBounds()
     }
 
-    fun addPoint(point: Point, color:Color = Color.CYAN){
+    fun addPoint(point: ArrayPoint, color:Color = Color.CYAN){
         points[point] = color
         updateBounds()
     }
 
-    fun addPoints(points: Collection<Point>, color:Color = Color.CYAN){
+    fun addPoints(points: Collection<ArrayPoint>, color:Color = Color.CYAN){
         points.forEach {
             this.points[it] = color
         }
@@ -48,29 +48,31 @@ class GraphCollection(val name: String) {
     }
 
     fun updateBounds() {
+        val pointList = mutableListOf<ArrayPoint>()
         graphs.keys.forEach { graph ->
             graph.vertices.forEach {
-                bounds.update(it)
+                pointList.add(it)
             }
             graph.edges.forEach {
-                bounds.update(it.from)
-                bounds.update(it.to)
+                pointList.add(it.from)
+                pointList.add(it.to)
             }
         }
         paths.keys.forEach { path ->
             path.forEach {
-                bounds.update(it.from)
-                bounds.update(it.to)
+                pointList.add(it.from)
+                pointList.add(it.to)
             }
         }
         points.keys.forEach { point ->
-            bounds.update(point)
+            pointList.add(point)
         }
+        bounds = PaddedBoundingBox(*pointList.toTypedArray())
     }
 
     fun drawCenteredCircle(g: Graphics2D, x: Int, y: Int, r: Int) = g.fillOval(x - r / 2, y - r / 2, r, r)
 
-    fun drawPoint(color: Color, point: Point, graphics2D: Graphics2D){
+    fun drawPoint(color: Color, point: ArrayPoint, graphics2D: Graphics2D){
         val coordinate = convertPixels(point)
         graphics2D.paint = color
         drawCenteredCircle(graphics2D, coordinate.first, coordinate.second, 20)
@@ -84,24 +86,24 @@ class GraphCollection(val name: String) {
         graphics2D.drawLine(from.first, from.second, to.first, to.second)
     }
 
-    fun convertPixels(point: Point) : Pair<Int, Int>{
+    fun convertPixels(point: ArrayPoint) : Pair<Int, Int>{
         if(point !in bounds){
             throw RuntimeException("Point is out of current bounds of graph.")
         }
         val x = point.values[0]
         val y = point.values[1]
-        val relX = (x - bounds.minX) / (bounds.maxX - bounds.minX)
-        val relY = (y - bounds.minY) / (bounds.maxY - bounds.minY)
+        val relX = (x - bounds.minX()) / (bounds.maxX() - bounds.minX())
+        val relY = (y - bounds.minY()) / (bounds.maxY() - bounds.minY())
         return Pair(floor(relX*width).toInt(), floor(relY*height).toInt())
     }
 
     fun padBounds(){
-        val dx = bounds.maxX - bounds.minX
-        val dy = bounds.maxY - bounds.minY
-        bounds.minX-=dx*padding
-        bounds.minY-=dy*padding
-        bounds.maxX+=dx*padding
-        bounds.maxY+=dy*padding
+        val dx = bounds.maxX() - bounds.minX()
+        val dy = bounds.maxY() - bounds.minY()
+        bounds.minXPadding -=dx*padding
+        bounds.minYPadding -=dy*padding
+        bounds.maxXPadding +=dx*padding
+        bounds.maxYPadding +=dy*padding
     }
 
     fun build(): BufferedImage {

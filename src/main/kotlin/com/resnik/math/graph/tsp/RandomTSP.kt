@@ -1,12 +1,12 @@
 package com.resnik.math.graph.tsp
 
-import com.resnik.math.Point
 import com.resnik.math.graph.Edge
 import com.resnik.math.graph.Path
 import com.resnik.math.graph.Vertex
+import com.resnik.math.linear.array.ArrayPoint
 
 @ExperimentalStdlibApi
-class RandomTSP(vararg points: Point, private val seedFunction: (Int) -> Int = { n -> defaultSeedFunction(n) }): TSP(*points)  {
+class RandomTSP(vararg points: ArrayPoint, private val seedFunction: (Int) -> Int = { n -> defaultSeedFunction(n) }): TSP(*points)  {
 
     override fun evaluate(): Path {
         val ITERATIONS: Int = seedFunction.invoke(connectedGraph.vertices.size)
