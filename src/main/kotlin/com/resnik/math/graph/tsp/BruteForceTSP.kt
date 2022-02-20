@@ -11,6 +11,6 @@ class BruteForceTSP(vararg points: ArrayPoint) : TSP(*points) {
     override fun evaluate(): Path =
         permuteRecursive(connectedGraph.vertices)
         .map { Path(verticesToEdges(it)) }
-        .minBy { it.getDistance() }!!
+        .minByOrNull { it.getDistance() }!!
 
 }

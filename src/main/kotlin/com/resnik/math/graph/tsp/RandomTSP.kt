@@ -23,7 +23,7 @@ class RandomTSP(vararg points: ArrayPoint, private val seedFunction: (Int) -> In
     }
 
     fun randomPathOptimized(): Path {
-        val maxVertex: Vertex = connectedGraph.vertices.maxBy { vertex -> vertex.edges.sumByDouble { edge -> edge.getDistance() } }!!
+        val maxVertex: Vertex = connectedGraph.vertices.maxByOrNull { vertex -> vertex.edges.sumByDouble { edge -> edge.getDistance() } }!!
         val exploredEdges: MutableSet<Edge> = mutableSetOf()
         val toExplore: ArrayDeque<Vertex> = ArrayDeque(connectedGraph.vertices)
         val visited: MutableSet<Vertex> = mutableSetOf()

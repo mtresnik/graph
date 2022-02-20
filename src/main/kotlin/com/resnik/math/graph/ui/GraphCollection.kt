@@ -21,8 +21,8 @@ class GraphCollection(val name: String) {
     private val points: MutableMap<ArrayPoint, Color> = mutableMapOf()
     private lateinit var bounds: PaddedBoundingBox
     var background: Color = Color.WHITE
-    var width: Int = 1000
-    var height: Int = 1000
+    var width: Int = 500
+    var height: Int = 500
     var padding = 0.1
 
     fun addGraph(graph: Graph, color:Color = Color.BLACK) {
