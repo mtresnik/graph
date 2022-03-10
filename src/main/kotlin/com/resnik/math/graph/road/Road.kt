@@ -1,12 +1,12 @@
 package com.resnik.math.graph.road
 
-import com.resnik.math.graph.PolyEdge
+import com.resnik.math.graph.objects.PolyEdge
 import kotlin.properties.Delegates
 
 // Speed is in mps
 class Road : PolyEdge {
 
-    lateinit var name : String
+    var name : String
     var speedLimit by Delegates.notNull<Double>()
 
     constructor(geometry: List<Intersection>, name: String = "Unnamed Road", speedLimit: Double = 15.0)

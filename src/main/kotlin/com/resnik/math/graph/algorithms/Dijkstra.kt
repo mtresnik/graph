@@ -1,36 +1,39 @@
 package com.resnik.math.graph.algorithms
 
-import com.resnik.math.graph.Graph
-import com.resnik.math.graph.Path
-import com.resnik.math.graph.Vertex
+import com.resnik.math.graph.objects.Graph
+import com.resnik.math.graph.objects.Path
+import com.resnik.math.graph.objects.Vertex
 import java.util.*
 
 class Dijkstra(start: Vertex, dest: Vertex, graph: Graph) : GraphAlgorithm(start, dest, graph) {
 
     override fun evaluate(): Path {
-        val shortestPathTree = TreeSet<Vertex>()
-        graph.vertices.forEach {
+        val shortestPathTree = PriorityQueue(Vertex.ValueComparator)
+        graph.storage.vertexStorage.forEach {
             if(it == start){
                 it.previous = start
                 it.value = 0.0
-            }else{
+            } else {
                 it.previous = null
                 it.value = Double.MAX_VALUE
             }
-            shortestPathTree.add(it)
         }
-        while(shortestPathTree.isNotEmpty()){
-            val closestVertex= shortestPathTree.pollFirst()
+        shortestPathTree.add(start)
+        while(shortestPathTree.isNotEmpty() && !hasVisited(dest)){
+            val closestVertex= shortestPathTree.poll()
             if(closestVertex == null || closestVertex.value == Double.MAX_VALUE)
                 break
             closestVertex.edges.forEach {
                 val neighbor = it.to
-                val combinedDistance = closestVertex.value + it.getDistance()
-                if(combinedDistance < neighbor.value){
-                    shortestPathTree.remove(neighbor)
-                    neighbor.value = combinedDistance
-                    neighbor.previous = closestVertex
-                    shortestPathTree.add(neighbor)
+                if(!hasVisited(neighbor)) {
+                    val combinedDistance = closestVertex.value + it.getDistance()
+                    if(combinedDistance < neighbor.value){
+                        shortestPathTree.remove(neighbor)
+                        neighbor.value = combinedDistance
+                        neighbor.previous = closestVertex
+                        shortestPathTree.add(neighbor)
+                        onVisit(neighbor)
+                    }
                 }
             }
         }

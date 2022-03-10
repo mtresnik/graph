@@ -1,12 +1,12 @@
 package com.resnik.math.graph.hull
 
 import com.resnik.math.linear.array.ArrayPoint
-import java.util.*
 
 class ConvexHull {
 
-    fun convexHull(points: List<ArrayPoint>) : Collection<ArrayPoint>{
-        Collections.sort(points)
+    fun convexHull(_points: List<ArrayPoint>) : Collection<ArrayPoint>{
+        if(_points.size <= 1) return _points
+        val points = _points.sorted()
         val hull = mutableListOf<ArrayPoint>()
         points.forEach {
             while(hull.size >= 2 && !isCounterClockwise(hull[hull.lastIndex - 1], hull.last(), it)){

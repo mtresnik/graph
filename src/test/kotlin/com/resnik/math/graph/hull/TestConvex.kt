@@ -1,6 +1,6 @@
 package com.resnik.math.graph.hull
 
-import com.resnik.math.graph.Path
+import com.resnik.math.graph.objects.Path
 import com.resnik.math.graph.ui.GraphCollection
 import com.resnik.math.linear.array.ArrayPoint
 import org.junit.jupiter.api.Test

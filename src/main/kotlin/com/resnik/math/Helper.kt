@@ -1,7 +1,7 @@
 package com.resnik.math
 
-import com.resnik.math.graph.Edge
-import com.resnik.math.graph.Vertex
+import com.resnik.math.graph.objects.Edge
+import com.resnik.math.graph.objects.Vertex
 import kotlin.math.pow
 
 fun <T> permuteRecursive(set: Set<T>) : Set<List<T>> {

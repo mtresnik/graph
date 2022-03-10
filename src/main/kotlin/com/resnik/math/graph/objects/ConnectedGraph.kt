@@ -1,18 +1,19 @@
-package com.resnik.math.graph
+package com.resnik.math.graph.objects
 
 import com.resnik.math.linear.array.ArrayPoint
 
 class ConnectedGraph(vararg points: ArrayPoint) : Graph(*points) {
 
     init {
-        vertices.forEach { curr ->
-            vertices.forEach { other ->
+        storage.vertexStorage.forEach { curr ->
+            storage.vertexStorage.forEach { other ->
                 if(curr != other){
                     curr.connectBidirectional(other)
                 }
             }
         }
-        edges = vertices.flatMap { nd -> nd.edges }.toSet()
+        storage.edgeStorage.clear()
+        storage.edgeStorage.saveAll(storage.vertexStorage.flatMap { nd -> nd.edges }.toSet())
     }
 
 

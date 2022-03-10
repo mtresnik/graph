@@ -1,7 +1,7 @@
 package com.resnik.math.graph.road
 
-import com.resnik.math.graph.Edge
-import com.resnik.math.graph.Vertex
+import com.resnik.math.graph.objects.Edge
+import com.resnik.math.graph.objects.Vertex
 import com.resnik.math.haversine
 import com.resnik.math.linear.array.ArrayPoint
 

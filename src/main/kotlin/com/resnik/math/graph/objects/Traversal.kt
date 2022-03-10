@@ -1,4 +1,4 @@
-package com.resnik.math.graph
+package com.resnik.math.graph.objects
 
 interface Traversal {
 

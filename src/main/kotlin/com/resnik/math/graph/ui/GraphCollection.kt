@@ -1,8 +1,8 @@
 package com.resnik.math.graph.ui
 
-import com.resnik.math.graph.Edge
-import com.resnik.math.graph.Graph
-import com.resnik.math.graph.Path
+import com.resnik.math.graph.objects.Edge
+import com.resnik.math.graph.objects.Graph
+import com.resnik.math.graph.objects.Path
 import com.resnik.math.linear.array.ArrayPoint
 import com.resnik.math.linear.array.geometry.PaddedBoundingBox
 import java.awt.BasicStroke
@@ -14,7 +14,7 @@ import javax.swing.JLabel
 import javax.swing.JOptionPane
 import kotlin.math.floor
 
-class GraphCollection(val name: String) {
+class GraphCollection(val name: String = "Collection") {
 
     private val graphs: MutableMap<Graph, Color> = mutableMapOf()
     private val paths: MutableMap<Path, Color> = mutableMapOf()
@@ -24,6 +24,8 @@ class GraphCollection(val name: String) {
     var width: Int = 500
     var height: Int = 500
     var padding = 0.1
+    var pointRadius = 20
+    var lineStroke = 5.0f
 
     fun addGraph(graph: Graph, color:Color = Color.BLACK) {
         graphs[graph] = color
@@ -50,10 +52,10 @@ class GraphCollection(val name: String) {
     fun updateBounds() {
         val pointList = mutableListOf<ArrayPoint>()
         graphs.keys.forEach { graph ->
-            graph.vertices.forEach {
+            graph.storage.vertexStorage.forEach {
                 pointList.add(it)
             }
-            graph.edges.forEach {
+            graph.storage.edgeStorage.forEach {
                 pointList.add(it.from)
                 pointList.add(it.to)
             }
@@ -67,7 +69,8 @@ class GraphCollection(val name: String) {
         points.keys.forEach { point ->
             pointList.add(point)
         }
-        bounds = PaddedBoundingBox(*pointList.toTypedArray())
+        if(pointList.isNotEmpty())
+            bounds = PaddedBoundingBox(*pointList.toTypedArray())
     }
 
     fun drawCenteredCircle(g: Graphics2D, x: Int, y: Int, r: Int) = g.fillOval(x - r / 2, y - r / 2, r, r)
@@ -75,10 +78,10 @@ class GraphCollection(val name: String) {
     fun drawPoint(color: Color, point: ArrayPoint, graphics2D: Graphics2D){
         val coordinate = convertPixels(point)
         graphics2D.paint = color
-        drawCenteredCircle(graphics2D, coordinate.first, coordinate.second, 20)
+        drawCenteredCircle(graphics2D, coordinate.first, coordinate.second, pointRadius)
     }
 
-    fun drawLine(color: Color, edge: Edge, graphics2D: Graphics2D, stroke: Float = 5f){
+    fun drawLine(color: Color, edge: Edge, graphics2D: Graphics2D, stroke: Float = lineStroke){
         val from = convertPixels(edge.from)
         val to = convertPixels(edge.to)
         graphics2D.paint = color
@@ -114,10 +117,10 @@ class GraphCollection(val name: String) {
         graphics.clearRect(0,0, width, height)
         padBounds()
         graphs.forEach { (graph, color) ->
-            graph.edges.forEach { edge ->
+            graph.storage.edgeStorage.forEach { edge ->
                 drawLine(color, edge, graphics)
             }
-            graph.vertices.forEach { vertex ->
+            graph.storage.vertexStorage.forEach { vertex ->
                 drawPoint(color, vertex, graphics)
             }
         }
