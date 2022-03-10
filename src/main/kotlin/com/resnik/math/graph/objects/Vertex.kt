@@ -67,4 +67,9 @@ open class Vertex(vararg values: Double, var id : Long? = null) : ArrayPoint(*va
         return ret
     }
 
+    override fun toString(): String {
+        return "(id=$id : ${super.toString()})"
+    }
+
+
 }

@@ -2,14 +2,13 @@ package com.resnik.math.graph.algorithms
 
 import com.resnik.math.graph.algorithms.cost.DefaultVertexWrapper
 import com.resnik.math.graph.objects.Path
-import com.resnik.math.graph.objects.Vertex
 import java.util.*
 
-class DFS(start: Vertex, dest: Vertex) : GraphAlgorithm<DefaultVertexWrapper>(start, dest) {
+class DFS(parameters : GraphAlgorithmParameterInterface) : GraphAlgorithm<DefaultVertexWrapper>(parameters) {
 
     override fun evaluate(): Path {
-        val startWrapper = DefaultVertexWrapper(start, 0.0)
-        val destWrapper = DefaultVertexWrapper(dest)
+        val startWrapper = DefaultVertexWrapper(getStart(), 0.0)
+        val destWrapper = DefaultVertexWrapper(getDestination())
         startWrapper.previous = startWrapper
         val children = Stack<DefaultVertexWrapper>()
         children.add(startWrapper)
@@ -20,7 +19,7 @@ class DFS(start: Vertex, dest: Vertex) : GraphAlgorithm<DefaultVertexWrapper>(st
             if(curr == destWrapper)
                 break
             curr.inner.edges.sortedBy { edge -> edge.getTheta() }.forEach { edge ->
-                val successor = if(edge.to == dest) destWrapper else DefaultVertexWrapper(edge.to)
+                val successor = if(edge.to == getDestination()) destWrapper else DefaultVertexWrapper(edge.to)
                 if(!hasVisited(successor)) {
                     successor.previous = curr
                     children.add(successor)

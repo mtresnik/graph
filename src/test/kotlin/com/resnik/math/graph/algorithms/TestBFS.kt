@@ -26,7 +26,7 @@ class TestBFS {
         val origin = vertices.random()
         val dest = vertices.random()
 
-        val algorithm = BFS(origin, dest)
+        val algorithm = BFS(GAParams(origin, dest))
         val path = algorithm.evaluate()
         println(path)
         collection.addPoint(origin, color = Color.RED)
@@ -52,7 +52,7 @@ class TestBFS {
         val minVertex = vertices.random()
         val maxVertex = vertices.random()
 
-        val algorithm = BFS(minVertex, maxVertex)
+        val algorithm = BFS(GAParams(minVertex, maxVertex))
         val visitedListener = VisitRecorder()
         algorithm.addListener(visitedListener)
         val path = algorithm.evaluate()

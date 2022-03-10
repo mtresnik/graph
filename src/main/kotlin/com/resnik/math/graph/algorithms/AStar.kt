@@ -6,19 +6,19 @@ import com.resnik.math.graph.objects.Path
 import com.resnik.math.graph.objects.Vertex
 import java.util.*
 
-class AStar(start: Vertex, dest: Vertex) : GraphAlgorithm<AStar.AStarVertexWrapper>(start, dest) {
+class AStar(parameters : GraphAlgorithmParameterInterface) : GraphAlgorithm<AStar.AStarVertexWrapper>(parameters) {
 
     class AStarVertexWrapper(inner : Vertex, defaultCost : Double = Double.MAX_VALUE)
         : VertexWrapper<AStarVertexWrapper>(inner, defaultCost) {
         var g : Double = 0.0
-
         override fun compareTo(other: AStarVertexWrapper): Int {
             return CostMetricTotalComparator.compare(this.state.cost, other.state.cost)
         }
-
     }
 
     override fun evaluate(): Path {
+        val start = getStart()
+        val dest = getDestination()
         val startWrapper = AStarVertexWrapper(start, 0.0)
         val destWrapper = AStarVertexWrapper(dest)
         startWrapper.previous = startWrapper

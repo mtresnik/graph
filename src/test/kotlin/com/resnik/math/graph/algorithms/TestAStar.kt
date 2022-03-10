@@ -29,7 +29,7 @@ class TestAStar {
         assert(minVertex != null)
         assert(maxVertex != null)
 
-        val algorithm = AStar(minVertex!!, maxVertex!!)
+        val algorithm = AStar(GAParams(minVertex!!, maxVertex!!))
         val visitedListener = VisitRecorder()
         algorithm.addListener(visitedListener)
         val path = algorithm.evaluate()
@@ -55,18 +55,18 @@ class TestAStar {
         collection.addGraph(graph, Color.BLUE)
 
         val vertices = graph.storage.vertexStorage.toList()
-        val minVertex = vertices.random()
-        val maxVertex = vertices.random()
+        val start = vertices.random()
+        val dest = vertices.random()
 
-        val algorithm = AStar(minVertex, maxVertex)
+        val algorithm = AStar(GAParams(start, dest))
         val visitedListener = VisitRecorder()
         algorithm.addListener(visitedListener)
         val path = algorithm.evaluate()
         collection.addPoints(visitedListener.toList(), Color.GREEN)
-        collection.addPoint(minVertex, color = Color.RED)
-        collection.addPoint(maxVertex, color = Color.RED)
+        collection.addPoint(start, color = Color.RED)
+        collection.addPoint(dest, color = Color.RED)
         collection.addPath(path, Color.RED)
-        collection.addPoint(minVertex, color = Color.YELLOW)
+        collection.addPoint(start, color = Color.YELLOW)
         collection.render()
     }
 
@@ -89,7 +89,7 @@ class TestAStar {
             val vertices = graph.storage.vertexStorage.toList()
             val origin = vertices.random()
             val destination = vertices.random()
-            val algorithm = AStar(origin, destination)
+            val algorithm = AStar(GAParams(origin, destination))
             val path = algorithm.evaluate()
             val dt = (System.currentTimeMillis() - start) / 1000.0
             timeTakenSeconds.add(dt)

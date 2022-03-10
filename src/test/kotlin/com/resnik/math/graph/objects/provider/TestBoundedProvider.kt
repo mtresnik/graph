@@ -1,6 +1,7 @@
 package com.resnik.math.graph.objects.provider
 
 import com.resnik.math.graph.algorithms.AStar
+import com.resnik.math.graph.algorithms.GAParams
 import com.resnik.math.graph.ui.GraphCollection
 import com.resnik.math.linear.array.ArrayPoint
 import com.resnik.math.linear.array.geometry.BoundingBox
@@ -66,7 +67,7 @@ class TestBoundedProvider {
         assert(minVertex != null)
         assert(maxVertex != null)
 
-        val algorithm = AStar(minVertex!!, maxVertex!!)
+        val algorithm = AStar(GAParams(minVertex!!, maxVertex!!))
         val path = algorithm.evaluate()
         println(path)
 
@@ -97,7 +98,7 @@ class TestBoundedProvider {
         assert(minVertex != null)
         assert(maxVertex != null)
 
-        val algorithm = AStar(minVertex!!, maxVertex!!)
+        val algorithm = AStar(GAParams(minVertex!!, maxVertex!!))
         val path = algorithm.evaluate()
         println(path)
 
@@ -133,7 +134,7 @@ class TestBoundedProvider {
         assert(minVertex != null)
         assert(maxVertex != null)
 
-        val algorithm = AStar(minVertex!!, maxVertex!!)
+        val algorithm = AStar(GAParams(minVertex!!, maxVertex!!))
         val path = algorithm.evaluate()
         println(path)
 

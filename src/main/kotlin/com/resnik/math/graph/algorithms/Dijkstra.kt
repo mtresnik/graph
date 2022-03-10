@@ -6,20 +6,20 @@ import com.resnik.math.graph.objects.Path
 import com.resnik.math.graph.objects.Vertex
 import java.util.*
 
-class Dijkstra(start: Vertex, dest: Vertex) : GraphAlgorithm<DefaultVertexWrapper>(start, dest) {
+class Dijkstra(parameters : GraphAlgorithmParameterInterface) : GraphAlgorithm<DefaultVertexWrapper>(parameters) {
 
     override fun evaluate(): Path {
-        val startWrapper = DefaultVertexWrapper(start, 0.0)
-        val destWrapper = DefaultVertexWrapper(dest)
+        val startWrapper = DefaultVertexWrapper(getStart(), 0.0)
+        val destWrapper = DefaultVertexWrapper(getDestination())
         startWrapper.previous = startWrapper
         val shortestPathTree = PriorityQueue<DefaultVertexWrapper>()
         shortestPathTree.add(startWrapper)
-        while(shortestPathTree.isNotEmpty() && !hasVisited(dest)){
+        while(shortestPathTree.isNotEmpty() && !hasVisited(getDestination())){
             val closestVertex= shortestPathTree.poll()
             if(closestVertex == null || closestVertex.state.cost.total == Double.MAX_VALUE || closestVertex == destWrapper)
                 break
             closestVertex.inner.edges.forEach { edge ->
-                val successor = if(edge.to == dest) destWrapper else DefaultVertexWrapper(edge.to)
+                val successor = if(edge.to == getDestination()) destWrapper else DefaultVertexWrapper(edge.to)
                 if(!hasVisited(successor)) {
                     val combinedDistance = closestVertex.state.cost.total + edge.getDistance()
                     if(combinedDistance < successor.state.cost.total){

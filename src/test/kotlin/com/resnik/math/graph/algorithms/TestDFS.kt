@@ -31,7 +31,7 @@ class TestDFS {
         assert(maxVertex != null)
         maxVertex!!
 
-        val algorithm = DFS(minVertex, maxVertex)
+        val algorithm = DFS(GAParams(minVertex, maxVertex))
         val visitedListener = VisitRecorder()
         algorithm.addListener(visitedListener)
         val path = algorithm.evaluate()
@@ -66,7 +66,7 @@ class TestDFS {
         assert(maxVertex != null)
         maxVertex!!
 
-        val algorithm = DFS(minVertex, maxVertex)
+        val algorithm = DFS(GAParams(minVertex, maxVertex))
         val path = algorithm.evaluate()
         collection.addPoint(minVertex, color = Color.RED)
         collection.addPoint(maxVertex, color = Color.RED)

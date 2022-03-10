@@ -1,14 +1,12 @@
 package com.resnik.math.graph.algorithms
 
 import com.resnik.math.graph.algorithms.cost.VertexWrapper
-import com.resnik.math.graph.objects.Graph
 import com.resnik.math.graph.objects.Path
 import com.resnik.math.graph.objects.Traversal
 import com.resnik.math.graph.objects.Vertex
-import java.lang.IllegalStateException
 
-abstract class GraphAlgorithm<T : VertexWrapper<T>>(protected val start: Vertex, protected val dest: Vertex)
-    : VertexProducer(), Traversal {
+abstract class GraphAlgorithm<T : VertexWrapper<T>>(private val parameters: GraphAlgorithmParameterInterface)
+    : VertexProducer(), Traversal, GraphAlgorithmParameterInterface {
 
     private val _visited : Function1<Vertex, Boolean>
     private val _visit : Function1<Vertex, Boolean>
@@ -16,7 +14,7 @@ abstract class GraphAlgorithm<T : VertexWrapper<T>>(protected val start: Vertex,
     private val idSet = mutableSetOf<Long>()
 
     init {
-        if(start.id != null && dest.id != null) {
+        if(getStart().id != null && getDestination().id != null) {
             _visited = { v ->
                 if(v.id == null) throw IllegalStateException("Missing id.")
                 idSet.contains(v.id)
@@ -70,4 +68,11 @@ abstract class GraphAlgorithm<T : VertexWrapper<T>>(protected val start: Vertex,
 
     fun numVisited() : Int = vertexSet.size + idSet.size
 
+    final override fun getStart(): Vertex {
+        return parameters.getStart()
+    }
+
+    final override fun getDestination(): Vertex {
+        return parameters.getDestination()
+    }
 }
