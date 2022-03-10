@@ -31,12 +31,15 @@ class TestDFS {
         assert(maxVertex != null)
         maxVertex!!
 
-        val algorithm = DFS(minVertex, maxVertex, graph)
+        val algorithm = DFS(minVertex, maxVertex)
+        val visitedListener = VisitRecorder()
+        algorithm.addListener(visitedListener)
         val path = algorithm.evaluate()
         collection.addPoint(minVertex, color = Color.RED)
         collection.addPoint(maxVertex, color = Color.RED)
         collection.addPath(path, Color.RED)
         collection.addPoint(minVertex, color = Color.YELLOW)
+        // collection.addPoints(visitedListener.toList(), color = Color.GREEN)
         collection.render()
     }
 
@@ -63,7 +66,7 @@ class TestDFS {
         assert(maxVertex != null)
         maxVertex!!
 
-        val algorithm = DFS(minVertex, maxVertex, pruned)
+        val algorithm = DFS(minVertex, maxVertex)
         val path = algorithm.evaluate()
         collection.addPoint(minVertex, color = Color.RED)
         collection.addPoint(maxVertex, color = Color.RED)

@@ -11,7 +11,7 @@ import com.resnik.math.graph.storage.file.Header
 import com.resnik.math.graph.storage.file.HeaderDescribed
 import com.resnik.math.graph.storage.objects.vertex.VertexStorage
 
-class EdgeStorage(private val vertexStorage: VertexStorage) : ItemizedLongStorable<Edge>(), FileStorable, HeaderDescribed<EdgeHeader> {
+class EdgeStorage(val vertexStorage: VertexStorage) : ItemizedLongStorable<Edge>(), FileStorable, HeaderDescribed<EdgeHeader> {
 
     private fun toStringEdge(edge : Edge) : String {
         var retString = ""
@@ -115,11 +115,18 @@ class EdgeStorage(private val vertexStorage: VertexStorage) : ItemizedLongStorab
         if(value is PolyEdge) {
             value.geometry.forEach { vertex -> vertexStorage.save(vertex) }
         } else {
-            vertexStorage.save(value.from)
-            vertexStorage.save(value.to)
+            value.from = vertexStorage.getOrSave(value.from)
+            value.to = vertexStorage.getOrSave(value.to)
         }
     }
 
     override fun getHeader(): EdgeHeader = EdgeHeader(size= size())
+
+    public override fun clone(): EdgeStorage {
+        val clonedVertex = vertexStorage.clone()
+        val ret = EdgeStorage(clonedVertex)
+        this.forEach { edge -> ret.save(edge.clone()) }
+        return ret
+    }
 
 }

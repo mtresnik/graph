@@ -9,7 +9,7 @@ import com.resnik.math.graph.storage.file.FileStorable
 import com.resnik.math.graph.storage.file.HeaderDescribed
 import com.resnik.math.graph.storage.objects.edge.EdgeStorage
 
-class PathStorage(private val edgeStorage: EdgeStorage) : ItemizedLongStorable<Path>(), FileStorable, HeaderDescribed<PathHeader> {
+class PathStorage(val edgeStorage: EdgeStorage) : ItemizedLongStorable<Path>(), FileStorable, HeaderDescribed<PathHeader> {
 
     override fun toString(value: Path): String {
         var retString = ""
@@ -81,5 +81,11 @@ class PathStorage(private val edgeStorage: EdgeStorage) : ItemizedLongStorable<P
     }
 
     override fun getHeader(): PathHeader = PathHeader(size = this.size())
+
+    public override fun clone() : PathStorage {
+        val ret = PathStorage(this.edgeStorage.clone())
+        this.forEach { path -> ret.save(path.clone()) }
+        return ret
+    }
 
 }

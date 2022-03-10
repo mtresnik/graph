@@ -1,13 +1,14 @@
 package com.resnik.math.graph.algorithms
 
+import com.resnik.math.graph.algorithms.cost.VertexWrapper
 import com.resnik.math.graph.objects.Graph
 import com.resnik.math.graph.objects.Path
 import com.resnik.math.graph.objects.Traversal
 import com.resnik.math.graph.objects.Vertex
 import java.lang.IllegalStateException
 
-abstract class GraphAlgorithm(protected val start: Vertex, protected val dest: Vertex, protected val graph: Graph) : VertexProducer(),
-    Traversal {
+abstract class GraphAlgorithm<T : VertexWrapper<T>>(protected val start: Vertex, protected val dest: Vertex)
+    : VertexProducer(), Traversal {
 
     private val _visited : Function1<Vertex, Boolean>
     private val _visit : Function1<Vertex, Boolean>
@@ -34,20 +35,19 @@ abstract class GraphAlgorithm(protected val start: Vertex, protected val dest: V
         }
     }
 
-
-    protected fun backtrack(vertex: Vertex): Path {
+    protected fun backtrack(wrapper: T): Path {
         val retPath = Path()
         val vertexSet = mutableSetOf<Vertex>()
-        var currVertex: Vertex = vertex
-        while(currVertex.previous != null && !vertexSet.contains(currVertex)) {
-            vertexSet.add(currVertex)
-            currVertex = currVertex.previous!!
+        var currVertexWrapper: VertexWrapper<T> = wrapper
+        while(currVertexWrapper.previous != null && !vertexSet.contains(currVertexWrapper.inner)) {
+            vertexSet.add(currVertexWrapper.inner)
+            currVertexWrapper = currVertexWrapper.previous!!
         }
         val vertexList = vertexSet.toMutableList()
-        vertexList.add(currVertex)
+        vertexList.add(currVertexWrapper.inner)
         vertexList.reverse()
         for(i in 0 until vertexList.lastIndex){
-            currVertex = vertexList[i]
+            val currVertex = vertexList[i]
             val nextVertex = vertexList[i + 1]
             val edge = currVertex.getEdge(nextVertex)
             if(edge != null){
@@ -57,10 +57,14 @@ abstract class GraphAlgorithm(protected val start: Vertex, protected val dest: V
         return retPath
     }
 
+    fun onVisit(wrapper: T) = onVisit(wrapper.inner)
+
     override fun onVisit(vertex: Vertex) {
         super.onVisit(vertex)
         this._visit(vertex)
     }
+
+    fun hasVisited(wrapper: T) : Boolean = hasVisited(wrapper.inner)
 
     fun hasVisited(vertex: Vertex) : Boolean = this._visited(vertex)
 

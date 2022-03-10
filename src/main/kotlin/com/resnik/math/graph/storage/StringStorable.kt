@@ -1,6 +1,6 @@
 package com.resnik.math.graph.storage
 
-interface StringStorable<ITEM> : Storable {
+interface StringStorable<ITEM> : Storable, Cloneable {
 
     fun toString(value : ITEM) : String
 

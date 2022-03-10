@@ -6,7 +6,7 @@ import com.resnik.math.linear.array.ArrayPoint
 import com.resnik.math.linear.array.geometry.BoundingBox
 
 class Path(collection: Collection<Edge> = mutableListOf(), var id : Long? = null) : ArrayList<Edge>(collection),
-    Identifyable, Flaggable {
+    Identifyable, Flaggable, Cloneable {
 
     private val flags = mutableSetOf<Long>()
     var values = mutableListOf<Double>()
@@ -47,6 +47,10 @@ class Path(collection: Collection<Edge> = mutableListOf(), var id : Long? = null
             pointlist.add(it.to)
         }
         return BoundingBox(*pointlist.toTypedArray())
+    }
+
+    public override fun clone(): Path {
+        return Path(this.map { edge -> edge.clone() }, id=id)
     }
 
     companion object {

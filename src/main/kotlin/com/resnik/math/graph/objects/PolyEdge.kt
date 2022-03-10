@@ -3,7 +3,7 @@ package com.resnik.math.graph.objects
 import com.resnik.math.linear.array.ArrayPoint
 import com.resnik.math.linear.array.geometry.BoundingBox
 
-open class PolyEdge(val geometry: List<Vertex>, edgeConstructor: Function2<Vertex, Vertex, Edge> = { a, b -> Edge(a,b) }
+open class PolyEdge(val geometry: List<Vertex>, private val edgeConstructor: Function2<Vertex, Vertex, Edge> = { a, b -> Edge(a,b) }
                     , weight : Double = 0.0, id : Long? = null)
     : Edge(geometry.first(), geometry.last(), weight=weight, id=id) {
 
@@ -17,4 +17,7 @@ open class PolyEdge(val geometry: List<Vertex>, edgeConstructor: Function2<Verte
         return BoundingBox(*pointList.toTypedArray())
     }
 
+    override fun clone(): PolyEdge {
+        return PolyEdge(geometry.map { it.clone() }, edgeConstructor=edgeConstructor, weight = weight, id=id)
+    }
 }

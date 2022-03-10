@@ -29,7 +29,7 @@ class TestAStar {
         assert(minVertex != null)
         assert(maxVertex != null)
 
-        val algorithm = AStar(minVertex!!, maxVertex!!, graph)
+        val algorithm = AStar(minVertex!!, maxVertex!!)
         val visitedListener = VisitRecorder()
         algorithm.addListener(visitedListener)
         val path = algorithm.evaluate()
@@ -58,7 +58,7 @@ class TestAStar {
         val minVertex = vertices.random()
         val maxVertex = vertices.random()
 
-        val algorithm = AStar(minVertex, maxVertex, graph)
+        val algorithm = AStar(minVertex, maxVertex)
         val visitedListener = VisitRecorder()
         algorithm.addListener(visitedListener)
         val path = algorithm.evaluate()
@@ -89,7 +89,7 @@ class TestAStar {
             val vertices = graph.storage.vertexStorage.toList()
             val origin = vertices.random()
             val destination = vertices.random()
-            val algorithm = AStar(origin, destination, graph)
+            val algorithm = AStar(origin, destination)
             val path = algorithm.evaluate()
             val dt = (System.currentTimeMillis() - start) / 1000.0
             timeTakenSeconds.add(dt)

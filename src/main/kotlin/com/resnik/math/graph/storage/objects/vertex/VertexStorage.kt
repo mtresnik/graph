@@ -84,5 +84,10 @@ class VertexStorage : ItemizedLongStorable<Vertex>(), FileStorable, HeaderDescri
         return retList
     }
 
+    public override fun clone() : VertexStorage {
+        val ret = VertexStorage()
+        this.forEach { vertex -> ret.save(vertex.clone()) }
+        return ret
+    }
 
 }

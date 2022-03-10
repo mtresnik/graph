@@ -6,8 +6,8 @@ import com.resnik.math.linear.array.geometry.BoundingBox
 import kotlin.math.acos
 import kotlin.math.atan2
 
-open class Edge(val from: Vertex, val to: Vertex, var weight: Double = 0.0, var id : Long? = null)
-    : Identifyable, Flaggable {
+open class Edge(var from: Vertex, var to: Vertex, var weight: Double = 0.0, var id : Long? = null)
+    : Identifyable, Flaggable, Cloneable {
 
     private val flags : MutableSet<Long> = mutableSetOf()
 
@@ -60,6 +60,10 @@ open class Edge(val from: Vertex, val to: Vertex, var weight: Double = 0.0, var 
 
     override fun clearFlags() {
         this.flags.clear()
+    }
+
+    public override fun clone(): Edge {
+        return Edge(from.clone(), to.clone(), weight=weight, id=id)
     }
 
 }

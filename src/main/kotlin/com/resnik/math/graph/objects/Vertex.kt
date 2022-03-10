@@ -5,12 +5,10 @@ import com.resnik.math.graph.Identifyable
 import com.resnik.math.linear.array.ArrayPoint
 import java.lang.IllegalStateException
 
-open class Vertex(vararg values: Double, var id : Long? = null) : ArrayPoint(*values), Identifyable, Flaggable {
+open class Vertex(vararg values: Double, var id : Long? = null) : ArrayPoint(*values), Identifyable, Flaggable, Cloneable {
 
     private val flags : MutableSet<Long> = mutableSetOf()
     val edges: MutableSet<Edge> = mutableSetOf()
-    var previous: Vertex? = null
-    var value: Double = 0.0
 
     fun connectBidirectional(other: Vertex) : Edge {
         this.connect(other)
@@ -27,13 +25,6 @@ open class Vertex(vararg values: Double, var id : Long? = null) : ArrayPoint(*va
 
     fun getEdge(other: Vertex): Edge? = edges.firstOrNull { it.to == other }
 
-    override fun compareTo(other: ArrayPoint): Int {
-        if(other is Vertex){
-            return value.compareTo(other.value)
-        }
-        return super.compareTo(other)
-    }
-
     override fun getID(): Long? {
         return id
     }
@@ -45,12 +36,9 @@ open class Vertex(vararg values: Double, var id : Long? = null) : ArrayPoint(*va
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (javaClass != other?.javaClass) return false
-        if (!super.equals(other)) return false
-
         other as Vertex
-
-        if (id != other.id) return false
-
+        if (id != other.id) return super.equals(other)
+        if (!super.equals(other)) return false
         return true
     }
 
@@ -73,17 +61,10 @@ open class Vertex(vararg values: Double, var id : Long? = null) : ArrayPoint(*va
         this.flags.clear()
     }
 
-    object ValueComparator : Comparator<Vertex> {
-
-        override fun compare(o1: Vertex?, o2: Vertex?): Int {
-            if(o1 == null && o2 == null) return 0
-            if(o1 != null && o2 != null) {
-                return o1.value.compareTo(o2.value)
-            }
-            throw IllegalStateException("One of the two is null here: $o1 comp $o2")
-        }
-
-
+    public override fun clone(): Vertex {
+        val ret = Vertex(*this.values.copyOf(), id=this.id)
+        ret.setFlags(this.flags)
+        return ret
     }
 
 }

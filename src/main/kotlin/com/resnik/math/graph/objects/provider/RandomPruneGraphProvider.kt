@@ -3,7 +3,7 @@ package com.resnik.math.graph.objects.provider
 import com.resnik.math.graph.objects.Graph
 import com.resnik.math.graph.storage.objects.graph.GraphStorage
 
-class RandomPruneGraphProvider(val baseGraph : Graph, percent : Double) : GraphProvider {
+class RandomPruneGraphProvider(private val baseGraph : Graph, percent : Double) : GraphProvider {
 
     private val percent : Double
 
@@ -12,7 +12,8 @@ class RandomPruneGraphProvider(val baseGraph : Graph, percent : Double) : GraphP
     }
 
     override fun build(): Graph {
-        val randomVertices = baseGraph.storage.vertexStorage.shuffled().toMutableList()
+        val cloned = baseGraph.clone()
+        val randomVertices = cloned.storage.vertexStorage.shuffled().toMutableList()
         val remains = randomVertices.take((randomVertices.size * (1.0 - percent)).toInt())
         val retStorage = GraphStorage()
         retStorage.vertexStorage.saveAll(remains)

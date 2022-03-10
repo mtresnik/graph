@@ -14,4 +14,19 @@ abstract class ItemizedLongStorable<ITEM : Identifyable> : ItemizedStorable<Long
         this[id] = value
     }
 
+    fun getOrSave(value : ITEM) : ITEM {
+        if(value.getID() != null) {
+            val ret = this[value.getID()!!]
+            if(ret != null){
+                return ret
+            }
+        }
+        save(value)
+        return value
+    }
+
+    fun saveFrom(other : ItemizedLongStorable<ITEM>) {
+        this.saveAll(other.toList())
+    }
+
 }

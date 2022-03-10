@@ -1,21 +1,20 @@
 package com.resnik.math.graph.storage.objects.graph
 
-import com.resnik.math.graph.objects.VertexFilter
 import com.resnik.math.graph.storage.GraphConstants
 import com.resnik.math.graph.storage.ItemizedLongStorable
-import com.resnik.math.graph.storage.objects.path.PathStorage
 import com.resnik.math.graph.storage.file.FileStorable
 import com.resnik.math.graph.storage.file.HeaderDescribed
 import com.resnik.math.graph.storage.objects.edge.EdgeStorage
+import com.resnik.math.graph.storage.objects.path.PathStorage
 import com.resnik.math.graph.storage.objects.vertex.VertexStorage
 import java.io.*
 import java.util.*
 
-class GraphStorage(private var parentLocation : File = DEFAULT_PARENT) : FileStorable, HeaderDescribed<GraphFileHeader> {
+class GraphStorage(private var parentLocation : File = DEFAULT_PARENT) : FileStorable, HeaderDescribed<GraphFileHeader>, Cloneable {
 
-    val vertexStorage = VertexStorage()
-    val edgeStorage = EdgeStorage(vertexStorage)
-    val pathStorage = PathStorage(edgeStorage)
+    var vertexStorage = VertexStorage()
+    var edgeStorage = EdgeStorage(vertexStorage)
+    var pathStorage = PathStorage(edgeStorage)
     private val storeMap = mutableMapOf<String, ItemizedLongStorable<*>>()
 
     init {
@@ -93,6 +92,22 @@ class GraphStorage(private var parentLocation : File = DEFAULT_PARENT) : FileSto
     override fun getFile(parent: File): File {
         this.parentLocation = parent
         return super.getFile(parent)
+    }
+
+    public override fun clone() : GraphStorage {
+        val new = GraphStorage(parentLocation = parentLocation)
+        val clonedEdgeStorage = edgeStorage.clone()
+        val vertexStorage = clonedEdgeStorage.vertexStorage
+        // make sure all from vertices exist in vertex storage
+        clonedEdgeStorage.forEach { edge ->
+            edge.from = vertexStorage.getOrSave(edge.from)
+            edge.to = vertexStorage.getOrSave(edge.to)
+            edge.from.edges.add(edge)
+        }
+        // get all edges that have no destination and remove them
+        new.vertexStorage = vertexStorage
+        new.edgeStorage = clonedEdgeStorage
+        return new
     }
 
     companion object {
