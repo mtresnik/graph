@@ -13,6 +13,7 @@ class TestFiles {
     fun testVert1() {
         val fileLocation = "C:\\Users\\Mike\\Desktop\\temp"
         val parent = File(fileLocation)
+        if(!parent.exists()) return
 
         val graphStorage = GraphStorage()
         val vert1 = Vertex(0.5, 1.0)
@@ -37,6 +38,7 @@ class TestFiles {
     fun testFile1() {
         val fileLocation = "C:\\Users\\Mike\\Desktop\\temp"
         val parent = File(fileLocation)
+        if(!parent.exists()) return
 
         val graphStorage = GraphStorage()
         val vert1 = Vertex(0.5, 1.0)
@@ -61,6 +63,7 @@ class TestFiles {
     fun testPath1() {
         val fileLocation = "C:\\Users\\Mike\\Desktop\\temp\\with two  spaces"
         val parent = File(fileLocation)
+        if(!parent.exists()) return
 
         val graphStorage = GraphStorage()
         val vert1 = Vertex(0.5, 1.0)
@@ -89,8 +92,10 @@ class TestFiles {
     @Test
     fun testWithSpaces(){
         val fileLocation = "C:\\Users\\Mike\\Desktop\\temp\\with two  spaces"
+        val parent = File(fileLocation)
+        if(!parent.exists()) return
         val graphStorage = GraphStorage()
-        graphStorage.loadFromParent(File(fileLocation))
+        graphStorage.loadFromParent(parent)
         val header = graphStorage.getHeader()
         println(header.toString())
     }

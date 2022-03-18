@@ -44,8 +44,8 @@ class TestAStar {
     @Test
     fun testAStarRandom() {
         val bbox = BoundingBox(ArrayPoint(0.0, 0.0), ArrayPoint(10.0, 10.0))
-        val width = 50
-        val height = 50
+        val width = 20
+        val height = 20
         val boundedGraphProvider = BoundedGraphProvider(bbox, width, height)
         val graph = boundedGraphProvider.build()
 

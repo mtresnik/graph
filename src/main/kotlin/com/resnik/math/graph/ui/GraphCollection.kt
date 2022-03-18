@@ -138,10 +138,11 @@ class GraphCollection(val name: String = "Collection") {
         return image
     }
 
-    fun render() {
+    fun render() : BufferedImage {
         val image = build()
         val icon = ImageIcon(image)
         val label = JLabel(icon)
         JOptionPane.showMessageDialog(null, label)
+        return image
     }
 }
