@@ -9,7 +9,7 @@ import com.resnik.math.linear.array.ArrayPoint
 class RandomTSP(vararg points: ArrayPoint, private val seedFunction: (Int) -> Int = { n -> defaultSeedFunction(n) }): TSP(*points)  {
 
     override fun evaluate(): Path {
-        val iterations: Int = seedFunction.invoke(connectedGraph.storage.vertexStorage.size())
+        val iterations: Int = seedFunction(graph.storage.vertexStorage.size())
         var minDistance = Double.MAX_VALUE
         var minPath: Path? = null
         for(i in 0 until iterations){
@@ -23,9 +23,9 @@ class RandomTSP(vararg points: ArrayPoint, private val seedFunction: (Int) -> In
     }
 
     private fun randomPathOptimized(): Path {
-        val maxVertex: Vertex = connectedGraph.storage.vertexStorage.maxByOrNull { vertex -> vertex.edges.sumOf { edge -> edge.getDistance() } }!!
+        val maxVertex: Vertex = graph.storage.vertexStorage.maxByOrNull { vertex -> vertex.edges.sumOf { edge -> edge.getDistance() } }!!
         val exploredEdges: MutableSet<Edge> = mutableSetOf()
-        val toExplore: ArrayDeque<Vertex> = ArrayDeque(connectedGraph.storage.vertexStorage.toList())
+        val toExplore: ArrayDeque<Vertex> = ArrayDeque(graph.storage.vertexStorage.toList())
         val visited: MutableSet<Vertex> = mutableSetOf()
         var curr: Vertex = maxVertex
         toExplore.remove(curr)
@@ -41,7 +41,9 @@ class RandomTSP(vararg points: ArrayPoint, private val seedFunction: (Int) -> In
             visited.add(curr)
             toExplore.remove(curr)
         }
-        return Path(exploredEdges)
+        val retPath = Path(exploredEdges)
+        retPath.wrap()
+        return retPath
     }
 
     companion object {
