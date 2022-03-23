@@ -3,13 +3,15 @@ package com.resnik.math.graph.objects
 import com.resnik.math.graph.Flaggable
 import com.resnik.math.graph.Identifyable
 import com.resnik.math.linear.array.geometry.BoundingBox
-import kotlin.math.acos
+import com.resnik.math.linear.array.geometry.LineSegment
 import kotlin.math.atan2
 
-open class Edge(var from: Vertex, var to: Vertex, var weight: Double = 0.0, var id : Long? = null)
-    : Identifyable, Flaggable, Cloneable {
+open class Edge(from: Vertex, to: Vertex, var weight: Double = 0.0, var id : Long? = null)
+    : LineSegment<Vertex>(from, to), Identifyable, Flaggable, Cloneable {
 
     private val flags : MutableSet<Long> = mutableSetOf()
+
+    fun reverse() : Edge = Edge(to, from, weight)
 
     open fun getDistance() : Double {
         return from.distanceTo(to)

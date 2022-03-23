@@ -38,7 +38,10 @@ class Path(collection: Collection<Edge> = mutableListOf(), var id : Long? = null
 
     override fun toString(): String = "${getDistance()}: ${super.toString()}"
 
-    fun wrap() = this.add(Edge(this.last().to, this.first().from))
+    fun wrap() {
+        if(this.last().to != this.first().from)
+            this.add(Edge(this.last().to, this.first().from))
+    }
 
     fun getBounds() : BoundingBox {
         val pointlist = mutableListOf<ArrayPoint>()
@@ -47,6 +50,15 @@ class Path(collection: Collection<Edge> = mutableListOf(), var id : Long? = null
             pointlist.add(it.to)
         }
         return BoundingBox(*pointlist.toTypedArray())
+    }
+
+    fun getUniqueVertices() : Set<Vertex> {
+        val retSet = mutableSetOf<Vertex>()
+        this.forEach { edge ->
+            retSet.add(edge.from)
+            retSet.add(edge.to)
+        }
+        return retSet
     }
 
     public override fun clone(): Path {

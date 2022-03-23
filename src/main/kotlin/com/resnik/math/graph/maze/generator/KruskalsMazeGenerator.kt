@@ -17,6 +17,7 @@ class KruskalsMazeGenerator(params: MazeParameterInterface) : MazeGenerator(para
             allWalls.addAll(connections)
             allSets.add(mutableSetOf(cell))
         }
+        // All walls are edges with a weight of 1.0... meaning sorting is moot
         while(allWalls.isNotEmpty() && allSets.size > 1) {
             val toRemove = allWalls.indices.random()
             val currWall = allWalls.removeAt(toRemove)
