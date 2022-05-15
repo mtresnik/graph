@@ -1,5 +1,6 @@
 package com.resnik.math.graph.tsp
 
+import com.resnik.math.graph.TestRenderDelegate
 import com.resnik.math.graph.objects.Path
 import com.resnik.math.graph.ui.GraphCollection
 import com.resnik.math.linear.array.ArrayPoint
@@ -7,7 +8,7 @@ import org.junit.jupiter.api.Test
 import java.awt.Color
 import java.lang.Math.random
 
-class TestTSP {
+class TestTSP : TestRenderDelegate() {
 
     fun randomPoints(max:Int = 8): Array<ArrayPoint> {
         return Array(max) { ArrayPoint(random(), random())}
@@ -48,13 +49,15 @@ class TestTSP {
         println(greedyTSPResult)
         println("Time: ${System.currentTimeMillis() - start}")
 
-        val collection = GraphCollection("Test TSP")
-        collection.addGraph(random.graph)
-        // collection.addPath(randomResult, Color.GREEN)
-        collection.addPath(bruteResult, Color.RED)
-        collection.addPath(permutationTSPResult, Color.CYAN)
-        collection.addPath(greedyTSPResult, Color.GREEN)
-        collection.render()
+        if (RENDER){
+            val collection = GraphCollection("Test TSP")
+            collection.addGraph(random.graph)
+            // collection.addPath(randomResult, Color.GREEN)
+            collection.addPath(bruteResult, Color.RED)
+            collection.addPath(permutationTSPResult, Color.CYAN)
+            collection.addPath(greedyTSPResult, Color.GREEN)
+            collection.render()
+        }
     }
 
     @Test
@@ -66,10 +69,12 @@ class TestTSP {
         permutationTSPResult.wrap()
         println(permutationTSPResult)
         println("Time: ${System.currentTimeMillis() - start}")
-        val collection = GraphCollection("Test TSP")
-        collection.addGraph(permutationTSP.graph)
-        collection.addPath(permutationTSPResult, Color.RED)
-        collection.render()
+        if (RENDER) {
+            val collection = GraphCollection("Test TSP")
+            collection.addGraph(permutationTSP.graph)
+            collection.addPath(permutationTSPResult, Color.RED)
+            collection.render()
+        }
     }
 
 
@@ -109,10 +114,12 @@ class TestTSP {
         printVerticesIndex(greedyTSPResult)
         println("Time: ${System.currentTimeMillis() - start}")
 
-        val greedyCollection = GraphCollection("Test TSP")
-        //greedyCollection.addGraph(greedyTSP.graph)
-        greedyCollection.addPath(greedyTSPResult, Color.RED)
-        greedyCollection.render()
+        if(RENDER) {
+            val greedyCollection = GraphCollection("Test TSP")
+            //greedyCollection.addGraph(greedyTSP.graph)
+            greedyCollection.addPath(greedyTSPResult, Color.RED)
+            greedyCollection.render()
+        }
 
         start = System.currentTimeMillis()
         val twoOptTSP = TwoOptTSP(*points)
@@ -123,19 +130,16 @@ class TestTSP {
         printVerticesIndex(twoOptTSPResult)
         println("Time: ${System.currentTimeMillis() - start}")
 
-        val collection = GraphCollection("Test TSP")
-        // collection.addGraph(twoOptTSP.graph)
-        collection.addPath(twoOptTSPResult, Color.RED)
-        collection.render()
+       if(RENDER) {
+           val collection = GraphCollection("Test TSP")
+           // collection.addGraph(twoOptTSP.graph)
+           collection.addPath(twoOptTSPResult, Color.RED)
+           collection.render()
+       }
     }
 
 
-    fun printVertices(path : Path) {
-        val vertices = path.map { it.from }
-        println(vertices)
-    }
-
-    fun printVerticesIndex(path : Path) {
+    private fun printVerticesIndex(path : Path) {
         val vertices = path.map { it.from.id }.toMutableList()
         println("${path.getDistance()} $vertices")
     }

@@ -1,5 +1,6 @@
 package com.resnik.math.graph.storage
 
+import com.resnik.math.graph.TestSaveDelegate
 import com.resnik.math.graph.objects.Edge
 import com.resnik.math.graph.objects.Path
 import com.resnik.math.graph.objects.Vertex
@@ -7,10 +8,11 @@ import com.resnik.math.graph.storage.objects.graph.GraphStorage
 import org.junit.jupiter.api.Test
 import java.io.File
 
-class TestFiles {
+class TestFiles : TestSaveDelegate() {
 
     @Test
     fun testVert1() {
+        if (!SAVE) return
         val fileLocation = "C:\\Users\\Mike\\Desktop\\temp"
         val parent = File(fileLocation)
         if(!parent.exists()) return
@@ -36,6 +38,7 @@ class TestFiles {
 
     @Test
     fun testFile1() {
+        if (!SAVE) return
         val fileLocation = "C:\\Users\\Mike\\Desktop\\temp"
         val parent = File(fileLocation)
         if(!parent.exists()) return
@@ -61,6 +64,7 @@ class TestFiles {
 
     @Test
     fun testPath1() {
+        if (!SAVE) return
         val fileLocation = "C:\\Users\\Mike\\Desktop\\temp\\with two  spaces"
         val parent = File(fileLocation)
         if(!parent.exists()) return
@@ -91,6 +95,7 @@ class TestFiles {
 
     @Test
     fun testWithSpaces(){
+        if (!SAVE) return
         val fileLocation = "C:\\Users\\Mike\\Desktop\\temp\\with two  spaces"
         val parent = File(fileLocation)
         if(!parent.exists()) return

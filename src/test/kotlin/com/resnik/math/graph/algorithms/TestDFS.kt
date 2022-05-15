@@ -2,13 +2,11 @@ package com.resnik.math.graph.algorithms
 
 import com.resnik.math.graph.objects.provider.BoundedGraphProvider
 import com.resnik.math.graph.objects.provider.RandomPruneGraphProvider
-import com.resnik.math.graph.ui.GraphCollection
 import com.resnik.math.linear.array.ArrayPoint
 import com.resnik.math.linear.array.geometry.BoundingBox
 import org.junit.jupiter.api.Test
-import java.awt.Color
 
-class TestDFS {
+class TestDFS : TestGraphRenderer() {
 
     @Test
     fun testDFS1() {
@@ -18,29 +16,20 @@ class TestDFS {
         val boundedGraphProvider = BoundedGraphProvider(bbox, width, height)
         val graph = boundedGraphProvider.build()
 
-        val collection = GraphCollection()
-        collection.pointRadius = 10
-        collection.lineStroke = 1.0f
-        collection.addGraph(graph, Color.BLUE)
-
         val vertices = graph.storage.vertexStorage.toList()
-        val minVertex = vertices.minByOrNull { vertex -> vertex.distanceTo(ArrayPoint(bbox.minX(), bbox.minY())) }
-        val maxVertex = vertices.minByOrNull {  vertex -> vertex.distanceTo(ArrayPoint(bbox.maxX(), bbox.maxY())) }
-        assert(minVertex != null)
-        minVertex!!
-        assert(maxVertex != null)
-        maxVertex!!
+        val start = vertices.minByOrNull { vertex -> vertex.distanceTo(ArrayPoint(bbox.minX(), bbox.minY())) }
+        val dest = vertices.minByOrNull { vertex -> vertex.distanceTo(ArrayPoint(bbox.maxX(), bbox.maxY())) }
+        assert(start != null)
+        start!!
+        assert(dest != null)
+        dest!!
 
-        val algorithm = DFS(GAParams(minVertex, maxVertex))
+        val algorithm = DFS(GAParams(start, dest))
         val visitedListener = VisitRecorder()
         algorithm.addListener(visitedListener)
         val path = algorithm.evaluate()
-        collection.addPoint(minVertex, color = Color.RED)
-        collection.addPoint(maxVertex, color = Color.RED)
-        collection.addPath(path, Color.RED)
-        collection.addPoint(minVertex, color = Color.YELLOW)
-        // collection.addPoints(visitedListener.toList(), color = Color.GREEN)
-        collection.render()
+
+        renderIfSet(graph, start, dest, path, visitedListener)
     }
 
     @Test
@@ -53,26 +42,19 @@ class TestDFS {
         val prunedGraphProvider = RandomPruneGraphProvider(graph, 0.2)
         val pruned = prunedGraphProvider.build()
 
-        val collection = GraphCollection()
-        collection.pointRadius = 10
-        collection.lineStroke = 1.0f
-        collection.addGraph(pruned, Color.BLUE)
-
         val vertices = pruned.storage.vertexStorage.toList()
-        val minVertex = vertices.minByOrNull { vertex -> vertex.distanceTo(ArrayPoint(bbox.minX(), bbox.minY())) }
-        val maxVertex = vertices.minByOrNull {  vertex -> vertex.distanceTo(ArrayPoint(bbox.maxX(), bbox.maxY())) }
-        assert(minVertex != null)
-        minVertex!!
-        assert(maxVertex != null)
-        maxVertex!!
+        val start = vertices.minByOrNull { vertex -> vertex.distanceTo(ArrayPoint(bbox.minX(), bbox.minY())) }
+        val dest = vertices.minByOrNull { vertex -> vertex.distanceTo(ArrayPoint(bbox.maxX(), bbox.maxY())) }
+        assert(start != null)
+        start!!
+        assert(dest != null)
+        dest!!
 
-        val algorithm = DFS(GAParams(minVertex, maxVertex))
+        val algorithm = DFS(GAParams(start, dest))
+        val visitedListener = VisitRecorder()
+        algorithm.addListener(visitedListener)
         val path = algorithm.evaluate()
-        collection.addPoint(minVertex, color = Color.RED)
-        collection.addPoint(maxVertex, color = Color.RED)
-        collection.addPath(path, Color.RED)
-        collection.addPoint(minVertex, color = Color.YELLOW)
-        collection.render()
+        renderIfSet(graph, start, dest, path)
     }
 
 

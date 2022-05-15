@@ -7,7 +7,7 @@ import com.resnik.math.linear.array.geometry.BoundingBox
 import org.junit.jupiter.api.Test
 import java.awt.Color
 
-class TestBFS {
+class TestBFS : TestGraphRenderer() {
 
     @Test
     fun testBFSRandom() {
@@ -23,16 +23,14 @@ class TestBFS {
         collection.addGraph(graph, Color.BLUE)
 
         val vertices = graph.storage.vertexStorage.toList()
-        val origin = vertices.random()
+        val start = vertices.random()
         val dest = vertices.random()
 
-        val algorithm = BFS(GAParams(origin, dest))
+        val algorithm = BFS(GAParams(start, dest))
+        val visitedListener = VisitRecorder()
+        algorithm.addListener(visitedListener)
         val path = algorithm.evaluate()
-        println(path)
-        collection.addPoint(origin, color = Color.RED)
-        collection.addPoint(dest, color = Color.RED)
-        collection.addPath(path, Color.RED)
-        collection.render()
+        renderIfSet(graph, start, dest, path, visitedListener)
     }
 
     @Test
@@ -49,19 +47,14 @@ class TestBFS {
         collection.addGraph(graph, Color.BLUE)
 
         val vertices = graph.storage.vertexStorage.toList()
-        val minVertex = vertices.random()
-        val maxVertex = vertices.random()
+        val start = vertices.random()
+        val dest = vertices.random()
 
-        val algorithm = BFS(GAParams(minVertex, maxVertex))
+        val algorithm = BFS(GAParams(start, dest))
         val visitedListener = VisitRecorder()
         algorithm.addListener(visitedListener)
         val path = algorithm.evaluate()
-        collection.addPoints(visitedListener.toList(), Color.GREEN)
-        collection.addPoint(minVertex, color = Color.RED)
-        collection.addPoint(maxVertex, color = Color.RED)
-        collection.addPath(path, Color.RED)
-        collection.addPoint(minVertex, color = Color.YELLOW)
-        collection.render()
+        renderIfSet(graph, start, dest, path, visitedListener)
     }
 
 }

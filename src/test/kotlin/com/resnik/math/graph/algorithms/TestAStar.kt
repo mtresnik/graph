@@ -1,14 +1,44 @@
 package com.resnik.math.graph.algorithms
 
+import com.resnik.math.graph.objects.Edge
+import com.resnik.math.graph.objects.Graph
+import com.resnik.math.graph.objects.Vertex
 import com.resnik.math.graph.objects.provider.BoundedGraphProvider
-import com.resnik.math.graph.ui.GraphCollection
 import com.resnik.math.linear.array.ArrayPoint
 import com.resnik.math.linear.array.geometry.BoundingBox
 import com.resnik.math.stats.stddev
 import org.junit.jupiter.api.Test
-import java.awt.Color
 
-class TestAStar {
+class TestAStar : TestGraphRenderer() {
+
+    @Test
+    fun testAStar(){
+        val vertices = mutableListOf(
+            Vertex(0.0,0.0, id=1),
+            Vertex(0.0,1.0, id=2),
+            Vertex(2.0,3.0, id=3),
+            Vertex(-1.0,0.0, id=4),
+            Vertex(-5.0,10.0, id=5),
+            Vertex(-5.0,-10.0, id=6),
+            Vertex(-1.0,1.0, id=7)
+        )
+        val edges = mutableSetOf<Edge>()
+        edges.addAll(vertices[0].connectMultiple(vertices[1], vertices[2], vertices[3]))
+        edges.addAll(vertices[1].connectMultiple(vertices[2], vertices[3], vertices[4]))
+        edges.addAll(vertices[2].connectMultiple(vertices[3], vertices[4], vertices[5]))
+        edges.addAll(vertices[3].connectMultiple(vertices[1], vertices[2], vertices[6]))
+        edges.addAll(vertices[4].connectMultiple(vertices[1], vertices[2], vertices[5]))
+        edges.addAll(vertices[5].connectMultiple(vertices[2], vertices[4], vertices[3]))
+        edges.addAll(vertices[6].connectMultiple(vertices[5], vertices[2], vertices[4]))
+        val graph = Graph(vertices.toSet(), edges)
+        val (start, dest) = vertices[0] to vertices[5]
+        val astar = AStar(GAParams(start, dest))
+        val visitedListener = VisitRecorder()
+        astar.addListener(visitedListener)
+        val path = astar.evaluate()
+        renderIfSet(graph, start, dest, path, visitedListener)
+    }
+
 
     @Test
     fun testAStar1() {
@@ -18,27 +48,17 @@ class TestAStar {
         val boundedGraphProvider = BoundedGraphProvider(bbox, width, height)
         val graph = boundedGraphProvider.build()
 
-        val collection = GraphCollection()
-        collection.pointRadius = 10
-        collection.lineStroke = 2.0f
-        collection.addGraph(graph, Color.BLUE)
-
         val vertices = graph.storage.vertexStorage.toList()
-        val minVertex = vertices.minByOrNull { vertex -> vertex.distanceTo(ArrayPoint(bbox.minX(), bbox.minY())) }
-        val maxVertex = vertices.minByOrNull {  vertex -> vertex.distanceTo(ArrayPoint(bbox.maxX(), bbox.maxY())) }
-        assert(minVertex != null)
-        assert(maxVertex != null)
+        val start = vertices.minByOrNull { vertex -> vertex.distanceTo(ArrayPoint(bbox.minX(), bbox.minY())) }
+        val dest = vertices.minByOrNull { vertex -> vertex.distanceTo(ArrayPoint(bbox.maxX(), bbox.maxY())) }
+        assert(start != null)
+        assert(dest != null)
 
-        val algorithm = AStar(GAParams(minVertex!!, maxVertex!!))
+        val algorithm = AStar(GAParams(start!!, dest!!))
         val visitedListener = VisitRecorder()
         algorithm.addListener(visitedListener)
         val path = algorithm.evaluate()
-        // collection.addPoints(visitedListener.toList(), Color.GREEN)
-        collection.addPoint(minVertex, color = Color.RED)
-        collection.addPoint(maxVertex, color = Color.RED)
-        collection.addPath(path, Color.RED)
-
-        collection.render()
+        renderIfSet(graph, start, dest, path, visitedListener)
     }
 
     @Test
@@ -49,10 +69,6 @@ class TestAStar {
         val boundedGraphProvider = BoundedGraphProvider(bbox, width, height)
         val graph = boundedGraphProvider.build()
 
-        val collection = GraphCollection()
-        collection.pointRadius = 10
-        collection.lineStroke = 1.0f
-        collection.addGraph(graph, Color.BLUE)
 
         val vertices = graph.storage.vertexStorage.toList()
         val start = vertices.random()
@@ -62,13 +78,9 @@ class TestAStar {
         val visitedListener = VisitRecorder()
         algorithm.addListener(visitedListener)
         val path = algorithm.evaluate()
-        collection.addPoints(visitedListener.toList(), Color.GREEN)
-        collection.addPoint(start, color = Color.RED)
-        collection.addPoint(dest, color = Color.RED)
-        collection.addPath(path, Color.RED)
-        collection.addPoint(start, color = Color.YELLOW)
-        collection.render()
+        renderIfSet(graph, start, dest, path, visitedListener)
     }
+
 
     @Test
     fun profileAStar() {
@@ -107,8 +119,6 @@ class TestAStar {
         println("Actual Distance: ${actualDistances.average()} stddev: ${actualDistances.toDoubleArray().stddev()}")
         println("Percent Visitation: ${percentVisitation.average()} stddev: ${percentVisitation.toDoubleArray().stddev()}")
         println("Percent Difference From B Line: ${percentDifferenceFromBLine.average()} stddev: ${percentDifferenceFromBLine.toDoubleArray().stddev()}")
-
-
     }
 
 
