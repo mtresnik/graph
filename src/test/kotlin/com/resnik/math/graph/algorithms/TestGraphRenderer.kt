@@ -9,8 +9,14 @@ import java.awt.Color
 
 abstract class TestGraphRenderer : TestRenderDelegate() {
 
-    protected fun renderIfSet(graph: Graph, start: Vertex, dest: Vertex, path: Path, visitRecorder: VisitRecorder? = null) {
-        if(!RENDER) return
+    protected fun renderIfSet(
+        graph: Graph,
+        start: Vertex,
+        dest: Vertex,
+        path: Path,
+        visitRecorder: VisitRecorder? = null
+    ) {
+        if (!RENDER) return
         val collection = GraphCollection()
         collection.pointRadius = 10
         collection.lineStroke = 1.0f

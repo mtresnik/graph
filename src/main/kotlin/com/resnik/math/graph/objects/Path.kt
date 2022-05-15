@@ -61,7 +61,7 @@ class Path(collection: Collection<Edge> = mutableListOf(), var id: Long? = null)
         return retSet
     }
 
-    public override fun clone(): Path {
+    override fun clone(): Path {
         return Path(this.map { edge -> edge.clone() }, id = id)
     }
 

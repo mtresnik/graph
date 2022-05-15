@@ -4,7 +4,7 @@ import com.resnik.math.graph.objects.provider.BoundedGraphProvider
 import com.resnik.math.graph.ui.GraphCollection
 import com.resnik.math.linear.array.ArrayPoint
 import com.resnik.math.linear.array.geometry.BoundingBox
-import org.junit.jupiter.api.Test
+import org.junit.Test
 import java.awt.Color
 
 class TestBFS : TestGraphRenderer() {

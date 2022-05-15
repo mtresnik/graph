@@ -4,19 +4,20 @@ import com.resnik.math.graph.TestRenderDelegate
 import com.resnik.math.graph.objects.Path
 import com.resnik.math.graph.ui.GraphCollection
 import com.resnik.math.linear.array.ArrayPoint
-import org.junit.jupiter.api.Test
+import org.junit.Ignore
+import org.junit.Test
 import java.awt.Color
 import java.lang.Math.random
 
 class TestTSP : TestRenderDelegate() {
 
-    fun randomPoints(max:Int = 8): Array<ArrayPoint> {
-        return Array(max) { ArrayPoint(random(), random())}
+    private fun randomPoints(max: Int = 8): Array<ArrayPoint> {
+        return Array(max) { ArrayPoint(random(), random()) }
     }
 
     @ExperimentalStdlibApi
     @Test
-    fun testAll(){
+    fun testAll() {
 
         // Scales a lot better for higher amounts of vertices
         println("Random TSP")
@@ -49,7 +50,7 @@ class TestTSP : TestRenderDelegate() {
         println(greedyTSPResult)
         println("Time: ${System.currentTimeMillis() - start}")
 
-        if (RENDER){
+        if (RENDER) {
             val collection = GraphCollection("Test TSP")
             collection.addGraph(random.graph)
             // collection.addPath(randomResult, Color.GREEN)
@@ -78,17 +79,17 @@ class TestTSP : TestRenderDelegate() {
     }
 
 
+    @Ignore
     @Test
     fun testDoubleTreeTSP() {
         println("DoubleTreeTSP")
         val points = randomPoints(8)
-        var start = System.currentTimeMillis()
         val greedyTwiceAroundTSP = GreedyTwiceAroundTSP(*points)
         val tspResult = greedyTwiceAroundTSP.evaluate()
         printVerticesIndex(tspResult)
 
         println("Brute TSP")
-        start = System.currentTimeMillis()
+        var start: Long = System.currentTimeMillis()
         val brute: TSP = BruteForceTSP(*points)
         val bruteResult = brute.evaluate()
         printVerticesIndex(bruteResult)
@@ -103,7 +104,7 @@ class TestTSP : TestRenderDelegate() {
     }
 
     @Test
-    fun testTwoOpt(){
+    fun testTwoOpt() {
         val points = randomPoints(20)
         println("GreedyTSP")
         var start = System.currentTimeMillis()
@@ -114,7 +115,7 @@ class TestTSP : TestRenderDelegate() {
         printVerticesIndex(greedyTSPResult)
         println("Time: ${System.currentTimeMillis() - start}")
 
-        if(RENDER) {
+        if (RENDER) {
             val greedyCollection = GraphCollection("Test TSP")
             //greedyCollection.addGraph(greedyTSP.graph)
             greedyCollection.addPath(greedyTSPResult, Color.RED)
@@ -130,20 +131,19 @@ class TestTSP : TestRenderDelegate() {
         printVerticesIndex(twoOptTSPResult)
         println("Time: ${System.currentTimeMillis() - start}")
 
-       if(RENDER) {
-           val collection = GraphCollection("Test TSP")
-           // collection.addGraph(twoOptTSP.graph)
-           collection.addPath(twoOptTSPResult, Color.RED)
-           collection.render()
-       }
+        if (RENDER) {
+            val collection = GraphCollection("Test TSP")
+            // collection.addGraph(twoOptTSP.graph)
+            collection.addPath(twoOptTSPResult, Color.RED)
+            collection.render()
+        }
     }
 
 
-    private fun printVerticesIndex(path : Path) {
+    private fun printVerticesIndex(path: Path) {
         val vertices = path.map { it.from.id }.toMutableList()
         println("${path.getDistance()} $vertices")
     }
-
 
 
 }

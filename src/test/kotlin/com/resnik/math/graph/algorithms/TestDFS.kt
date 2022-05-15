@@ -4,7 +4,7 @@ import com.resnik.math.graph.objects.provider.BoundedGraphProvider
 import com.resnik.math.graph.objects.provider.RandomPruneGraphProvider
 import com.resnik.math.linear.array.ArrayPoint
 import com.resnik.math.linear.array.geometry.BoundingBox
-import org.junit.jupiter.api.Test
+import org.junit.Test
 
 class TestDFS : TestGraphRenderer() {
 

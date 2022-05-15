@@ -6,31 +6,29 @@ group 'com.resnik'
 version '1.0-SNAPSHOT'
 
 repositories {
+    mavenCentral()
     maven {
-        name="GitHubPackages"
         url= uri("https://maven.pkg.github.com/mtresnik/math")
         credentials {
-            username = findProperty("gpr.user") ?: "mtresnik"
-            password = findProperty("gpr.token")
+            username = System.getenv("USERNAME") ?: findProperty("gpr.user") ?: "mtresnik"
+            password = System.getenv("TOKEN") ?: findProperty("gpr.token")
         }
     }
-    mavenCentral()
-    flatDir {
-        dirs 'libs'
+    maven {
+        url= uri("https://maven.pkg.github.com/mtresnik/intel")
+        credentials {
+            username = System.getenv("USERNAME") ?: findProperty("gpr.user") ?: "mtresnik"
+            password = System.getenv("TOKEN") ?: findProperty("gpr.token")
+        }
     }
 }
 
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
-    compile "com.resnik:math:1.0.0"
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.0")
-    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.3.1'
-    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.3.1'
-    compile fileTree(dir: 'libs', include: ['*.jar'])
-}
-
-test {
-    useJUnitPlatform()
+    implementation group: 'com.resnik', name: 'math', version: '1.0.0'
+    implementation group: 'com.resnik', name: 'intel', version: '1.0.0'
+    implementation('org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.1')
+    implementation 'junit:junit:4.13.2'
 }
 
 compileKotlin {

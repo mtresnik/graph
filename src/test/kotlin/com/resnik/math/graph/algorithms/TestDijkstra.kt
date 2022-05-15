@@ -4,20 +4,20 @@ import com.resnik.math.graph.objects.Edge
 import com.resnik.math.graph.objects.Graph
 import com.resnik.math.graph.objects.Vertex
 import com.resnik.math.graph.road.Intersection
-import org.junit.jupiter.api.Test
+import org.junit.Test
 
 class TestDijkstra : TestGraphRenderer() {
 
     @Test
-    fun testDijkstra(){
+    fun testDijkstra() {
         val vertices = mutableListOf(
-            Vertex(0.0,0.0, id=1),
-            Vertex(0.0,1.0, id=2),
-            Vertex(2.0,3.0, id=3),
-            Vertex(-1.0,0.0, id=4),
-            Vertex(-5.0,10.0, id=5),
-            Vertex(-5.0,-10.0, id=6),
-            Vertex(-1.0,1.0, id=7)
+            Vertex(0.0, 0.0, id = 1),
+            Vertex(0.0, 1.0, id = 2),
+            Vertex(2.0, 3.0, id = 3),
+            Vertex(-1.0, 0.0, id = 4),
+            Vertex(-5.0, 10.0, id = 5),
+            Vertex(-5.0, -10.0, id = 6),
+            Vertex(-1.0, 1.0, id = 7)
         )
         val edges = mutableSetOf<Edge>()
         edges.addAll(vertices[0].connectMultiple(vertices[1], vertices[2], vertices[3]))
@@ -37,7 +37,7 @@ class TestDijkstra : TestGraphRenderer() {
     }
 
     @Test
-    fun testIntersections(){
+    fun testIntersections() {
         val vertices = mutableListOf(
             Intersection(34.001, -73.0),
             Intersection(34.02, -73.01),

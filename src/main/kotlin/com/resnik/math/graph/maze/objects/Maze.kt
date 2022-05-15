@@ -9,7 +9,7 @@ class Maze(params: MazeParameterInterface) : SelfDescribedParameters(params) {
 
     val cells = Array(params.getHeight()) { row -> Array(params.getWidth()) { col -> MazeCell(row, col) } }
 
-    fun isValid(coordinate: MazeCoordinate): Boolean {
+    private fun isValid(coordinate: MazeCoordinate): Boolean {
         return isValidRowCol(coordinate.row, coordinate.col)
     }
 
@@ -17,7 +17,7 @@ class Maze(params: MazeParameterInterface) : SelfDescribedParameters(params) {
         return isValidRowCol(y, x)
     }
 
-    fun isValidRowCol(row: Int, col: Int): Boolean {
+    private fun isValidRowCol(row: Int, col: Int): Boolean {
         if (row < 0 || row >= getHeight()) return false
         if (col < 0 || col >= getWidth()) return false
         return true
@@ -36,7 +36,7 @@ class Maze(params: MazeParameterInterface) : SelfDescribedParameters(params) {
         return cells[row][col]
     }
 
-    fun getLeftWall(coordinate: MazeCoordinate): MazeBorder? {
+    private fun getLeftWall(coordinate: MazeCoordinate): MazeBorder? {
         return getLeftWall(coordinate.row, coordinate.col)
     }
 
@@ -45,7 +45,7 @@ class Maze(params: MazeParameterInterface) : SelfDescribedParameters(params) {
         return cell.left
     }
 
-    fun getRightWall(coordinate: MazeCoordinate): MazeBorder? {
+    private fun getRightWall(coordinate: MazeCoordinate): MazeBorder? {
         return getRightWall(coordinate.row, coordinate.col)
     }
 
@@ -55,7 +55,7 @@ class Maze(params: MazeParameterInterface) : SelfDescribedParameters(params) {
         return rightCell.left
     }
 
-    fun getTopWall(coordinate: MazeCoordinate): MazeBorder? {
+    private fun getTopWall(coordinate: MazeCoordinate): MazeBorder? {
         return getTopWall(coordinate.row, coordinate.col)
     }
 
@@ -64,7 +64,7 @@ class Maze(params: MazeParameterInterface) : SelfDescribedParameters(params) {
         return cell.top
     }
 
-    fun getBottomWall(coordinate: MazeCoordinate): MazeBorder? {
+    private fun getBottomWall(coordinate: MazeCoordinate): MazeBorder? {
         return getBottomWall(coordinate.row, coordinate.col)
     }
 
@@ -143,7 +143,7 @@ class Maze(params: MazeParameterInterface) : SelfDescribedParameters(params) {
         return getConnections(coordinate.row, coordinate.col)
     }
 
-    fun getConnections(row: Int, col: Int): List<MazeConnection> {
+    private fun getConnections(row: Int, col: Int): List<MazeConnection> {
         val retList = mutableListOf<MazeConnection>()
         if (!isValidRowCol(row, col)) return retList
         AbsoluteDirection.values().forEach { direction ->
@@ -153,18 +153,18 @@ class Maze(params: MazeParameterInterface) : SelfDescribedParameters(params) {
         return retList
     }
 
-    fun getConnection(row: Int, col: Int, direction: AbsoluteDirection): MazeConnection? {
+    private fun getConnection(row: Int, col: Int, direction: AbsoluteDirection): MazeConnection? {
         val from = getIfValid(row, col) ?: return null
         val to = getNeighbor(from, direction) ?: return null
         val wall = getWall(from, direction) ?: return null
         return MazeConnection(from, to, direction, wall)
     }
 
-    fun getWall(coordinate: MazeCoordinate, direction: AbsoluteDirection): MazeBorder? {
+    private fun getWall(coordinate: MazeCoordinate, direction: AbsoluteDirection): MazeBorder? {
         return getWall(coordinate.row, coordinate.col, direction)
     }
 
-    fun getWall(row: Int, col: Int, direction: AbsoluteDirection): MazeBorder? {
+    private fun getWall(row: Int, col: Int, direction: AbsoluteDirection): MazeBorder? {
         return when (direction) {
             AbsoluteDirection.RIGHT -> getRightWall(row, col)
             AbsoluteDirection.UP -> getTopWall(row, col)
@@ -174,11 +174,11 @@ class Maze(params: MazeParameterInterface) : SelfDescribedParameters(params) {
         }
     }
 
-    fun getNeighbor(coordinate: MazeCoordinate, direction: AbsoluteDirection): MazeCell? {
+    private fun getNeighbor(coordinate: MazeCoordinate, direction: AbsoluteDirection): MazeCell? {
         return getNeighbor(coordinate.row, coordinate.col, direction)
     }
 
-    fun getNeighbor(row: Int, col: Int, direction: AbsoluteDirection): MazeCell? {
+    private fun getNeighbor(row: Int, col: Int, direction: AbsoluteDirection): MazeCell? {
         return when (direction) {
             AbsoluteDirection.RIGHT -> getRight(row, col)
             AbsoluteDirection.UP -> getUp(row, col)
@@ -188,19 +188,19 @@ class Maze(params: MazeParameterInterface) : SelfDescribedParameters(params) {
         }
     }
 
-    fun getLeft(row: Int, col: Int): MazeCell? = getIfValid(row, col - 1)
+    private fun getLeft(row: Int, col: Int): MazeCell? = getIfValid(row, col - 1)
 
-    fun getRight(row: Int, col: Int): MazeCell? = getIfValid(row, col + 1)
+    private fun getRight(row: Int, col: Int): MazeCell? = getIfValid(row, col + 1)
 
-    fun getUp(row: Int, col: Int): MazeCell? = getIfValid(row + 1, col)
+    private fun getUp(row: Int, col: Int): MazeCell? = getIfValid(row + 1, col)
 
-    fun getDown(row: Int, col: Int): MazeCell? = getIfValid(row - 1, col)
+    private fun getDown(row: Int, col: Int): MazeCell? = getIfValid(row - 1, col)
 
     fun getNeighbors(mazeCell: MazeCell): List<MazeCell> {
         return getNeighbors(mazeCell.row, mazeCell.col)
     }
 
-    fun getNeighbors(row: Int, col: Int): List<MazeCell> {
+    private fun getNeighbors(row: Int, col: Int): List<MazeCell> {
         val ret = mutableListOf<MazeCell>()
         fun addIfNonNull(mazeCell: MazeCell?) {
             if (mazeCell != null) ret.add(mazeCell)
@@ -218,13 +218,13 @@ class Maze(params: MazeParameterInterface) : SelfDescribedParameters(params) {
         return retList
     }
 
-    fun getAllTop(): List<MazeCell> {
+    private fun getAllTop(): List<MazeCell> {
         val retList = mutableListOf<MazeCell>()
         retList.addAll(cells.last())
         return retList
     }
 
-    fun getAllLeft(): List<MazeCell> {
+    private fun getAllLeft(): List<MazeCell> {
         val retList = mutableListOf<MazeCell>()
         retList.addAll(cells.map { row -> row.first() })
         return retList

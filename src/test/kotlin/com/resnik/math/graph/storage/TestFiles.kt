@@ -5,7 +5,7 @@ import com.resnik.math.graph.objects.Edge
 import com.resnik.math.graph.objects.Path
 import com.resnik.math.graph.objects.Vertex
 import com.resnik.math.graph.storage.objects.graph.GraphStorage
-import org.junit.jupiter.api.Test
+import org.junit.Test
 import java.io.File
 
 class TestFiles : TestSaveDelegate() {
@@ -15,7 +15,7 @@ class TestFiles : TestSaveDelegate() {
         if (!SAVE) return
         val fileLocation = "C:\\Users\\Mike\\Desktop\\temp"
         val parent = File(fileLocation)
-        if(!parent.exists()) return
+        if (!parent.exists()) return
 
         val graphStorage = GraphStorage()
         val vert1 = Vertex(0.5, 1.0)
@@ -41,7 +41,7 @@ class TestFiles : TestSaveDelegate() {
         if (!SAVE) return
         val fileLocation = "C:\\Users\\Mike\\Desktop\\temp"
         val parent = File(fileLocation)
-        if(!parent.exists()) return
+        if (!parent.exists()) return
 
         val graphStorage = GraphStorage()
         val vert1 = Vertex(0.5, 1.0)
@@ -67,7 +67,7 @@ class TestFiles : TestSaveDelegate() {
         if (!SAVE) return
         val fileLocation = "C:\\Users\\Mike\\Desktop\\temp\\with two  spaces"
         val parent = File(fileLocation)
-        if(!parent.exists()) return
+        if (!parent.exists()) return
 
         val graphStorage = GraphStorage()
         val vert1 = Vertex(0.5, 1.0)
@@ -94,11 +94,11 @@ class TestFiles : TestSaveDelegate() {
     }
 
     @Test
-    fun testWithSpaces(){
+    fun testWithSpaces() {
         if (!SAVE) return
         val fileLocation = "C:\\Users\\Mike\\Desktop\\temp\\with two  spaces"
         val parent = File(fileLocation)
-        if(!parent.exists()) return
+        if (!parent.exists()) return
         val graphStorage = GraphStorage()
         graphStorage.loadFromParent(parent)
         val header = graphStorage.getHeader()

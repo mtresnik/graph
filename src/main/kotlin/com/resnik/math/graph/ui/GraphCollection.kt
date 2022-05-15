@@ -127,7 +127,7 @@ class GraphCollection(val name: String = "Collection") {
         points.forEach { (point, color) ->
             drawPoint(color, point, graphics)
         }
-        paths.entries.forEachIndexed { index, (path, color) ->
+        paths.entries.forEach { (path, color) ->
             path.forEach { edge ->
                 drawLine(color, edge, graphics)
                 drawPoint(color, edge.from, graphics)

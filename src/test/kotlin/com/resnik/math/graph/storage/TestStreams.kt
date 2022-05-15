@@ -4,7 +4,7 @@ import com.resnik.math.graph.objects.Edge
 import com.resnik.math.graph.objects.Vertex
 import com.resnik.math.graph.storage.objects.edge.EdgeStorage
 import com.resnik.math.graph.storage.objects.vertex.VertexStorage
-import org.junit.jupiter.api.Test
+import org.junit.Test
 import java.io.ByteArrayInputStream
 import java.io.ByteArrayOutputStream
 

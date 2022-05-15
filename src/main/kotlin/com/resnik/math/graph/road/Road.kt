@@ -15,7 +15,7 @@ class Road : PolyEdge {
         this.speedLimit = speedLimit
     }
 
-    constructor(vararg intersections: Intersection) : this(intersections.toList()) {}
+    constructor(vararg intersections: Intersection) : this(intersections.toList())
 
     fun getTime(): Double = getDistance() / speedLimit
 

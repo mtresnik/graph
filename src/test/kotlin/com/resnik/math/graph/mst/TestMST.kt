@@ -5,7 +5,7 @@ import com.resnik.math.graph.objects.Graph
 import com.resnik.math.graph.objects.PartiallyConnectedGraph
 import com.resnik.math.graph.ui.GraphCollection
 import com.resnik.math.linear.array.ArrayPoint
-import org.junit.jupiter.api.Test
+import org.junit.Test
 import java.awt.Color
 import java.awt.image.BufferedImage
 import java.io.File
@@ -15,17 +15,17 @@ class TestMST : TestRenderDelegate() {
 
     private val endFile = File("C:\\Users\\Mike\\Desktop\\mst\\examples")
 
-    private fun saveIfExists(image : BufferedImage, name : String, ext : String = "png") {
-        if(!endFile.exists()) return
+    private fun saveIfExists(image: BufferedImage, name: String, ext: String = "png") {
+        if (!endFile.exists()) return
         ImageIO.write(image, ext, File(endFile, "$name.$ext"))
     }
 
-    fun randomPoints(max:Int = 20): Array<ArrayPoint> {
+    fun randomPoints(max: Int = 20): Array<ArrayPoint> {
         return Array(max) { ArrayPoint(Math.random(), Math.random()) }
     }
 
     private fun renderIfSet(initialGraph: Graph, mst: Graph, name: String) {
-        if(RENDER) {
+        if (RENDER) {
             val collection = GraphCollection()
             collection.addGraph(initialGraph, Color.BLACK)
             collection.addGraph(mst, Color.RED)

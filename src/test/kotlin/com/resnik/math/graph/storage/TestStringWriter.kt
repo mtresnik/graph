@@ -6,7 +6,7 @@ import com.resnik.math.graph.objects.Vertex
 import com.resnik.math.graph.storage.objects.edge.EdgeStorage
 import com.resnik.math.graph.storage.objects.path.PathStorage
 import com.resnik.math.graph.storage.objects.vertex.VertexStorage
-import org.junit.jupiter.api.Test
+import org.junit.Test
 
 class TestStringWriter {
 
@@ -37,7 +37,7 @@ class TestStringWriter {
         println(vertexStorage.toString(vert2))
         val edgeStorage = EdgeStorage(vertexStorage)
         val edge1 = Edge(vert1, vert2, weight = 10.5)
-        edge1.setFlags(listOf(2,5,10))
+        edge1.setFlags(listOf(2, 5, 10))
         edgeStorage.save(edge1)
         val stringRep = edgeStorage.toString(edge1)
         println(stringRep)

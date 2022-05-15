@@ -7,20 +7,20 @@ import com.resnik.math.graph.objects.provider.BoundedGraphProvider
 import com.resnik.math.linear.array.ArrayPoint
 import com.resnik.math.linear.array.geometry.BoundingBox
 import com.resnik.math.stats.stddev
-import org.junit.jupiter.api.Test
+import org.junit.Test
 
 class TestAStar : TestGraphRenderer() {
 
     @Test
-    fun testAStar(){
+    fun testAStar() {
         val vertices = mutableListOf(
-            Vertex(0.0,0.0, id=1),
-            Vertex(0.0,1.0, id=2),
-            Vertex(2.0,3.0, id=3),
-            Vertex(-1.0,0.0, id=4),
-            Vertex(-5.0,10.0, id=5),
-            Vertex(-5.0,-10.0, id=6),
-            Vertex(-1.0,1.0, id=7)
+            Vertex(0.0, 0.0, id = 1),
+            Vertex(0.0, 1.0, id = 2),
+            Vertex(2.0, 3.0, id = 3),
+            Vertex(-1.0, 0.0, id = 4),
+            Vertex(-5.0, 10.0, id = 5),
+            Vertex(-5.0, -10.0, id = 6),
+            Vertex(-1.0, 1.0, id = 7)
         )
         val edges = mutableSetOf<Edge>()
         edges.addAll(vertices[0].connectMultiple(vertices[1], vertices[2], vertices[3]))
@@ -85,11 +85,11 @@ class TestAStar : TestGraphRenderer() {
     @Test
     fun profileAStar() {
         val numIterations = 100
-        val timeTakenSeconds =              mutableListOf<Double>()
-        val bLineDistances =                mutableListOf<Double>()
-        val actualDistances =               mutableListOf<Double>()
-        val percentVisitation =             mutableListOf<Double>()
-        val percentDifferenceFromBLine =    mutableListOf<Double>()
+        val timeTakenSeconds = mutableListOf<Double>()
+        val bLineDistances = mutableListOf<Double>()
+        val actualDistances = mutableListOf<Double>()
+        val percentVisitation = mutableListOf<Double>()
+        val percentDifferenceFromBLine = mutableListOf<Double>()
 
         val bbox = BoundingBox(ArrayPoint(0.0, 0.0), ArrayPoint(10.0, 10.0))
         val width = 200
@@ -114,11 +114,23 @@ class TestAStar : TestGraphRenderer() {
             percentDifferenceFromBLine.add(actual / bLine - 1.0)
         }
 
-        println("Average Time Taken: ${timeTakenSeconds.average()} stddev: ${timeTakenSeconds.toDoubleArray().stddev()}")
+        println(
+            "Average Time Taken: ${timeTakenSeconds.average()} stddev: ${
+                timeTakenSeconds.toDoubleArray().stddev()
+            }"
+        )
         println("B Line Distance: ${bLineDistances.average()} stddev: ${bLineDistances.toDoubleArray().stddev()}")
         println("Actual Distance: ${actualDistances.average()} stddev: ${actualDistances.toDoubleArray().stddev()}")
-        println("Percent Visitation: ${percentVisitation.average()} stddev: ${percentVisitation.toDoubleArray().stddev()}")
-        println("Percent Difference From B Line: ${percentDifferenceFromBLine.average()} stddev: ${percentDifferenceFromBLine.toDoubleArray().stddev()}")
+        println(
+            "Percent Visitation: ${percentVisitation.average()} stddev: ${
+                percentVisitation.toDoubleArray().stddev()
+            }"
+        )
+        println(
+            "Percent Difference From B Line: ${percentDifferenceFromBLine.average()} stddev: ${
+                percentDifferenceFromBLine.toDoubleArray().stddev()
+            }"
+        )
     }
 
 

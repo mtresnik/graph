@@ -21,7 +21,7 @@ abstract class TSP(vararg points: ArrayPoint, graph: Graph? = null) : Traversal 
             baseVertex.values.contentEquals(from.values)
         } ?: return false
         // does (matching : Vertex) have a connection to a (to : Vertex) equivalent?
-        val edgeToStart = matching.edges.firstOrNull { baseEdge ->
+        matching.edges.firstOrNull { baseEdge ->
             baseEdge.to.values.contentEquals(to.values)
         } ?: return false
         return true

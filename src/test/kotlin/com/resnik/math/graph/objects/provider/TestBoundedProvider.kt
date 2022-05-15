@@ -7,17 +7,21 @@ import com.resnik.math.graph.objects.Graph
 import com.resnik.math.graph.ui.GraphCollection
 import com.resnik.math.linear.array.ArrayPoint
 import com.resnik.math.linear.array.geometry.BoundingBox
-import org.junit.jupiter.api.Test
+import org.junit.Test
 import java.awt.Color
 
 class TestBoundedProvider : TestRenderDelegate() {
 
-    private fun renderIfSet(graph: Graph, background: Color? = null, _collection: GraphCollection? = null) : GraphCollection {
+    private fun renderIfSet(
+        graph: Graph,
+        background: Color? = null,
+        _collection: GraphCollection? = null
+    ): GraphCollection {
         val collection = _collection ?: GraphCollection()
-        if(RENDER) {
+        if (RENDER) {
             collection.pointRadius = 10
             collection.lineStroke = 2.0f
-            if(background != null) collection.background = background
+            if (background != null) collection.background = background
             collection.addGraph(graph, color = Color.RED)
             collection.render()
         }
@@ -61,7 +65,7 @@ class TestBoundedProvider : TestRenderDelegate() {
 
         val vertices = pruned.storage.vertexStorage.toList()
         val minVertex = vertices.minByOrNull { vertex -> vertex.distanceTo(ArrayPoint(bbox.minX(), bbox.minY())) }
-        val maxVertex = vertices.minByOrNull {  vertex -> vertex.distanceTo(ArrayPoint(bbox.maxX(), bbox.maxY())) }
+        val maxVertex = vertices.minByOrNull { vertex -> vertex.distanceTo(ArrayPoint(bbox.maxX(), bbox.maxY())) }
         assert(minVertex != null)
         assert(maxVertex != null)
 
@@ -74,7 +78,7 @@ class TestBoundedProvider : TestRenderDelegate() {
             val pathColor = Color(250, 100, 100)
             val collection = GraphCollection()
             val g = 50
-            collection.background = Color(g,g, g)
+            collection.background = Color(g, g, g)
             collection.pointRadius = 10
             collection.lineStroke = 2.0f
             collection.addGraph(pruned, Color(0, 100, 250))
@@ -94,10 +98,9 @@ class TestBoundedProvider : TestRenderDelegate() {
         val graph = boundedGraphProvider.build()
 
 
-
         val vertices = graph.storage.vertexStorage.toList()
         val minVertex = vertices.minByOrNull { vertex -> vertex.distanceTo(ArrayPoint(bbox.minX(), bbox.minY())) }
-        val maxVertex = vertices.minByOrNull {  vertex -> vertex.distanceTo(ArrayPoint(bbox.maxX(), bbox.maxY())) }
+        val maxVertex = vertices.minByOrNull { vertex -> vertex.distanceTo(ArrayPoint(bbox.maxX(), bbox.maxY())) }
         assert(minVertex != null)
         assert(maxVertex != null)
 
@@ -131,7 +134,7 @@ class TestBoundedProvider : TestRenderDelegate() {
 
         val vertices = pruned.storage.vertexStorage.toList()
         val minVertex = vertices.minByOrNull { vertex -> vertex.distanceTo(ArrayPoint(bbox.minX(), bbox.minY())) }
-        val maxVertex = vertices.minByOrNull {  vertex -> vertex.distanceTo(ArrayPoint(bbox.maxX(), bbox.maxY())) }
+        val maxVertex = vertices.minByOrNull { vertex -> vertex.distanceTo(ArrayPoint(bbox.maxX(), bbox.maxY())) }
         assert(minVertex != null)
         assert(maxVertex != null)
 
@@ -142,7 +145,7 @@ class TestBoundedProvider : TestRenderDelegate() {
         if (RENDER) {
             val collection = GraphCollection()
             val g = 50
-            collection.background = Color(g,g, g)
+            collection.background = Color(g, g, g)
             collection.pointRadius = 10
             collection.lineStroke = 2.0f
             val graphColor = Color(0, 100, 250)
