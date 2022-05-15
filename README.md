@@ -1,7 +1,7 @@
 # graph
 
 [![build status](https://github.com/mtresnik/graph/actions/workflows/gradle.yml/badge.svg)](https://github.com/mtresnik/graph/actions/workflows/gradle.yml/)
-[![version](https://img.shields.io/badge/version-1.0.0-blue)]()
+[![version](https://img.shields.io/badge/version-1.0.0-blue)](https://github.com/mtresnik/graph/packages/1423284)
 [![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](https://github.com/mtresnik/graph/blob/main/LICENSE)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-green.svg?style=flat-square)](https://makeapullrequest.com)
 
