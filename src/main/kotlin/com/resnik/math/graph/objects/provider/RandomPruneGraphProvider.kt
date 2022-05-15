@@ -3,9 +3,9 @@ package com.resnik.math.graph.objects.provider
 import com.resnik.math.graph.objects.Graph
 import com.resnik.math.graph.storage.objects.graph.GraphStorage
 
-class RandomPruneGraphProvider(private val baseGraph : Graph, percent : Double) : GraphProvider {
+class RandomPruneGraphProvider(private val baseGraph: Graph, percent: Double) : GraphProvider {
 
-    private val percent : Double
+    private val percent: Double
 
     init {
         this.percent = percent.coerceIn(0.0, 1.0)
@@ -20,7 +20,7 @@ class RandomPruneGraphProvider(private val baseGraph : Graph, percent : Double) 
         retStorage.vertexStorage.forEach { vertex ->
             val newEdges = vertex.edges.filter { edge ->
                 val to = edge.to
-                if(to.id != null)
+                if (to.id != null)
                     retStorage.vertexStorage.contains(to.id!!)
                 else
                     retStorage.vertexStorage.contains(to)

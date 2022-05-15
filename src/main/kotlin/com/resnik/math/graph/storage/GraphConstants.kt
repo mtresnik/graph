@@ -11,30 +11,30 @@ object GraphConstants {
 
     object Keys {
 
-        val SPACE =         " "
-        val VERTEX =        "v"
-        val EDGE =          "e"
-        val GRAPH =         "g"
-        val POLYEDGE =      "p"
-        val PATH =          "t"
-        val END =           "|"
+        val SPACE = " "
+        val VERTEX = "v"
+        val EDGE = "e"
+        val GRAPH = "g"
+        val POLYEDGE = "p"
+        val PATH = "t"
+        val END = "|"
 
-        val ROAD =          "r"
-        val SEGMENT =       "s"
-        val INTERSECTION =  "i"
+        val ROAD = "r"
+        val SEGMENT = "s"
+        val INTERSECTION = "i"
 
-        val HEADER =        "header"
+        val HEADER = "header"
 
         object Extensions {
 
             private const val GRAPH_BASE = "rg"
-            val VERTEX =  "${GRAPH_BASE}${Keys.VERTEX}"
-            val EDGE =    "${GRAPH_BASE}${Keys.EDGE}"
-            val GRAPH =   "${GRAPH_BASE}${Keys.GRAPH}"
-            val PATH =    "${GRAPH_BASE}${Keys.PATH}"
+            val VERTEX = "${GRAPH_BASE}${Keys.VERTEX}"
+            val EDGE = "${GRAPH_BASE}${Keys.EDGE}"
+            val GRAPH = "${GRAPH_BASE}${Keys.GRAPH}"
+            val PATH = "${GRAPH_BASE}${Keys.PATH}"
 
-            private const val STREETMAP_EXTENSION =      "rsm"
-            val ROAD =    "$STREETMAP_EXTENSION${Keys.ROAD}"
+            private const val STREETMAP_EXTENSION = "rsm"
+            val ROAD = "$STREETMAP_EXTENSION${Keys.ROAD}"
             val SEGMENT = "$STREETMAP_EXTENSION${Keys.ROAD}"
             val INTERSECTION = "$STREETMAP_EXTENSION${Keys.ROAD}"
 
@@ -44,10 +44,10 @@ object GraphConstants {
 
     object Names {
 
-        val VERTICES =      "vertices"
-        val EDGES =         "edges"
-        val PATHS =         "paths"
-        val GRAPHS =        "graph"
+        val VERTICES = "vertices"
+        val EDGES = "edges"
+        val PATHS = "paths"
+        val GRAPHS = "graph"
 
     }
 

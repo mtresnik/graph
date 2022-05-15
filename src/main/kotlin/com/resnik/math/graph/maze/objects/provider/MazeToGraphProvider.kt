@@ -10,7 +10,7 @@ import com.resnik.math.graph.objects.Vertex
 import com.resnik.math.graph.objects.provider.GraphProvider
 import com.resnik.math.graph.storage.objects.graph.GraphStorage
 
-class MazeToGraphProvider(val maze : Maze) : GraphProvider {
+class MazeToGraphProvider(val maze: Maze) : GraphProvider {
 
     override fun build(): Graph {
         val graphStorage = GraphStorage()
@@ -30,7 +30,7 @@ class MazeToGraphProvider(val maze : Maze) : GraphProvider {
         connections.forEach { connection ->
             val from = cellToVertexMap[connection.from]
             val to = cellToVertexMap[connection.to]
-            if(from != null && to != null) {
+            if (from != null && to != null) {
                 val edge = Edge(from, to)
                 graphStorage.edgeStorage.save(edge)
                 from.edges.add(edge)

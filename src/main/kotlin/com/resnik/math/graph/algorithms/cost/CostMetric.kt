@@ -1,6 +1,6 @@
 package com.resnik.math.graph.algorithms.cost
 
-class CostMetric(var current : Double = 0.0, var total : Double = 0.0) {
+class CostMetric(var current: Double = 0.0, var total: Double = 0.0) {
 
     companion object {
 

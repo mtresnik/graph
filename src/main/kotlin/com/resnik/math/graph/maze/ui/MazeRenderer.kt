@@ -12,12 +12,12 @@ import javax.swing.ImageIcon
 import javax.swing.JLabel
 import javax.swing.JOptionPane
 
-class MazeRenderer(var maze : Maze, private val cellSize : Int = 20) {
+class MazeRenderer(var maze: Maze, private val cellSize: Int = 20) {
 
-    private val wallSize : Int = cellSize /8
+    private val wallSize: Int = cellSize / 8
     var lineStroke = 5.0f
 
-    var visitedColor : Color? = Color.BLUE
+    var visitedColor: Color? = Color.BLUE
 
     val visited = mutableSetOf<Pair<Int, Int>>()
     private val backgrounds = mutableMapOf<Pair<Int, Int>, Color>()
@@ -31,9 +31,11 @@ class MazeRenderer(var maze : Maze, private val cellSize : Int = 20) {
         this.backgrounds[coordinate.toPair()] = color
     }
 
-    private fun drawMazeCell(imageColStart : Int, imageColEnd : Int, imageRowStart : Int, imageRowEnd : Int,
-                             initial : BufferedImage,
-                             mazeRow : Int, mazeCol : Int) {
+    private fun drawMazeCell(
+        imageColStart: Int, imageColEnd: Int, imageRowStart: Int, imageRowEnd: Int,
+        initial: BufferedImage,
+        mazeRow: Int, mazeCol: Int
+    ) {
         val coordinate = MazeCoordinate(mazeRow, mazeCol)
         val background = when (coordinate.toPair()) {
             in backgrounds -> {
@@ -85,19 +87,20 @@ class MazeRenderer(var maze : Maze, private val cellSize : Int = 20) {
         }
     }
 
-    private fun build() : BufferedImage {
-        val retImage = BufferedImage(maze.getWidth() * cellSize, maze.getHeight() * cellSize, BufferedImage.TYPE_INT_ARGB)
+    private fun build(): BufferedImage {
+        val retImage =
+            BufferedImage(maze.getWidth() * cellSize, maze.getHeight() * cellSize, BufferedImage.TYPE_INT_ARGB)
         drawCells(retImage)
         drawConnections(retImage)
         return retImage
     }
 
-    fun getImageRowCol(mazeCoordinate: MazeCoordinate) : Pair<Int, Int>{
+    fun getImageRowCol(mazeCoordinate: MazeCoordinate): Pair<Int, Int> {
         return mazeCoordinate.row * cellSize to mazeCoordinate.col * cellSize
     }
 
-    fun getCenterRowCol(mazeCoordinate: MazeCoordinate) : Pair<Int, Int> {
-        return (mazeCoordinate.row * cellSize + cellSize/2) to (mazeCoordinate.col * cellSize + cellSize/2)
+    fun getCenterRowCol(mazeCoordinate: MazeCoordinate): Pair<Int, Int> {
+        return (mazeCoordinate.row * cellSize + cellSize / 2) to (mazeCoordinate.col * cellSize + cellSize / 2)
     }
 
     fun drawCells(retImage: BufferedImage) {
@@ -108,7 +111,7 @@ class MazeRenderer(var maze : Maze, private val cellSize : Int = 20) {
                 val imageColStart = mazeCol * cellSize
                 val imageColEnd = imageColStart + cellSize
                 val curr = maze.getIfValid(mazeRow, mazeCol)
-                if(curr != null) {
+                if (curr != null) {
                     // Fill in left if left
                     drawMazeCell(
                         imageColStart, imageColEnd, imageRowStart, imageRowEnd,
@@ -120,7 +123,7 @@ class MazeRenderer(var maze : Maze, private val cellSize : Int = 20) {
         }
     }
 
-    fun drawLine(color: Color, connection: MazeConnection, graphics2D: Graphics2D, stroke: Float = lineStroke){
+    fun drawLine(color: Color, connection: MazeConnection, graphics2D: Graphics2D, stroke: Float = lineStroke) {
         val (y1, x1) = getCenterRowCol(connection.from)
         val (y2, x2) = getCenterRowCol(connection.to)
         graphics2D.paint = color
@@ -128,13 +131,13 @@ class MazeRenderer(var maze : Maze, private val cellSize : Int = 20) {
         graphics2D.drawLine(x1, y1, x2, y2)
     }
 
-    fun drawConnections(image : BufferedImage) {
+    fun drawConnections(image: BufferedImage) {
         val graphics = image.createGraphics()
-        connections.forEach { (mazeConnection, color) ->  drawLine(color, mazeConnection, graphics) }
+        connections.forEach { (mazeConnection, color) -> drawLine(color, mazeConnection, graphics) }
         graphics.dispose()
     }
 
-    fun render() : BufferedImage {
+    fun render(): BufferedImage {
         val image = build()
         val icon = ImageIcon(image)
         val label = JLabel(icon)

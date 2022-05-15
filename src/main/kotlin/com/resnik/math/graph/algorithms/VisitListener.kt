@@ -4,6 +4,6 @@ import com.resnik.math.graph.objects.Vertex
 
 interface VisitListener {
 
-    fun onVisit(vertex : Vertex)
+    fun onVisit(vertex: Vertex)
 
 }

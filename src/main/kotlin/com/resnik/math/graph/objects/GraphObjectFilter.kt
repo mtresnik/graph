@@ -2,6 +2,6 @@ package com.resnik.math.graph.objects
 
 interface GraphObjectFilter<ITEM> {
 
-    fun isValid(type : ITEM) : Boolean
+    fun isValid(type: ITEM): Boolean
 
 }

@@ -4,13 +4,13 @@ import com.resnik.math.graph.objects.Vertex
 
 interface GraphAlgorithmParameterInterface {
 
-    fun getStart() : Vertex
+    fun getStart(): Vertex
 
-    fun getOrigin() : Vertex = getStart()
+    fun getOrigin(): Vertex = getStart()
 
-    fun getDestination() : Vertex
+    fun getDestination(): Vertex
 
     // TODO : Add async graphing algorithms
-    fun isAsync() : Boolean = false
+    fun isAsync(): Boolean = false
 
 }

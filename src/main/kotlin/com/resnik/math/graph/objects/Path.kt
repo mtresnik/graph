@@ -5,13 +5,13 @@ import com.resnik.math.graph.Identifyable
 import com.resnik.math.linear.array.ArrayPoint
 import com.resnik.math.linear.array.geometry.BoundingBox
 
-class Path(collection: Collection<Edge> = mutableListOf(), var id : Long? = null) : ArrayList<Edge>(collection),
+class Path(collection: Collection<Edge> = mutableListOf(), var id: Long? = null) : ArrayList<Edge>(collection),
     Identifyable, Flaggable, Cloneable {
 
     private val flags = mutableSetOf<Long>()
     var values = mutableListOf<Double>()
 
-    fun getDistance() : Double = this.sumOf { edge -> edge.getDistance() }
+    fun getDistance(): Double = this.sumOf { edge -> edge.getDistance() }
 
     override fun getID(): Long? {
         return this.id
@@ -34,16 +34,16 @@ class Path(collection: Collection<Edge> = mutableListOf(), var id : Long? = null
         this.flags.clear()
     }
 
-    fun hasValues() : Boolean = values.isNotEmpty()
+    fun hasValues(): Boolean = values.isNotEmpty()
 
     override fun toString(): String = "${getDistance()}: ${super.toString()}"
 
     fun wrap() {
-        if(this.last().to != this.first().from)
+        if (this.last().to != this.first().from)
             this.add(Edge(this.last().to, this.first().from))
     }
 
-    fun getBounds() : BoundingBox {
+    fun getBounds(): BoundingBox {
         val pointlist = mutableListOf<ArrayPoint>()
         this.forEach {
             pointlist.add(it.from)
@@ -52,7 +52,7 @@ class Path(collection: Collection<Edge> = mutableListOf(), var id : Long? = null
         return BoundingBox(*pointlist.toTypedArray())
     }
 
-    fun getUniqueVertices() : Set<Vertex> {
+    fun getUniqueVertices(): Set<Vertex> {
         val retSet = mutableSetOf<Vertex>()
         this.forEach { edge ->
             retSet.add(edge.from)
@@ -62,12 +62,13 @@ class Path(collection: Collection<Edge> = mutableListOf(), var id : Long? = null
     }
 
     public override fun clone(): Path {
-        return Path(this.map { edge -> edge.clone() }, id=id)
+        return Path(this.map { edge -> edge.clone() }, id = id)
     }
 
     companion object {
 
-        fun fromPoints(points: Collection<ArrayPoint>) : Path = Path(collection = points.map { pt -> Vertex(*pt.values) }.zipWithNext { a, b -> Edge(a, b) })
+        fun fromPoints(points: Collection<ArrayPoint>): Path =
+            Path(collection = points.map { pt -> Vertex(*pt.values) }.zipWithNext { a, b -> Edge(a, b) })
 
     }
 

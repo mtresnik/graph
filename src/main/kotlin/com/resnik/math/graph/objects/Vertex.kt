@@ -3,14 +3,14 @@ package com.resnik.math.graph.objects
 import com.resnik.math.graph.Flaggable
 import com.resnik.math.graph.Identifyable
 import com.resnik.math.linear.array.ArrayPoint
-import java.lang.IllegalStateException
 
-open class Vertex(vararg values: Double, var id : Long? = null) : ArrayPoint(*values), Identifyable, Flaggable, Cloneable {
+open class Vertex(vararg values: Double, var id: Long? = null) : ArrayPoint(*values), Identifyable, Flaggable,
+    Cloneable {
 
-    private val flags : MutableSet<Long> = mutableSetOf()
+    private val flags: MutableSet<Long> = mutableSetOf()
     val edges: MutableSet<Edge> = mutableSetOf()
 
-    fun connectBidirectional(other: Vertex) : Edge {
+    fun connectBidirectional(other: Vertex): Edge {
         this.connect(other)
         return other.connect(this)
     }
@@ -48,7 +48,7 @@ open class Vertex(vararg values: Double, var id : Long? = null) : ArrayPoint(*va
         return result
     }
 
-    override fun setFlags(flags : Collection<Long>) {
+    override fun setFlags(flags: Collection<Long>) {
         this.flags.clear()
         this.flags.addAll(flags)
     }
@@ -62,7 +62,7 @@ open class Vertex(vararg values: Double, var id : Long? = null) : ArrayPoint(*va
     }
 
     public override fun clone(): Vertex {
-        val ret = Vertex(*this.values.copyOf(), id=this.id)
+        val ret = Vertex(*this.values.copyOf(), id = this.id)
         ret.setFlags(this.flags)
         return ret
     }

@@ -18,14 +18,14 @@ class KruskalsMazeGenerator(params: MazeParameterInterface) : MazeGenerator(para
             allSets.add(mutableSetOf(cell))
         }
         // All walls are edges with a weight of 1.0... meaning sorting is moot
-        while(allWalls.isNotEmpty() && allSets.size > 1) {
+        while (allWalls.isNotEmpty() && allSets.size > 1) {
             val toRemove = allWalls.indices.random()
             val currWall = allWalls.removeAt(toRemove)
             val fromIndex = allSets.indexOfFirst { set -> currWall.from in set }
-            if(fromIndex != -1) {
+            if (fromIndex != -1) {
                 val fromSet = allSets.removeAt(fromIndex)
                 val toIndex = allSets.indexOfFirst { set -> currWall.to in set }
-                if(toIndex != -1) {
+                if (toIndex != -1) {
                     val toSet = allSets.removeAt(toIndex)
                     val joined = mutableSetOf<MazeCoordinate>()
                     retMaze.setWall(currWall.from, currWall.direction, MazeBorder.PASSAGE)

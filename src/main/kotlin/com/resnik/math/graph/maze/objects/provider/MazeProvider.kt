@@ -4,6 +4,6 @@ import com.resnik.math.graph.maze.objects.Maze
 
 interface MazeProvider {
 
-    fun build() : Maze
+    fun build(): Maze
 
 }

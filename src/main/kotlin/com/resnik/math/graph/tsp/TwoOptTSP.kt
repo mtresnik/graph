@@ -7,24 +7,24 @@ import com.resnik.math.graph.objects.Vertex
 import com.resnik.math.linear.array.ArrayPoint
 import java.util.*
 
-class TwoOptTSP(vararg points: ArrayPoint, graph: ConnectedGraph? = null) : TSP(*points, graph=graph) {
+class TwoOptTSP(vararg points: ArrayPoint, graph: ConnectedGraph? = null) : TSP(*points, graph = graph) {
 
-    fun originalCost(first: Edge, second: Edge) : Double {
+    fun originalCost(first: Edge, second: Edge): Double {
         return first.getDistance() + second.getDistance()
     }
 
-    fun costOfSwap(first : Edge, second : Edge) : Double {
+    fun costOfSwap(first: Edge, second: Edge): Double {
         return first.from.distanceTo(second.to) + second.from.distanceTo(first.to)
     }
 
-    fun shouldSwap(first: Edge, second: Edge) : Boolean {
+    fun shouldSwap(first: Edge, second: Edge): Boolean {
         // Shouldn't cause a self swap thing
         // if(first.to == second.from || first.from == second.to) return false
         return costOfSwap(first, second) < originalCost(first, second) || intersects(first, second)
     }
 
     // in-place swap
-    fun swap(first : Edge, second : Edge) {
+    fun swap(first: Edge, second: Edge) {
         val temp = first.to
         first.to = second.to
         second.to = temp
@@ -35,14 +35,14 @@ class TwoOptTSP(vararg points: ArrayPoint, graph: ConnectedGraph? = null) : TSP(
         path.add(toAdd)
     }
 
-    fun getIntersectionPairs(currentTour: Path) : List<Pair<Edge, Edge>> {
+    fun getIntersectionPairs(currentTour: Path): List<Pair<Edge, Edge>> {
         val retList = mutableListOf<Pair<Edge, Edge>>()
         (0..currentTour.lastIndex).forEach { firstIndex ->
-            ((firstIndex + 1) .. currentTour.lastIndex).forEach { secondIndex ->
-                if(firstIndex != secondIndex) {
+            ((firstIndex + 1)..currentTour.lastIndex).forEach { secondIndex ->
+                if (firstIndex != secondIndex) {
                     val firstEdge = currentTour[firstIndex]
                     val secondEdge = currentTour[secondIndex]
-                    if(intersects(firstEdge, secondEdge)) {
+                    if (intersects(firstEdge, secondEdge)) {
                         retList.add(firstEdge to secondEdge)
                     }
                 }
@@ -51,18 +51,18 @@ class TwoOptTSP(vararg points: ArrayPoint, graph: ConnectedGraph? = null) : TSP(
         return retList
     }
 
-    fun isBroken(currentTour: Path) : Boolean {
-        if(currentTour.first().from != currentTour.last().to) return true
+    fun isBroken(currentTour: Path): Boolean {
+        if (currentTour.first().from != currentTour.last().to) return true
         val numVertices = currentTour.getUniqueVertices().size
         // Use dfs to navigate graph
         val unvisited = Stack<Vertex>()
         unvisited.add(currentTour.first().from)
         val visited = mutableSetOf<Vertex>()
-        while(unvisited.isNotEmpty()) {
+        while (unvisited.isNotEmpty()) {
             val currVertex = unvisited.pop()
             visited.add(currVertex)
             currVertex.edges.forEach { edge ->
-                if(edge.to !in visited) {
+                if (edge.to !in visited) {
                     unvisited.add(edge.to)
                 }
             }
@@ -71,11 +71,11 @@ class TwoOptTSP(vararg points: ArrayPoint, graph: ConnectedGraph? = null) : TSP(
     }
 
     fun intersects(first: Edge, second: Edge): Boolean {
-        if(first.to == second.from && first.from == second.to) return false
+        if (first.to == second.from && first.from == second.to) return false
         return first.intersects(second)
     }
 
-    fun getBestCycled(originalTour : Path) : Path {
+    fun getBestCycled(originalTour: Path): Path {
         var minDistance = originalTour.getDistance()
         var minTour = originalTour
         var currentTour = originalTour.clone()
@@ -84,11 +84,11 @@ class TwoOptTSP(vararg points: ArrayPoint, graph: ConnectedGraph? = null) : TSP(
         var changed = true
         while (intersectionPairs.isNotEmpty() && changed) {
             changed = false
-            while(intersectionPairs.isNotEmpty()) {
+            while (intersectionPairs.isNotEmpty()) {
                 val currIntersection = intersectionPairs.pop()
                 val (first, second) = currIntersection
                 swap(first, second)
-                if(isBroken(currentTour)) {
+                if (isBroken(currentTour)) {
                     swap(first, second)
                 } else {
                     changed = true
@@ -96,7 +96,7 @@ class TwoOptTSP(vararg points: ArrayPoint, graph: ConnectedGraph? = null) : TSP(
                 }
             }
             val currentDistance = currentTour.getDistance()
-            if(currentDistance < minDistance) {
+            if (currentDistance < minDistance) {
                 minDistance = currentDistance
                 minTour = currentTour
             }
@@ -109,7 +109,7 @@ class TwoOptTSP(vararg points: ArrayPoint, graph: ConnectedGraph? = null) : TSP(
 
     override fun evaluate(): Path {
         // First find a tour using another TSP approximation
-        val originalTour = GreedyTSP(graph=graph).evaluate()
+        val originalTour = GreedyTSP(graph = graph).evaluate()
         var currentTour = getBestCycled(originalTour.clone())
 
         var minDistance = originalTour.getDistance()
@@ -119,7 +119,7 @@ class TwoOptTSP(vararg points: ArrayPoint, graph: ConnectedGraph? = null) : TSP(
             cyclePath(currentTour)
             currentTour = getBestCycled(currentTour)
             val currentDistance = currentTour.getDistance()
-            if(currentDistance < minDistance) {
+            if (currentDistance < minDistance) {
                 minDistance = currentDistance
                 minTour = currentTour
             }

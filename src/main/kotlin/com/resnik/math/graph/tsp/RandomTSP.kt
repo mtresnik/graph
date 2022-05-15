@@ -6,15 +6,16 @@ import com.resnik.math.graph.objects.Vertex
 import com.resnik.math.linear.array.ArrayPoint
 
 @ExperimentalStdlibApi
-class RandomTSP(vararg points: ArrayPoint, private val seedFunction: (Int) -> Int = { n -> defaultSeedFunction(n) }): TSP(*points)  {
+class RandomTSP(vararg points: ArrayPoint, private val seedFunction: (Int) -> Int = { n -> defaultSeedFunction(n) }) :
+    TSP(*points) {
 
     override fun evaluate(): Path {
         val iterations: Int = seedFunction(graph.storage.vertexStorage.size())
         var minDistance = Double.MAX_VALUE
         var minPath: Path? = null
-        for(i in 0 until iterations){
+        for (i in 0 until iterations) {
             val path = randomPathOptimized()
-            if(path.getDistance() < minDistance){
+            if (path.getDistance() < minDistance) {
                 minDistance = path.getDistance()
                 minPath = path
             }
@@ -23,7 +24,8 @@ class RandomTSP(vararg points: ArrayPoint, private val seedFunction: (Int) -> In
     }
 
     private fun randomPathOptimized(): Path {
-        val maxVertex: Vertex = graph.storage.vertexStorage.maxByOrNull { vertex -> vertex.edges.sumOf { edge -> edge.getDistance() } }!!
+        val maxVertex: Vertex =
+            graph.storage.vertexStorage.maxByOrNull { vertex -> vertex.edges.sumOf { edge -> edge.getDistance() } }!!
         val exploredEdges: MutableSet<Edge> = mutableSetOf()
         val toExplore: ArrayDeque<Vertex> = ArrayDeque(graph.storage.vertexStorage.toList())
         val visited: MutableSet<Vertex> = mutableSetOf()

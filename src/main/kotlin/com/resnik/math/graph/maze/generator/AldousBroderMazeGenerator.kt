@@ -14,11 +14,11 @@ class AldousBroderMazeGenerator(params: MazeParameterInterface) : MazeGenerator(
         val startCell = allCells.random()
         val numCells = allCells.size
         visited.add(startCell)
-        var currentCell : MazeCoordinate = startCell
-        while(numCells != visited.size) {
+        var currentCell: MazeCoordinate = startCell
+        while (numCells != visited.size) {
             var neighborConnections = retMaze.getConnections(currentCell)
-                .filter { connection -> connection.to !in visited}
-            if(neighborConnections.isEmpty()) {
+                .filter { connection -> connection.to !in visited }
+            if (neighborConnections.isEmpty()) {
                 // Try to find connecting path from other visited first...
                 neighborConnections = visited
                     .flatMap { mazeCoordinate -> retMaze.getConnections(mazeCoordinate) }
@@ -26,7 +26,7 @@ class AldousBroderMazeGenerator(params: MazeParameterInterface) : MazeGenerator(
                     .filter { mazeConnection -> mazeConnection.to !in visited }
 
                 // If still empty, use last resort of picking a new start
-                if(neighborConnections.isEmpty()) {
+                if (neighborConnections.isEmpty()) {
                     currentCell = allCells.firstOrNull { newCell -> newCell !in visited } ?: return retMaze
                     visited.add(currentCell)
                     continue

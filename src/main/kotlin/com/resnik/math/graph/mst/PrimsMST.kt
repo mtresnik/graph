@@ -27,12 +27,12 @@ class PrimsMST(graph: Graph) : MST(graph) {
 
             val removed = notVisited.removeAt(toRemoveIndex)
             val edgeRemoved = edgeProvidingConnection[removed]
-            if(edgeRemoved != null) edgeForest.add(edgeRemoved)
+            if (edgeRemoved != null) edgeForest.add(edgeRemoved)
 
             removed.edges.forEach { edge ->
-                if(edge.to in notVisited) {
+                if (edge.to in notVisited) {
                     val weight = (edge.getDistance() + 1) * edge.weight.coerceAtLeast(1.0)
-                    if(weight < (cheapestVertexCost[edge.to] ?: Double.POSITIVE_INFINITY)) {
+                    if (weight < (cheapestVertexCost[edge.to] ?: Double.POSITIVE_INFINITY)) {
                         cheapestVertexCost[edge.to] = weight
                         edgeProvidingConnection[edge.to] = edge
                     }

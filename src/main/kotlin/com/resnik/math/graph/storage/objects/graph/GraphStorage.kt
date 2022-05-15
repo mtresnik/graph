@@ -10,7 +10,8 @@ import com.resnik.math.graph.storage.objects.vertex.VertexStorage
 import java.io.*
 import java.util.*
 
-class GraphStorage(private var parentLocation : File = DEFAULT_PARENT) : FileStorable, HeaderDescribed<GraphFileHeader>, Cloneable {
+class GraphStorage(private var parentLocation: File = DEFAULT_PARENT) : FileStorable, HeaderDescribed<GraphFileHeader>,
+    Cloneable {
 
     var vertexStorage = VertexStorage()
     var edgeStorage = EdgeStorage(vertexStorage)
@@ -46,7 +47,7 @@ class GraphStorage(private var parentLocation : File = DEFAULT_PARENT) : FileSto
         vertexStorage.writeTo(outputStream, close = false)
         edgeStorage.writeTo(outputStream, close = false)
         pathStorage.writeTo(outputStream, close = false)
-        if(close) outputStream.close()
+        if (close) outputStream.close()
     }
 
     override fun readFrom(inputStream: InputStream, close: Boolean) {
@@ -55,11 +56,11 @@ class GraphStorage(private var parentLocation : File = DEFAULT_PARENT) : FileSto
         val headers = storeMap.values
             .filterIsInstance<HeaderDescribed<*>>()
             .map { it.getHeader() }
-        while(scanner.hasNextLine()) {
+        while (scanner.hasNextLine()) {
             val line = scanner.nextLine()
             val store = storeMap.values
                 .firstOrNull { storable -> storable.canMap(line) }
-            if(store?.canMap(line) == true) {
+            if (store?.canMap(line) == true) {
                 store.consumeIfPossible(line)
             } else {
                 // try using headers
@@ -69,19 +70,19 @@ class GraphStorage(private var parentLocation : File = DEFAULT_PARENT) : FileSto
     }
 
     override fun getHeader(): GraphFileHeader {
-        if(!parentLocation.exists()) parentLocation.mkdirs()
-        val vertexLocation =    vertexStorage.getFile(parentLocation)
-        val edgesLocation =     edgeStorage.getFile(parentLocation)
-        val pathsLocation =     pathStorage.getFile(parentLocation)
+        if (!parentLocation.exists()) parentLocation.mkdirs()
+        val vertexLocation = vertexStorage.getFile(parentLocation)
+        val edgesLocation = edgeStorage.getFile(parentLocation)
+        val pathsLocation = pathStorage.getFile(parentLocation)
         return GraphFileHeader(vertexLocation, edgesLocation, pathsLocation)
     }
 
-    override fun loadFrom(header : GraphFileHeader) {
-        if(header.verticesLocation != null)
+    override fun loadFrom(header: GraphFileHeader) {
+        if (header.verticesLocation != null)
             vertexStorage.readFrom(FileInputStream(header.verticesLocation!!))
-        if(header.edgesLocation != null)
+        if (header.edgesLocation != null)
             edgeStorage.readFrom(FileInputStream(header.edgesLocation!!))
-        if(header.pathsLocation != null)
+        if (header.pathsLocation != null)
             pathStorage.readFrom(FileInputStream(header.pathsLocation!!))
     }
 
@@ -94,7 +95,7 @@ class GraphStorage(private var parentLocation : File = DEFAULT_PARENT) : FileSto
         return super.getFile(parent)
     }
 
-    public override fun clone() : GraphStorage {
+    public override fun clone(): GraphStorage {
         val new = GraphStorage(parentLocation = parentLocation)
         val clonedEdgeStorage = edgeStorage.clone()
         val vertexStorage = clonedEdgeStorage.vertexStorage

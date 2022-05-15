@@ -7,11 +7,11 @@ import java.io.OutputStream
 import java.io.PrintWriter
 import java.util.*
 
-abstract class Header(private val headerKey : String) : StringStorable<Map.Entry<String, List<String>>> {
+abstract class Header(private val headerKey: String) : StringStorable<Map.Entry<String, List<String>>> {
 
     private val tempMap = mutableMapOf<String, List<String>>()
 
-    abstract fun getMap() : Map<String, List<String>>
+    abstract fun getMap(): Map<String, List<String>>
 
     protected abstract fun loadFromMap(map: Map<String, List<String>>)
 
@@ -36,17 +36,17 @@ abstract class Header(private val headerKey : String) : StringStorable<Map.Entry
     override fun readFrom(inputStream: InputStream, close: Boolean) {
         tempMap.clear()
         val scanner = Scanner(inputStream)
-        while(scanner.hasNextLine()) {
+        while (scanner.hasNextLine()) {
             consumeIfPossible(scanner.nextLine())
         }
         load()
-        if(close) inputStream.close()
+        if (close) inputStream.close()
     }
 
     override fun consumeIfPossible(input: String) {
-        if(canMap(input)) {
+        if (canMap(input)) {
             val possibleEntry = fromString(input)
-            if(possibleEntry != null) {
+            if (possibleEntry != null) {
                 tempMap[possibleEntry.key] = possibleEntry.value
             }
         }
@@ -72,18 +72,18 @@ abstract class Header(private val headerKey : String) : StringStorable<Map.Entry
         val split = input.split(GraphConstants.Keys.SPACE)
         // val headerTag = split[0]
         // val hKey = split[1]
-        if(split.size < 3) return null
+        if (split.size < 3) return null
         val key = split[2]
         val stringList = mutableListOf<String>()
-        (3 .. split.lastIndex).forEach { index -> stringList.add(split[index]) }
+        (3..split.lastIndex).forEach { index -> stringList.add(split[index]) }
         return AbstractMap.SimpleEntry(key, stringList)
     }
 
     override fun canMap(input: String): Boolean {
         val split = input.split(GraphConstants.Keys.SPACE)
-        if(split.size < 2) return false
-        if(split[0] != GraphConstants.Keys.HEADER) return false
-        if(split[1] != this.headerKey) return false
+        if (split.size < 2) return false
+        if (split[0] != GraphConstants.Keys.HEADER) return false
+        if (split[1] != this.headerKey) return false
         return true
     }
 

@@ -9,7 +9,8 @@ import com.resnik.math.graph.storage.file.FileStorable
 import com.resnik.math.graph.storage.file.HeaderDescribed
 import com.resnik.math.graph.storage.objects.edge.EdgeStorage
 
-class PathStorage(val edgeStorage: EdgeStorage) : ItemizedLongStorable<Path>(), FileStorable, HeaderDescribed<PathHeader> {
+class PathStorage(val edgeStorage: EdgeStorage) : ItemizedLongStorable<Path>(), FileStorable,
+    HeaderDescribed<PathHeader> {
 
     override fun toString(value: Path): String {
         var retString = ""
@@ -34,32 +35,32 @@ class PathStorage(val edgeStorage: EdgeStorage) : ItemizedLongStorable<Path>(), 
         // ind, id, edges... STOP values... STOP flags...
         val inputs = input.split(GraphConstants.Keys.SPACE)
         // Id
-        val id : Long = inputs[1].toLongOrNull() ?: return null
+        val id: Long = inputs[1].toLongOrNull() ?: return null
         // edges
         val stopIndices = inputs.indices.filter { index -> inputs[index] == GraphConstants.Keys.END }
-        val lastEdgeIndex = if(stopIndices.isNotEmpty()) stopIndices[0] - 1 else inputs.lastIndex
+        val lastEdgeIndex = if (stopIndices.isNotEmpty()) stopIndices[0] - 1 else inputs.lastIndex
         val edges = mutableListOf<Edge>()
-        (2 .. lastEdgeIndex).forEach { index ->
+        (2..lastEdgeIndex).forEach { index ->
             val edgeId = inputs[index].toLongOrNull() ?: return null
-            edges.add(edgeStorage[edgeId] ?: return  null)
+            edges.add(edgeStorage[edgeId] ?: return null)
         }
 
         // init
         val path = Path(edges, id = id)
 
         // values
-        if(stopIndices.isNotEmpty()) {
+        if (stopIndices.isNotEmpty()) {
             val values = mutableListOf<Double>()
             val startIndex = stopIndices[0] + 1
-            val lastValueIndex = if(stopIndices.size >= 2) stopIndices[1] - 1 else inputs.lastIndex
-            if(lastValueIndex <= 1) return null
-            (startIndex..lastValueIndex).forEach { index->
-                if(inputs[index].isNotEmpty()) values.add(inputs[index].toDoubleOrNull() ?: return null)
+            val lastValueIndex = if (stopIndices.size >= 2) stopIndices[1] - 1 else inputs.lastIndex
+            if (lastValueIndex <= 1) return null
+            (startIndex..lastValueIndex).forEach { index ->
+                if (inputs[index].isNotEmpty()) values.add(inputs[index].toDoubleOrNull() ?: return null)
             }
             path.values = values
         }
         // flags
-        if(stopIndices.size >= 2) {
+        if (stopIndices.size >= 2) {
             val flagStartIndex = stopIndices[1] + 1
             val flags = FlaggableSerializer.flagsFromString(inputs, flagStartIndex, inputs.lastIndex)
             path.setFlags(flags)
@@ -82,7 +83,7 @@ class PathStorage(val edgeStorage: EdgeStorage) : ItemizedLongStorable<Path>(), 
 
     override fun getHeader(): PathHeader = PathHeader(size = this.size())
 
-    public override fun clone() : PathStorage {
+    public override fun clone(): PathStorage {
         val ret = PathStorage(this.edgeStorage.clone())
         this.forEach { path -> ret.save(path.clone()) }
         return ret

@@ -4,7 +4,7 @@ import com.resnik.math.graph.objects.Graph
 import com.resnik.math.graph.objects.Vertex
 import com.resnik.math.linear.array.geometry.BoundingBox
 
-class BoundedGraphProvider(val boundingBox: BoundingBox, val width : Int, val height : Int) : GraphProvider {
+class BoundedGraphProvider(val boundingBox: BoundingBox, val width: Int, val height: Int) : GraphProvider {
 
     override fun build(): Graph {
         val lengthX = boundingBox.maxX() - boundingBox.minX()
@@ -15,14 +15,14 @@ class BoundedGraphProvider(val boundingBox: BoundingBox, val width : Int, val he
         val graph = Graph()
         val vertices = Array(height) { row ->
             Array(width) { col ->
-                Vertex(col * dX + boundingBox.minX(), row * dY + boundingBox.minY() )
+                Vertex(col * dX + boundingBox.minX(), row * dY + boundingBox.minY())
             }
         }
         repeat(height) { row ->
             repeat(width) { col ->
                 // Connect all in the row
                 val next = col + 1
-                if(next < width) {
+                if (next < width) {
                     vertices[row][col].connectBidirectional(vertices[row][next])
                 }
             }
@@ -31,7 +31,7 @@ class BoundedGraphProvider(val boundingBox: BoundingBox, val width : Int, val he
             repeat(height) { row ->
                 // Connect all in the col
                 val next = row + 1
-                if(next < height) {
+                if (next < height) {
                     vertices[row][col].connectBidirectional(vertices[next][col])
                 }
             }

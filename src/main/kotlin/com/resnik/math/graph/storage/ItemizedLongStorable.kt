@@ -14,10 +14,10 @@ abstract class ItemizedLongStorable<ITEM : Identifyable> : ItemizedStorable<Long
         this[id] = value
     }
 
-    fun getOrSave(value : ITEM) : ITEM {
-        if(value.getID() != null) {
+    fun getOrSave(value: ITEM): ITEM {
+        if (value.getID() != null) {
             val ret = this[value.getID()!!]
-            if(ret != null){
+            if (ret != null) {
                 return ret
             }
         }
@@ -25,7 +25,7 @@ abstract class ItemizedLongStorable<ITEM : Identifyable> : ItemizedStorable<Long
         return value
     }
 
-    fun saveFrom(other : ItemizedLongStorable<ITEM>) {
+    fun saveFrom(other: ItemizedLongStorable<ITEM>) {
         this.saveAll(other.toList())
     }
 

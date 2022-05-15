@@ -8,27 +8,27 @@ import java.util.*
 
 class PermutationTSP(vararg points: ArrayPoint) : TSP(*points) {
 
-    class PermutationNode(val vertex : Vertex, distance : Double = 0.0, val parent : PermutationNode? = null) {
+    class PermutationNode(val vertex: Vertex, distance: Double = 0.0, val parent: PermutationNode? = null) {
 
         private val totalDistance = (parent?.getTotalDistance() ?: 0.0) + distance
         private val size = (parent?.size() ?: 0) + 1
 
-        operator fun contains(other : Vertex) : Boolean {
-            if(vertex.id == other.id) return true
+        operator fun contains(other: Vertex): Boolean {
+            if (vertex.id == other.id) return true
             return parent?.contains(other) ?: false
         }
 
-        fun size() : Int {
+        fun size(): Int {
             return size
         }
 
-        fun getTotalDistance() : Double {
+        fun getTotalDistance(): Double {
             return totalDistance
         }
 
-        fun toList() : MutableList<Vertex> {
+        fun toList(): MutableList<Vertex> {
             val ret = mutableListOf<Vertex>(vertex)
-            if(parent == null) return ret
+            if (parent == null) return ret
             ret.addAll(parent.toList())
             return ret
         }
@@ -46,15 +46,15 @@ class PermutationTSP(vararg points: ArrayPoint) : TSP(*points) {
         val solutions = mutableListOf<PermutationNode>()
         var minDistance = Double.MAX_VALUE
 
-        while(children.isNotEmpty()){
+        while (children.isNotEmpty()) {
             val currentPermutation = children.pop()
             val totalDistance = currentPermutation.getTotalDistance() + currentPermutation.vertex.distanceTo(first)
-            if(totalDistance > minDistance) {
+            if (totalDistance > minDistance) {
                 continue
             }
-            if(numVertices == currentPermutation.size()) {
+            if (numVertices == currentPermutation.size()) {
                 // found a solution, convert to path
-                if(totalDistance <= minDistance) {
+                if (totalDistance <= minDistance) {
                     minDistance = totalDistance
                     solutions.add(currentPermutation)
                 }
@@ -67,10 +67,10 @@ class PermutationTSP(vararg points: ArrayPoint) : TSP(*points) {
                 }
             }
         }
-        val minSolution = solutions.minByOrNull { it.getTotalDistance() } ?: throw IllegalStateException("Distance was null!")
-        return with(Path(verticesToEdges(minSolution.toList()))){this.wrap(); this}
+        val minSolution =
+            solutions.minByOrNull { it.getTotalDistance() } ?: throw IllegalStateException("Distance was null!")
+        return with(Path(verticesToEdges(minSolution.toList()))) { this.wrap(); this }
     }
-
 
 
 }

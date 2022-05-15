@@ -7,18 +7,18 @@ import java.io.FileOutputStream
 
 interface FileStorable : Storable {
 
-    fun getExtension() : String
+    fun getExtension(): String
 
-    fun getName() : String
+    fun getName(): String
 
-    private fun getExpectedFile(parent: File) : File = File(parent, getName() + "." + getExtension())
+    private fun getExpectedFile(parent: File): File = File(parent, getName() + "." + getExtension())
 
-    private fun getNextAvailableFile(parent : File) : File {
+    private fun getNextAvailableFile(parent: File): File {
         val fileName = getName()
         var currName = fileName + "." + getExtension()
         var childFile = File(parent, currName)
         var index = 1
-        while(childFile.exists()) {
+        while (childFile.exists()) {
             currName = fileName + index + "." + getExtension()
             childFile = File(parent, currName)
             index++
@@ -26,18 +26,18 @@ interface FileStorable : Storable {
         return childFile
     }
 
-    fun canRead(file : File) : Boolean = file.absolutePath.endsWith("." + getExtension())
+    fun canRead(file: File): Boolean = file.absolutePath.endsWith("." + getExtension())
 
-    fun overwrite() : Boolean = true
+    fun overwrite(): Boolean = true
 
-    fun hasContent() : Boolean = true
+    fun hasContent(): Boolean = true
 
-    fun getFile(parent: File) : File {
-        if(overwrite()) return getExpectedFile(parent)
+    fun getFile(parent: File): File {
+        if (overwrite()) return getExpectedFile(parent)
         return getNextAvailableFile(parent)
     }
 
-    fun saveFromParent(parent : File) {
+    fun saveFromParent(parent: File) {
         val child = getFile(parent)
         saveTo(child)
     }
@@ -52,8 +52,8 @@ interface FileStorable : Storable {
         loadFrom(getFile(parent))
     }
 
-    fun loadFrom(file : File) {
-        if(canRead(file)) {
+    fun loadFrom(file: File) {
+        if (canRead(file)) {
             readFrom(FileInputStream(file))
         }
     }

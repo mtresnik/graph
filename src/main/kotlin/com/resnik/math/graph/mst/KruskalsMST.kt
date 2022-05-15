@@ -16,13 +16,13 @@ class KruskalsMST(graph: Graph) : MST(graph) {
         }
         val validEdges = mutableSetOf<Edge>()
         sortedEdges.sortBy { (it.getDistance() + 1) * it.weight.coerceAtLeast(1.0) }
-        while(sortedEdges.isNotEmpty() && allSets.size > 1) {
+        while (sortedEdges.isNotEmpty() && allSets.size > 1) {
             val currentEdge = sortedEdges.removeFirstOrNull() ?: break
             val fromIndex = allSets.indexOfFirst { set -> currentEdge.from in set }
-            if(fromIndex != -1) {
+            if (fromIndex != -1) {
                 val fromSet = allSets.removeAt(fromIndex)
                 val toIndex = allSets.indexOfFirst { set -> currentEdge.to in set }
-                if(toIndex != -1) {
+                if (toIndex != -1) {
                     val toSet = allSets.removeAt(toIndex)
                     val joined = mutableSetOf<Vertex>()
                     joined.addAll(fromSet)
@@ -35,7 +35,7 @@ class KruskalsMST(graph: Graph) : MST(graph) {
 
             }
         }
-        if(allSets.size != 1) {
+        if (allSets.size != 1) {
             println("Graph is disjoint!")
         }
         validEdges.forEach { edge ->

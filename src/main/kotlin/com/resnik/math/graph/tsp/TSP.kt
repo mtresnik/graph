@@ -14,8 +14,8 @@ abstract class TSP(vararg points: ArrayPoint, graph: Graph? = null) : Traversal 
         return isConsistent(graph, from, to)
     }
 
-    fun isConsistent(baseGraph : Graph, from : Vertex, to : Vertex) : Boolean {
-        if(from.edges.firstOrNull { edge -> edge.to == to } != null) return true
+    fun isConsistent(baseGraph: Graph, from: Vertex, to: Vertex): Boolean {
+        if (from.edges.firstOrNull { edge -> edge.to == to } != null) return true
         // from : Vertex --> matching : Vertex
         val matching = baseGraph.storage.vertexStorage.firstOrNull { baseVertex ->
             baseVertex.values.contentEquals(from.values)

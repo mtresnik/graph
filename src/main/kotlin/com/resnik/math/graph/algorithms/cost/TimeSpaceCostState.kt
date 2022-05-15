@@ -6,8 +6,10 @@ class TimeSpaceCostState : CostState() {
     val distance = CostMetric()
 
     companion object {
-        val TIME_COMPARATOR = Comparator <TimeSpaceCostState> { o1, o2 -> CostMetric.TOTAL_COMPARATOR.compare(o1.time, o2.time) }
-        val DISTANCE_COMPARATOR = Comparator <TimeSpaceCostState> { o1, o2 -> CostMetric.TOTAL_COMPARATOR.compare(o1.distance, o2.distance) }
+        val TIME_COMPARATOR =
+            Comparator<TimeSpaceCostState> { o1, o2 -> CostMetric.TOTAL_COMPARATOR.compare(o1.time, o2.time) }
+        val DISTANCE_COMPARATOR =
+            Comparator<TimeSpaceCostState> { o1, o2 -> CostMetric.TOTAL_COMPARATOR.compare(o1.distance, o2.distance) }
     }
 
 }

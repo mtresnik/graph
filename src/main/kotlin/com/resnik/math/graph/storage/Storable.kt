@@ -5,8 +5,8 @@ import java.io.OutputStream
 
 interface Storable {
 
-    fun writeTo(outputStream: OutputStream, close : Boolean = true)
+    fun writeTo(outputStream: OutputStream, close: Boolean = true)
 
-    fun readFrom(inputStream: InputStream, close : Boolean = true)
+    fun readFrom(inputStream: InputStream, close: Boolean = true)
 
 }

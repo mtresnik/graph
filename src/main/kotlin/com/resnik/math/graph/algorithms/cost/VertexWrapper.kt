@@ -2,11 +2,11 @@ package com.resnik.math.graph.algorithms.cost
 
 import com.resnik.math.graph.objects.Vertex
 
-abstract class VertexWrapper<T : VertexWrapper<T>>(val inner : Vertex, val state : CostState) : Comparable<T> {
+abstract class VertexWrapper<T : VertexWrapper<T>>(val inner: Vertex, val state: CostState) : Comparable<T> {
 
-    var previous : VertexWrapper<T>? = null
+    var previous: VertexWrapper<T>? = null
 
-    constructor(inner: Vertex, defaultCost : Double = 0.0) : this(inner, CostState(defaultCost))
+    constructor(inner: Vertex, defaultCost: Double = 0.0) : this(inner, CostState(defaultCost))
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true

@@ -4,8 +4,8 @@ enum class AbsoluteDirection {
 
     RIGHT, UP, LEFT, DOWN;
 
-    fun getOpposite() : AbsoluteDirection {
-        return when(this) {
+    fun getOpposite(): AbsoluteDirection {
+        return when (this) {
             RIGHT -> LEFT
             UP -> DOWN
             LEFT -> RIGHT

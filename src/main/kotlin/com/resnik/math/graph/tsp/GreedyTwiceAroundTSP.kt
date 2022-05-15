@@ -11,7 +11,7 @@ import com.resnik.math.linear.array.ArrayPoint
 * len(path) <= 2 * len(path*)
 * O(n^2 + prims)
 * */
-class GreedyTwiceAroundTSP(vararg points: ArrayPoint, graph: ConnectedGraph? = null) : TSP(*points, graph=graph) {
+class GreedyTwiceAroundTSP(vararg points: ArrayPoint, graph: ConnectedGraph? = null) : TSP(*points, graph = graph) {
 
     override fun evaluate(): Path {
         val baseGraph = this.graph
@@ -21,8 +21,8 @@ class GreedyTwiceAroundTSP(vararg points: ArrayPoint, graph: ConnectedGraph? = n
         mst.storage.edgeStorage.forEach { edge ->
             // find if reverse exists in to
             val reversed = edge.reverse()
-            val matching = edge.to.edges.firstOrNull{ other -> other.to == reversed.to} != null
-            if(!matching) {
+            val matching = edge.to.edges.firstOrNull { other -> other.to == reversed.to } != null
+            if (!matching) {
                 toSave.add(reversed)
             }
         }
@@ -36,21 +36,21 @@ class GreedyTwiceAroundTSP(vararg points: ArrayPoint, graph: ConnectedGraph? = n
         val visitedVertices = mutableSetOf<Vertex>()
         visitedVertices.add(startVertex)
         val expectedSize = mst.storage.edgeStorage.toSet().size
-        while(visited.size != expectedSize) {
+        while (visited.size != expectedSize) {
             visitedVertices.add(currVertex)
             val toVisit = currVertex.edges.filter { it !in visited }.sortedBy { it.getDistance() }
-            if(toVisit.isEmpty()) {
+            if (toVisit.isEmpty()) {
                 // Possible error here... must not have initialized graph properly if this happens
-                if(isConsistent(baseGraph, currVertex, startVertex)) {
+                if (isConsistent(baseGraph, currVertex, startVertex)) {
                     // Only add new edge here if it's consistent with base graph...
                     visited.add(Edge(currVertex, startVertex))
                 }
                 break
             }
             // Super shortcut
-            if(visitedVertices.size == vertices.size) {
+            if (visitedVertices.size == vertices.size) {
                 // Attempt to connect current node and start
-                if(isConsistent(baseGraph, currVertex, startVertex)) {
+                if (isConsistent(baseGraph, currVertex, startVertex)) {
                     visited.add(Edge(currVertex, startVertex))
                     break
                 }
@@ -58,13 +58,13 @@ class GreedyTwiceAroundTSP(vararg points: ArrayPoint, graph: ConnectedGraph? = n
 
             // Prioritize exploration here
             val nonVisitedConnecting = toVisit.filter { it.to !in visitedVertices }.sortedBy { it.getDistance() }
-            val chosenEdge : Edge = nonVisitedConnecting.firstOrNull() ?: toVisit.first()
+            val chosenEdge: Edge = nonVisitedConnecting.firstOrNull() ?: toVisit.first()
             visited.add(chosenEdge)
             currVertex = chosenEdge.to
         }
 
-        val retEdges = visitedVertices.zipWithNext{from, to -> Edge(from, to)}.toMutableList()
-        return with(Path(retEdges)){this.wrap(); this}
+        val retEdges = visitedVertices.zipWithNext { from, to -> Edge(from, to) }.toMutableList()
+        return with(Path(retEdges)) { this.wrap(); this }
         /*
         * This is always true for a fully Connected Graph, where you can just consider the first occurrence.
         * */

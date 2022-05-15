@@ -7,7 +7,7 @@ class ConnectedGraph(vararg points: ArrayPoint) : Graph(*points) {
     init {
         storage.vertexStorage.forEach { curr ->
             storage.vertexStorage.forEach { other ->
-                if(curr != other){
+                if (curr != other) {
                     curr.connectBidirectional(other)
                 }
             }

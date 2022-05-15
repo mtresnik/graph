@@ -20,15 +20,15 @@ class PrimsMazeGenerator(params: MazeParameterInterface) : MazeGenerator(params)
         // "Add to Maze" logic
         visited.add(startCell)
         wallList.addAll(retMaze.getConnections(startCell))
-        while(wallList.isNotEmpty()) {
+        while (wallList.isNotEmpty()) {
             val index = wallList.indices.random()
             val currConnection = wallList.removeAt(index)
             val visitedFrom = currConnection.from in visited
             val visitedTo = currConnection.to in visited
 
-            if((visitedFrom && !visitedTo) || (!visitedFrom && visitedTo)) {
+            if ((visitedFrom && !visitedTo) || (!visitedFrom && visitedTo)) {
                 retMaze.setWall(currConnection.from, currConnection.direction, MazeBorder.PASSAGE)
-                val toAdd = if(visitedFrom) currConnection.to else currConnection.from
+                val toAdd = if (visitedFrom) currConnection.to else currConnection.from
                 visited.add(toAdd)
                 val toVisit = retMaze.getConnections(toAdd).filter { it !in wallList }
                 wallList.addAll(toVisit)

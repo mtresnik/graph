@@ -13,6 +13,6 @@ class VisitRecorder : VertexProducer(), VisitListener {
         records[currTime] = currList
     }
 
-    fun toList() : List<Vertex> = records.values.flatten()
+    fun toList(): List<Vertex> = records.values.flatten()
 
 }

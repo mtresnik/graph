@@ -27,22 +27,22 @@ class GraphCollection(val name: String = "Collection") {
     var pointRadius = 20
     var lineStroke = 5.0f
 
-    fun addGraph(graph: Graph, color:Color = Color.BLACK) {
+    fun addGraph(graph: Graph, color: Color = Color.BLACK) {
         graphs[graph] = color
         updateBounds()
     }
 
-    fun addPath(path: Path, color:Color = Color.BLUE){
+    fun addPath(path: Path, color: Color = Color.BLUE) {
         paths[path] = color
         updateBounds()
     }
 
-    fun addPoint(point: ArrayPoint, color:Color = Color.CYAN){
+    fun addPoint(point: ArrayPoint, color: Color = Color.CYAN) {
         points[point] = color
         updateBounds()
     }
 
-    fun addPoints(points: Collection<ArrayPoint>, color:Color = Color.CYAN){
+    fun addPoints(points: Collection<ArrayPoint>, color: Color = Color.CYAN) {
         points.forEach {
             this.points[it] = color
         }
@@ -69,19 +69,19 @@ class GraphCollection(val name: String = "Collection") {
         points.keys.forEach { point ->
             pointList.add(point)
         }
-        if(pointList.isNotEmpty())
+        if (pointList.isNotEmpty())
             bounds = PaddedBoundingBox(*pointList.toTypedArray())
     }
 
     fun drawCenteredCircle(g: Graphics2D, x: Int, y: Int, r: Int) = g.fillOval(x - r / 2, y - r / 2, r, r)
 
-    fun drawPoint(color: Color, point: ArrayPoint, graphics2D: Graphics2D){
+    fun drawPoint(color: Color, point: ArrayPoint, graphics2D: Graphics2D) {
         val coordinate = convertPixels(point)
         graphics2D.paint = color
         drawCenteredCircle(graphics2D, coordinate.first, coordinate.second, pointRadius)
     }
 
-    fun drawLine(color: Color, edge: Edge, graphics2D: Graphics2D, stroke: Float = lineStroke){
+    fun drawLine(color: Color, edge: Edge, graphics2D: Graphics2D, stroke: Float = lineStroke) {
         val from = convertPixels(edge.from)
         val to = convertPixels(edge.to)
         graphics2D.paint = color
@@ -89,24 +89,24 @@ class GraphCollection(val name: String = "Collection") {
         graphics2D.drawLine(from.first, from.second, to.first, to.second)
     }
 
-    fun convertPixels(point: ArrayPoint) : Pair<Int, Int>{
-        if(point !in bounds){
+    fun convertPixels(point: ArrayPoint): Pair<Int, Int> {
+        if (point !in bounds) {
             throw RuntimeException("Point is out of current bounds of graph.")
         }
         val x = point.values[0]
         val y = point.values[1]
         val relX = (x - bounds.minX()) / (bounds.maxX() - bounds.minX())
         val relY = (y - bounds.minY()) / (bounds.maxY() - bounds.minY())
-        return Pair(floor(relX*width).toInt(), floor(relY*height).toInt())
+        return Pair(floor(relX * width).toInt(), floor(relY * height).toInt())
     }
 
-    fun padBounds(){
+    fun padBounds() {
         val dx = bounds.maxX() - bounds.minX()
         val dy = bounds.maxY() - bounds.minY()
-        bounds.minXPadding -=dx*padding
-        bounds.minYPadding -=dy*padding
-        bounds.maxXPadding +=dx*padding
-        bounds.maxYPadding +=dy*padding
+        bounds.minXPadding -= dx * padding
+        bounds.minYPadding -= dy * padding
+        bounds.maxXPadding += dx * padding
+        bounds.maxYPadding += dy * padding
     }
 
     fun build(): BufferedImage {
@@ -114,7 +114,7 @@ class GraphCollection(val name: String = "Collection") {
         val image = BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB)
         val graphics: Graphics2D = image.createGraphics()
         graphics.background = background
-        graphics.clearRect(0,0, width, height)
+        graphics.clearRect(0, 0, width, height)
         padBounds()
         graphs.forEach { (graph, color) ->
             graph.storage.edgeStorage.forEach { edge ->
@@ -127,7 +127,7 @@ class GraphCollection(val name: String = "Collection") {
         points.forEach { (point, color) ->
             drawPoint(color, point, graphics)
         }
-        paths.entries.forEachIndexed{ index, (path, color) ->
+        paths.entries.forEachIndexed { index, (path, color) ->
             path.forEach { edge ->
                 drawLine(color, edge, graphics)
                 drawPoint(color, edge.from, graphics)
@@ -138,7 +138,7 @@ class GraphCollection(val name: String = "Collection") {
         return image
     }
 
-    fun render() : BufferedImage {
+    fun render(): BufferedImage {
         val image = build()
         val icon = ImageIcon(image)
         val label = JLabel(icon)

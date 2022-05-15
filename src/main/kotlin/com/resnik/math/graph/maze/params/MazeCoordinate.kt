@@ -1,6 +1,6 @@
 package com.resnik.math.graph.maze.params
 
-open class MazeCoordinate(val row : Int, val col : Int) {
+open class MazeCoordinate(val row: Int, val col: Int) {
 
     val x = col
     val y = row
@@ -20,7 +20,7 @@ open class MazeCoordinate(val row : Int, val col : Int) {
         return result
     }
 
-    fun toPair() : Pair<Int, Int> {
+    fun toPair(): Pair<Int, Int> {
         return row to col
     }
 

@@ -2,10 +2,10 @@ package com.resnik.math.graph.maze.objects
 
 import com.resnik.math.graph.maze.params.MazeCoordinate
 
-class MazeCell(row : Int, col : Int) : MazeCoordinate(row, col){
+class MazeCell(row: Int, col: Int) : MazeCoordinate(row, col) {
 
-    var left : MazeBorder = MazeBorder.WALL
-    var top : MazeBorder = MazeBorder.WALL
+    var left: MazeBorder = MazeBorder.WALL
+    var top: MazeBorder = MazeBorder.WALL
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true

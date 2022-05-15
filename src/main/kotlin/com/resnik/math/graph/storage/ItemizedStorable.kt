@@ -13,7 +13,7 @@ abstract class ItemizedStorable<KEY, ITEM> : StringStorable<ITEM>, Iterable<ITEM
 
     override fun writeTo(outputStream: OutputStream, close: Boolean) {
         val printWriter = PrintWriter(outputStream)
-        if(this is HeaderDescribed<*>)
+        if (this is HeaderDescribed<*>)
             this.getHeader().writeWith(printWriter)
         mapStore.forEach { (_, item) ->
             printWriter.println(toString(item))
@@ -22,21 +22,21 @@ abstract class ItemizedStorable<KEY, ITEM> : StringStorable<ITEM>, Iterable<ITEM
     }
 
     override fun readFrom(inputStream: InputStream, close: Boolean) {
-        val header = if(this is HeaderDescribed<*>) getHeader() else null
+        val header = if (this is HeaderDescribed<*>) getHeader() else null
         val scanner = Scanner(inputStream)
-        while(scanner.hasNextLine()) {
+        while (scanner.hasNextLine()) {
             val line = scanner.nextLine()
-            if(canMap(line)) {
+            if (canMap(line)) {
                 consumeIfPossible(line)
             } else {
                 header?.consumeIfPossible(line)
             }
         }
         header?.load()
-        if(close) inputStream.close()
+        if (close) inputStream.close()
     }
 
-    abstract fun save(value : ITEM)
+    abstract fun save(value: ITEM)
 
     fun saveAll(collection: Collection<ITEM>) {
         collection.forEach { save(it) }
@@ -44,10 +44,10 @@ abstract class ItemizedStorable<KEY, ITEM> : StringStorable<ITEM>, Iterable<ITEM
 
     override fun consumeIfPossible(input: String) {
         val item = fromString(input)
-        if(item != null) save(item)
+        if (item != null) save(item)
     }
 
-    operator fun get(key: KEY) : ITEM? {
+    operator fun get(key: KEY): ITEM? {
         return this.mapStore[key]
     }
 
@@ -55,21 +55,23 @@ abstract class ItemizedStorable<KEY, ITEM> : StringStorable<ITEM>, Iterable<ITEM
         this.mapStore[key] = item
     }
 
-    fun getOrDefault(key : KEY, default : ITEM) : ITEM {
+    fun getOrDefault(key: KEY, default: ITEM): ITEM {
         return this.mapStore.getOrDefault(key, default)
     }
 
-    operator fun contains(key: KEY) : Boolean = this.mapStore.contains(key)
+    operator fun contains(key: KEY): Boolean = this.mapStore.contains(key)
 
-    fun clear() { this.mapStore.clear() }
+    fun clear() {
+        this.mapStore.clear()
+    }
 
-    fun size() : Int = this.mapStore.size
+    fun size(): Int = this.mapStore.size
 
-    fun isEmpty() : Boolean = this.size() == 0
+    fun isEmpty(): Boolean = this.size() == 0
 
-    fun isNotEmpty() : Boolean = !this.isEmpty()
+    fun isNotEmpty(): Boolean = !this.isEmpty()
 
-    protected fun items() : Collection<ITEM> = mapStore.values
+    protected fun items(): Collection<ITEM> = mapStore.values
 
     override fun forEach(action: Consumer<in ITEM>?) {
         items().forEach(action)

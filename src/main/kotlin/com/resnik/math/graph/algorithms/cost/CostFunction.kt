@@ -19,8 +19,8 @@ import com.resnik.math.graph.objects.PolyEdge
 * */
 interface CostFunction<W : VertexWrapper<W>> {
 
-    fun straightLineCost(current : W, dest : W) : CostState
+    fun straightLineCost(current: W, dest: W): CostState
 
-    fun polyEdgeCost(startCost : CostState, polyEdge : PolyEdge) : CostState
+    fun polyEdgeCost(startCost: CostState, polyEdge: PolyEdge): CostState
 
 }

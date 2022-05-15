@@ -5,22 +5,22 @@ import com.resnik.math.graph.objects.Path
 import com.resnik.math.graph.objects.Traversal
 import com.resnik.math.graph.objects.Vertex
 
-abstract class GraphAlgorithm<T : VertexWrapper<T>>(private val parameters: GraphAlgorithmParameterInterface)
-    : VertexProducer(), Traversal, GraphAlgorithmParameterInterface {
+abstract class GraphAlgorithm<T : VertexWrapper<T>>(private val parameters: GraphAlgorithmParameterInterface) :
+    VertexProducer(), Traversal, GraphAlgorithmParameterInterface {
 
-    private val _visited : Function1<Vertex, Boolean>
-    private val _visit : Function1<Vertex, Boolean>
+    private val _visited: Function1<Vertex, Boolean>
+    private val _visit: Function1<Vertex, Boolean>
     private val vertexSet = mutableSetOf<Vertex>()
     private val idSet = mutableSetOf<Long>()
 
     init {
-        if(getStart().id != null && getDestination().id != null) {
+        if (getStart().id != null && getDestination().id != null) {
             _visited = { v ->
-                if(v.id == null) throw IllegalStateException("Missing id.")
+                if (v.id == null) throw IllegalStateException("Missing id.")
                 idSet.contains(v.id)
             }
             _visit = { v ->
-                if(v.id == null) throw IllegalStateException("Missing id.")
+                if (v.id == null) throw IllegalStateException("Missing id.")
                 idSet.add(v.id!!)
             }
         } else {
@@ -37,18 +37,18 @@ abstract class GraphAlgorithm<T : VertexWrapper<T>>(private val parameters: Grap
         val retPath = Path()
         val vertexSet = mutableSetOf<Vertex>()
         var currVertexWrapper: VertexWrapper<T> = wrapper
-        while(currVertexWrapper.previous != null && !vertexSet.contains(currVertexWrapper.inner)) {
+        while (currVertexWrapper.previous != null && !vertexSet.contains(currVertexWrapper.inner)) {
             vertexSet.add(currVertexWrapper.inner)
             currVertexWrapper = currVertexWrapper.previous!!
         }
         val vertexList = vertexSet.toMutableList()
         vertexList.add(currVertexWrapper.inner)
         vertexList.reverse()
-        for(i in 0 until vertexList.lastIndex){
+        for (i in 0 until vertexList.lastIndex) {
             val currVertex = vertexList[i]
             val nextVertex = vertexList[i + 1]
             val edge = currVertex.getEdge(nextVertex)
-            if(edge != null){
+            if (edge != null) {
                 retPath.add(edge)
             }
         }
@@ -62,11 +62,11 @@ abstract class GraphAlgorithm<T : VertexWrapper<T>>(private val parameters: Grap
         this._visit(vertex)
     }
 
-    fun hasVisited(wrapper: T) : Boolean = hasVisited(wrapper.inner)
+    fun hasVisited(wrapper: T): Boolean = hasVisited(wrapper.inner)
 
-    fun hasVisited(vertex: Vertex) : Boolean = this._visited(vertex)
+    fun hasVisited(vertex: Vertex): Boolean = this._visited(vertex)
 
-    fun numVisited() : Int = vertexSet.size + idSet.size
+    fun numVisited(): Int = vertexSet.size + idSet.size
 
     final override fun getStart(): Vertex {
         return parameters.getStart()

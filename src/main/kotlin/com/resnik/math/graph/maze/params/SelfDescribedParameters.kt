@@ -1,6 +1,6 @@
 package com.resnik.math.graph.maze.params
 
-open class SelfDescribedParameters(protected val params : MazeParameterInterface) : MazeParameterInterface {
+open class SelfDescribedParameters(protected val params: MazeParameterInterface) : MazeParameterInterface {
 
     override fun getWidth(): Int {
         return params.getWidth()

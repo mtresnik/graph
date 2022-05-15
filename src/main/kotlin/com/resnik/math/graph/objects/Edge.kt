@@ -6,22 +6,22 @@ import com.resnik.math.linear.array.geometry.BoundingBox
 import com.resnik.math.linear.array.geometry.LineSegment
 import kotlin.math.atan2
 
-open class Edge(from: Vertex, to: Vertex, var weight: Double = 0.0, var id : Long? = null)
-    : LineSegment<Vertex>(from, to), Identifyable, Flaggable, Cloneable {
+open class Edge(from: Vertex, to: Vertex, var weight: Double = 0.0, var id: Long? = null) :
+    LineSegment<Vertex>(from, to), Identifyable, Flaggable, Cloneable {
 
-    private val flags : MutableSet<Long> = mutableSetOf()
+    private val flags: MutableSet<Long> = mutableSetOf()
 
-    fun reverse() : Edge = Edge(to, from, weight)
+    fun reverse(): Edge = Edge(to, from, weight)
 
-    open fun getDistance() : Double {
+    open fun getDistance(): Double {
         return from.distanceTo(to)
     }
 
-    fun getTheta() : Double {
+    fun getTheta(): Double {
         return atan2(to.y() - from.y(), to.x() - from.x()) + 2 * Math.PI
     }
 
-    open fun getBounds() : BoundingBox {
+    open fun getBounds(): BoundingBox {
         return BoundingBox(from, to)
     }
 
@@ -37,9 +37,9 @@ open class Edge(from: Vertex, to: Vertex, var weight: Double = 0.0, var id : Lon
         if (this === other) return true
         if (javaClass != other?.javaClass) return false
         other as Edge
-        if(this.id != other.id) return false
-        if(from == other.from && to == other.to) return true
-        if(from == other.to && to == other.from) return true
+        if (this.id != other.id) return false
+        if (from == other.from && to == other.to) return true
+        if (from == other.to && to == other.from) return true
         return false
     }
 
@@ -51,7 +51,7 @@ open class Edge(from: Vertex, to: Vertex, var weight: Double = 0.0, var id : Lon
 
     override fun toString(): String = "$from --> $to"
 
-    override fun setFlags(flags : Collection<Long>) {
+    override fun setFlags(flags: Collection<Long>) {
         this.flags.clear()
         this.flags.addAll(flags)
     }
@@ -65,7 +65,7 @@ open class Edge(from: Vertex, to: Vertex, var weight: Double = 0.0, var id : Lon
     }
 
     public override fun clone(): Edge {
-        return Edge(from.clone(), to.clone(), weight=weight, id=id)
+        return Edge(from.clone(), to.clone(), weight = weight, id = id)
     }
 
 }
