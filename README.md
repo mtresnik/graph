@@ -1,6 +1,138 @@
 # graph
 
+[![build status](https://github.com/mtresnik/graph/actions/workflows/gradle.yml/badge.svg)](https://github.com/mtresnik/graph/actions/workflows/gradle.yml/)
+[![version](https://img.shields.io/badge/version-1.0.0-blue)]()
+[![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](https://github.com/mtresnik/graph/blob/main/LICENSE)
+[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-green.svg?style=flat-square)](https://makeapullrequest.com)
+
 A novel Graph-Theory and Maze Solution library made for kotlin JVM.
+<hr>
+
+
+## Dependencies
+> Please compile against [com.resnik.math:1.0.0](https://github.com/mtresnik/math/packages/1409888) and [com.resnik.intel:1.0.0](https://github.com/mtresnik/intel/packages/1423052) as well as this project.
+
+## Getting Started
+
+> This is a slightly different process to that of [com.resnik.intel](https://github.com/mtresnik/intel/).
+
+## Maven
+
+**~/.m2/settings.xml:**
+```xml
+<settings xmlns="http://maven.apache.org/SETTINGS/1.0.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.0.0
+                      http://maven.apache.org/xsd/settings-1.0.0.xsd">
+    ...
+  <activeProfiles>
+    <activeProfile>github</activeProfile>
+  </activeProfiles>
+    ...
+  <servers>
+    <server>
+      <id>github</id>
+      <username>GITHUB_USERNAME</username>
+      <password>GITHUB_PAT</password>
+    </server>
+  </servers>
+</settings>
+```
+
+**pom.xml:**
+```xml
+<repository>
+    <id>github</id>
+    <url>https://maven.pkg.github.com/mtresnik/math</url>
+    <snapshots>
+        <enabled>true</enabled>
+    </snapshots>
+</repository>
+
+<repository>
+    <id>github</id>
+    <url>https://maven.pkg.github.com/mtresnik/intel</url>
+    <snapshots>
+        <enabled>true</enabled>
+    </snapshots>
+</repository>
+
+<repository>
+    <id>github</id>
+    <url>https://maven.pkg.github.com/mtresnik/graph</url>
+    <snapshots>
+        <enabled>true</enabled>
+    </snapshots>
+</repository>
+...
+<dependency>
+    <groupId>com.resnik</groupId>
+    <artifactId>math</artifactId>
+    <version>1.0.0</version>
+</dependency>
+
+<dependency>
+    <groupId>com.resnik</groupId>
+    <artifactId>intel</artifactId>
+    <version>1.0.0</version>
+</dependency>
+
+<dependency>
+    <groupId>com.resnik</groupId>
+    <artifactId>graph</artifactId>
+    <version>1.0.0</version>
+</dependency>
+```
+
+## Gradle (groovy)
+
+**~/.gradle/gradle.properties:**
+```groovy
+gpr.user=GITHUB_USERNAME
+gpr.token=GITHUB_PAT
+```
+
+**build.gradle:**
+```groovy
+repositories {
+    ...
+    maven {
+        url= uri("https://maven.pkg.github.com/mtresnik/math")
+        credentials {
+            // Runner stored in env, else stored in ~/.gradle/gradle.properties
+            username = System.getenv("USERNAME") ?: findProperty("gpr.user") ?: "<GITHUB_USERNAME>"
+            password = System.getenv("TOKEN") ?: findProperty("gpr.token")
+        }
+    }
+    ...
+    maven {
+        url= uri("https://maven.pkg.github.com/mtresnik/intel")
+        credentials {
+            // Runner stored in env, else stored in ~/.gradle/gradle.properties
+            username = System.getenv("USERNAME") ?: findProperty("gpr.user") ?: "<GITHUB_USERNAME>"
+            password = System.getenv("TOKEN") ?: findProperty("gpr.token")
+        }
+    }
+    maven {
+        url= uri("https://maven.pkg.github.com/mtresnik/graph")
+        credentials {
+            // Runner stored in env, else stored in ~/.gradle/gradle.properties
+            username = System.getenv("USERNAME") ?: findProperty("gpr.user") ?: "<GITHUB_USERNAME>"
+            password = System.getenv("TOKEN") ?: findProperty("gpr.token")
+        }
+    }
+}
+
+dependencies {
+    ...
+    implementation group: 'com.resnik', name: 'math', version: '1.0.0'
+    implementation group: 'com.resnik', name: 'intel', version: '1.0.0'
+    implementation group: 'com.resnik', name: 'graph', version: '1.0.0'
+    ...
+}
+```
+
+<hr>
 
 # Mazes
 
