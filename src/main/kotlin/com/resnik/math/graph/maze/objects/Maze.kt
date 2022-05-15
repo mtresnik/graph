@@ -78,7 +78,7 @@ class Maze(params: MazeParameterInterface) : SelfDescribedParameters(params) {
         return allWalls(coordinate.row, coordinate.col)
     }
 
-    fun allWalls(row: Int, col: Int): Boolean {
+    private fun allWalls(row: Int, col: Int): Boolean {
         if (getTopWall(row, col) != MazeBorder.WALL) return false
         if (getLeftWall(row, col) != MazeBorder.WALL) return false
         if (getRightWall(row, col) != MazeBorder.WALL) return false
@@ -90,19 +90,18 @@ class Maze(params: MazeParameterInterface) : SelfDescribedParameters(params) {
         setWall(coordinate.row, coordinate.col, direction, border)
     }
 
-    fun setWall(row: Int, col: Int, direction: AbsoluteDirection, border: MazeBorder) {
+    private fun setWall(row: Int, col: Int, direction: AbsoluteDirection, border: MazeBorder) {
         if (!isValidRowCol(row, col)) return
         when (direction) {
             AbsoluteDirection.RIGHT -> setRightWall(row, col, border)
             AbsoluteDirection.UP -> setTopWall(row, col, border)
             AbsoluteDirection.LEFT -> setLeftWall(row, col, border)
             AbsoluteDirection.DOWN -> setBottomWall(row, col, border)
-            else -> throw IllegalStateException("Unexpected direction $direction")
         }
     }
 
-    fun setLeftWall(coordinate: MazeCoordinate, border: MazeBorder) {
-        setLeftWall(coordinate.row, coordinate.col, border)
+    private fun setLeftWall(coordinate: MazeCoordinate) {
+        this.setLeftWall(coordinate.row, coordinate.col, MazeBorder.WALL)
     }
 
     fun setLeftWall(row: Int, col: Int, border: MazeBorder) {
@@ -120,8 +119,8 @@ class Maze(params: MazeParameterInterface) : SelfDescribedParameters(params) {
         rightCell.left = border
     }
 
-    fun setTopWall(coordinate: MazeCoordinate, border: MazeBorder) {
-        setTopWall(coordinate.row, coordinate.col, border)
+    private fun setTopWall(coordinate: MazeCoordinate) {
+        this.setTopWall(coordinate.row, coordinate.col, MazeBorder.WALL)
     }
 
     fun setTopWall(row: Int, col: Int, border: MazeBorder) {
@@ -170,7 +169,6 @@ class Maze(params: MazeParameterInterface) : SelfDescribedParameters(params) {
             AbsoluteDirection.UP -> getTopWall(row, col)
             AbsoluteDirection.LEFT -> getLeftWall(row, col)
             AbsoluteDirection.DOWN -> getBottomWall(row, col)
-            else -> throw IllegalStateException("Unidentified direction: $direction")
         }
     }
 
@@ -184,7 +182,6 @@ class Maze(params: MazeParameterInterface) : SelfDescribedParameters(params) {
             AbsoluteDirection.UP -> getUp(row, col)
             AbsoluteDirection.LEFT -> getLeft(row, col)
             AbsoluteDirection.DOWN -> getDown(row, col)
-            else -> throw IllegalStateException("Unidentified direction: $direction")
         }
     }
 
@@ -247,8 +244,8 @@ class Maze(params: MazeParameterInterface) : SelfDescribedParameters(params) {
     }
 
     fun wrap() {
-        getAllTop().forEach { top -> setTopWall(top, MazeBorder.WALL) }
-        getAllLeft().forEach { left -> setLeftWall(left, MazeBorder.WALL) }
+        getAllTop().forEach { top -> setTopWall(top) }
+        getAllLeft().forEach { left -> setLeftWall(left) }
     }
 
     fun getClosestMazeCell(point: ArrayPoint): MazeCell {
