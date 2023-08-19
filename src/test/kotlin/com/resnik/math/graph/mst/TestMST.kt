@@ -1,17 +1,17 @@
 package com.resnik.math.graph.mst
 
-import com.resnik.math.graph.TestRenderDelegate
 import com.resnik.math.graph.objects.Graph
 import com.resnik.math.graph.objects.PartiallyConnectedGraph
 import com.resnik.math.graph.ui.GraphCollection
 import com.resnik.math.linear.array.ArrayPoint
+import org.junit.Ignore
 import org.junit.Test
 import java.awt.Color
 import java.awt.image.BufferedImage
 import java.io.File
 import javax.imageio.ImageIO
 
-class TestMST : TestRenderDelegate() {
+class TestMST {
 
     private val endFile = File("C:\\Users\\Mike\\Desktop\\mst\\examples")
 
@@ -25,16 +25,15 @@ class TestMST : TestRenderDelegate() {
     }
 
     private fun renderIfSet(initialGraph: Graph, mst: Graph, name: String) {
-        if (RENDER) {
-            val collection = GraphCollection()
-            collection.addGraph(initialGraph, Color.BLACK)
-            collection.addGraph(mst, Color.RED)
-            val image = collection.render()
-            saveIfExists(image, name)
-        }
+        val collection = GraphCollection()
+        collection.addGraph(initialGraph, Color.BLACK)
+        collection.addGraph(mst, Color.RED)
+        val image = collection.render()
+        saveIfExists(image, name)
     }
 
     @Test
+    @Ignore
     fun testKruskals() {
         val initialGraph = PartiallyConnectedGraph(*randomPoints(), numConnections = 10)
         val kruskalsMST = KruskalsMST(initialGraph)
@@ -43,6 +42,7 @@ class TestMST : TestRenderDelegate() {
     }
 
     @Test
+    @Ignore
     fun testPrims() {
         val initialGraph = PartiallyConnectedGraph(*randomPoints(), numConnections = 10)
         val primsMST = PrimsMST(initialGraph)

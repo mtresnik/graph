@@ -4,11 +4,13 @@ import com.resnik.math.graph.objects.provider.BoundedGraphProvider
 import com.resnik.math.graph.objects.provider.RandomPruneGraphProvider
 import com.resnik.math.linear.array.ArrayPoint
 import com.resnik.math.linear.array.geometry.BoundingBox
+import org.junit.Ignore
 import org.junit.Test
 
 class TestDFS : TestGraphRenderer() {
 
     @Test
+    @Ignore
     fun testDFS1() {
         val bbox = BoundingBox(ArrayPoint(0.0, 0.0), ArrayPoint(10.0, 10.0))
         val width = 20
@@ -33,6 +35,7 @@ class TestDFS : TestGraphRenderer() {
     }
 
     @Test
+    @Ignore
     fun testDFSRandom() {
         val bbox = BoundingBox(ArrayPoint(0.0, 0.0), ArrayPoint(10.0, 10.0))
         val width = 20

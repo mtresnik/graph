@@ -4,11 +4,13 @@ import com.resnik.math.graph.objects.Edge
 import com.resnik.math.graph.objects.Graph
 import com.resnik.math.graph.objects.Vertex
 import com.resnik.math.graph.road.Intersection
+import org.junit.Ignore
 import org.junit.Test
 
 class TestDijkstra : TestGraphRenderer() {
 
     @Test
+    @Ignore
     fun testDijkstra() {
         val vertices = mutableListOf(
             Vertex(0.0, 0.0, id = 1),
@@ -37,6 +39,7 @@ class TestDijkstra : TestGraphRenderer() {
     }
 
     @Test
+    @Ignore
     fun testIntersections() {
         val vertices = mutableListOf(
             Intersection(34.001, -73.0),

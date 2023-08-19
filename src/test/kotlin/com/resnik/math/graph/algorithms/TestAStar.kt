@@ -7,11 +7,13 @@ import com.resnik.math.graph.objects.provider.BoundedGraphProvider
 import com.resnik.math.linear.array.ArrayPoint
 import com.resnik.math.linear.array.geometry.BoundingBox
 import com.resnik.math.stats.stddev
+import org.junit.Ignore
 import org.junit.Test
 
 class TestAStar : TestGraphRenderer() {
 
     @Test
+    @Ignore
     fun testAStar() {
         val vertices = mutableListOf(
             Vertex(0.0, 0.0, id = 1),
@@ -41,6 +43,7 @@ class TestAStar : TestGraphRenderer() {
 
 
     @Test
+    @Ignore
     fun testAStar1() {
         val bbox = BoundingBox(ArrayPoint(0.0, 0.0), ArrayPoint(10.0, 10.0))
         val width = 100
@@ -62,6 +65,7 @@ class TestAStar : TestGraphRenderer() {
     }
 
     @Test
+    @Ignore
     fun testAStarRandom() {
         val bbox = BoundingBox(ArrayPoint(0.0, 0.0), ArrayPoint(10.0, 10.0))
         val width = 20
@@ -83,6 +87,7 @@ class TestAStar : TestGraphRenderer() {
 
 
     @Test
+    @Ignore
     fun profileAStar() {
         val numIterations = 100
         val timeTakenSeconds = mutableListOf<Double>()

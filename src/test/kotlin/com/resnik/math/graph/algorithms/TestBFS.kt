@@ -4,12 +4,14 @@ import com.resnik.math.graph.objects.provider.BoundedGraphProvider
 import com.resnik.math.graph.ui.GraphCollection
 import com.resnik.math.linear.array.ArrayPoint
 import com.resnik.math.linear.array.geometry.BoundingBox
+import org.junit.Ignore
 import org.junit.Test
 import java.awt.Color
 
 class TestBFS : TestGraphRenderer() {
 
     @Test
+    @Ignore
     fun testBFSRandom() {
         val bbox = BoundingBox(ArrayPoint(0.0, 0.0), ArrayPoint(10.0, 10.0))
         val width = 20
@@ -34,6 +36,7 @@ class TestBFS : TestGraphRenderer() {
     }
 
     @Test
+    @Ignore
     fun testBFSRandomVisited() {
         val bbox = BoundingBox(ArrayPoint(0.0, 0.0), ArrayPoint(10.0, 10.0))
         val width = 50

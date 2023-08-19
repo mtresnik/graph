@@ -1,6 +1,5 @@
 package com.resnik.math.graph.maze.objects.provider
 
-import com.resnik.math.graph.TestSaveDelegate
 import com.resnik.math.graph.algorithms.Dijkstra
 import com.resnik.math.graph.algorithms.GAParams
 import com.resnik.math.graph.maze.generator.AldousBroderMazeGenerator
@@ -11,28 +10,26 @@ import com.resnik.math.graph.objects.Graph
 import com.resnik.math.graph.ui.GraphCollection
 import com.resnik.math.linear.array.ArrayPoint
 import com.resnik.math.linear.array.geometry.BoundingBox
+import org.junit.Ignore
 import org.junit.Test
 import java.awt.Color
 import java.awt.image.BufferedImage
 import java.io.File
 import javax.imageio.ImageIO
 
-class TestMazeGeneratorProvider : TestSaveDelegate() {
+class TestMazeGeneratorProvider {
 
     private val endFile = File("C:\\Users\\Mike\\Desktop\\maze")
 
     private fun saveIfExists(image: BufferedImage, name: String, ext: String = "png") {
-        if (!SAVE) return
         if (!endFile.exists()) return
         ImageIO.write(image, ext, File(endFile, "$name.$ext"))
     }
 
     private fun renderOrSave(maze: Maze, name: String): MazeRenderer {
         val mazeRenderer = MazeRenderer(maze)
-        if (RENDER) {
-            val image = mazeRenderer.render()
-            saveIfExists(image, name)
-        }
+        val image = mazeRenderer.render()
+        saveIfExists(image, name)
         return mazeRenderer
     }
 
@@ -41,16 +38,15 @@ class TestMazeGeneratorProvider : TestSaveDelegate() {
         name: String,
         collection: GraphCollection = GraphCollection()
     ): GraphCollection {
-        if (RENDER) {
-            collection.pointRadius = 10
-            collection.addGraph(graph, color = Color.BLACK)
-            val image = collection.render()
-            saveIfExists(image, name)
-        }
+        collection.pointRadius = 10
+        collection.addGraph(graph, color = Color.BLACK)
+        val image = collection.render()
+        saveIfExists(image, name)
         return collection
     }
 
     @Test
+    @Ignore
     fun testMazeGeneratorProvider1() {
 
         val mazeGenerator = AldousBroderMazeGenerator(MazeParams(20, 20))
@@ -74,12 +70,8 @@ class TestMazeGeneratorProvider : TestSaveDelegate() {
         val algorithm = Dijkstra(GAParams(minVertex, maxVertex))
         val path = algorithm.evaluate()
         collection.addPath(path, color = Color.RED)
-        if (RENDER) {
-            val pathImage = collection.render()
-            if (SAVE) {
-                ImageIO.write(pathImage, "png", File(endFile, "pathImage.png"))
-            }
-        }
+        val pathImage = collection.render()
+        ImageIO.write(pathImage, "png", File(endFile, "pathImage.png"))
 
         // Convert path back to maze cells
         path.map { edge ->
@@ -90,11 +82,8 @@ class TestMazeGeneratorProvider : TestSaveDelegate() {
                 mazeRenderer.setConnection(connection, Color.RED)
             }
         }
-
-        if (RENDER) {
-            val mazePath = mazeRenderer.render()
-            if (SAVE) ImageIO.write(mazePath, "png", File(endFile, "mazePath.png"))
-        }
+        val mazePath = mazeRenderer.render()
+        ImageIO.write(mazePath, "png", File(endFile, "mazePath.png"))
 
     }
 

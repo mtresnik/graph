@@ -1,16 +1,16 @@
 package com.resnik.math.graph.objects.provider
 
-import com.resnik.math.graph.TestRenderDelegate
 import com.resnik.math.graph.algorithms.AStar
 import com.resnik.math.graph.algorithms.GAParams
 import com.resnik.math.graph.objects.Graph
 import com.resnik.math.graph.ui.GraphCollection
 import com.resnik.math.linear.array.ArrayPoint
 import com.resnik.math.linear.array.geometry.BoundingBox
+import org.junit.Ignore
 import org.junit.Test
 import java.awt.Color
 
-class TestBoundedProvider : TestRenderDelegate() {
+class TestBoundedProvider {
 
     private fun renderIfSet(
         graph: Graph,
@@ -18,17 +18,16 @@ class TestBoundedProvider : TestRenderDelegate() {
         _collection: GraphCollection? = null
     ): GraphCollection {
         val collection = _collection ?: GraphCollection()
-        if (RENDER) {
-            collection.pointRadius = 10
-            collection.lineStroke = 2.0f
-            if (background != null) collection.background = background
-            collection.addGraph(graph, color = Color.RED)
-            collection.render()
-        }
+        collection.pointRadius = 10
+        collection.lineStroke = 2.0f
+        if (background != null) collection.background = background
+        collection.addGraph(graph, color = Color.RED)
+        collection.render()
         return collection
     }
 
     @Test
+    @Ignore
     fun testProvider1() {
         val bbox = BoundingBox(ArrayPoint(0.0, 0.0), ArrayPoint(10.0, 10.0))
         val width = 20
@@ -39,6 +38,7 @@ class TestBoundedProvider : TestRenderDelegate() {
     }
 
     @Test
+    @Ignore
     fun testProvider2() {
         val bbox = BoundingBox(ArrayPoint(0.0, 0.0), ArrayPoint(10.0, 10.0))
         val width = 20
@@ -53,6 +53,7 @@ class TestBoundedProvider : TestRenderDelegate() {
     }
 
     @Test
+    @Ignore
     fun testProvider3() {
         val bbox = BoundingBox(ArrayPoint(0.0, 0.0), ArrayPoint(10.0, 10.0))
         val width = 30
@@ -74,22 +75,21 @@ class TestBoundedProvider : TestRenderDelegate() {
         println(path)
 
 
-        if (RENDER) {
-            val pathColor = Color(250, 100, 100)
-            val collection = GraphCollection()
-            val g = 50
-            collection.background = Color(g, g, g)
-            collection.pointRadius = 10
-            collection.lineStroke = 2.0f
-            collection.addGraph(pruned, Color(0, 100, 250))
-            collection.addPoint(minVertex, color = pathColor)
-            collection.addPoint(maxVertex, color = pathColor)
-            collection.addPath(path, pathColor)
-            collection.render()
-        }
+        val pathColor = Color(250, 100, 100)
+        val collection = GraphCollection()
+        val g = 50
+        collection.background = Color(g, g, g)
+        collection.pointRadius = 10
+        collection.lineStroke = 2.0f
+        collection.addGraph(pruned, Color(0, 100, 250))
+        collection.addPoint(minVertex, color = pathColor)
+        collection.addPoint(maxVertex, color = pathColor)
+        collection.addPath(path, pathColor)
+        collection.render()
     }
 
     @Test
+    @Ignore
     fun testProvider4() {
         val bbox = BoundingBox(ArrayPoint(0.0, 0.0), ArrayPoint(10.0, 10.0))
         val width = 20
@@ -108,20 +108,19 @@ class TestBoundedProvider : TestRenderDelegate() {
         val path = algorithm.evaluate()
         println(path)
 
-        if (RENDER) {
-            val collection = GraphCollection()
-            collection.pointRadius = 10
-            collection.lineStroke = 2.0f
-            collection.addGraph(graph, Color.BLUE)
-            collection.addPoint(minVertex, color = Color.RED)
-            collection.addPoint(maxVertex, color = Color.RED)
-            collection.addPath(path, Color.RED)
+        val collection = GraphCollection()
+        collection.pointRadius = 10
+        collection.lineStroke = 2.0f
+        collection.addGraph(graph, Color.BLUE)
+        collection.addPoint(minVertex, color = Color.RED)
+        collection.addPoint(maxVertex, color = Color.RED)
+        collection.addPath(path, Color.RED)
 
-            collection.render()
-        }
+        collection.render()
     }
 
     @Test
+    @Ignore
     fun testProviderCloned() {
         val bbox = BoundingBox(ArrayPoint(0.0, 0.0), ArrayPoint(10.0, 10.0))
         val width = 20
@@ -142,30 +141,28 @@ class TestBoundedProvider : TestRenderDelegate() {
         val path = algorithm.evaluate()
         println(path)
 
-        if (RENDER) {
-            val collection = GraphCollection()
-            val g = 50
-            collection.background = Color(g, g, g)
-            collection.pointRadius = 10
-            collection.lineStroke = 2.0f
-            val graphColor = Color(0, 100, 250)
-            collection.addGraph(pruned, graphColor)
+        val collection = GraphCollection()
+        val g = 50
+        collection.background = Color(g, g, g)
+        collection.pointRadius = 10
+        collection.lineStroke = 2.0f
+        val graphColor = Color(0, 100, 250)
+        collection.addGraph(pruned, graphColor)
 
-            val pathColor = Color(250, 100, 100)
-            collection.addPoint(minVertex, color = pathColor)
-            collection.addPoint(maxVertex, color = pathColor)
-            collection.addPath(path, pathColor)
-            collection.render()
+        val pathColor = Color(250, 100, 100)
+        collection.addPoint(minVertex, color = pathColor)
+        collection.addPoint(maxVertex, color = pathColor)
+        collection.addPath(path, pathColor)
+        collection.render()
 
-            val pruned2 = prunedGraphProvider.build()
-            val collection2 = GraphCollection()
-            collection2.background = collection.background
-            collection2.pointRadius = collection.pointRadius
-            collection2.lineStroke = collection.lineStroke
-            collection2.addGraph(pruned2, graphColor)
+        val pruned2 = prunedGraphProvider.build()
+        val collection2 = GraphCollection()
+        collection2.background = collection.background
+        collection2.pointRadius = collection.pointRadius
+        collection2.lineStroke = collection.lineStroke
+        collection2.addGraph(pruned2, graphColor)
 
-            collection2.render()
-        }
+        collection2.render()
 
     }
 

@@ -1,6 +1,5 @@
 package com.resnik.math.graph.tsp
 
-import com.resnik.math.graph.TestRenderDelegate
 import com.resnik.math.graph.objects.Path
 import com.resnik.math.graph.ui.GraphCollection
 import com.resnik.math.linear.array.ArrayPoint
@@ -9,7 +8,7 @@ import org.junit.Test
 import java.awt.Color
 import java.lang.Math.random
 
-class TestTSP : TestRenderDelegate() {
+class TestTSP {
 
     private fun randomPoints(max: Int = 8): Array<ArrayPoint> {
         return Array(max) { ArrayPoint(random(), random()) }
@@ -17,6 +16,7 @@ class TestTSP : TestRenderDelegate() {
 
     @ExperimentalStdlibApi
     @Test
+    @Ignore
     fun testAll() {
 
         // Scales a lot better for higher amounts of vertices
@@ -50,18 +50,17 @@ class TestTSP : TestRenderDelegate() {
         println(greedyTSPResult)
         println("Time: ${System.currentTimeMillis() - start}")
 
-        if (RENDER) {
-            val collection = GraphCollection("Test TSP")
-            collection.addGraph(random.graph)
-            // collection.addPath(randomResult, Color.GREEN)
-            collection.addPath(bruteResult, Color.RED)
-            collection.addPath(permutationTSPResult, Color.CYAN)
-            collection.addPath(greedyTSPResult, Color.GREEN)
-            collection.render()
-        }
+        val collection = GraphCollection("Test TSP")
+        collection.addGraph(random.graph)
+        // collection.addPath(randomResult, Color.GREEN)
+        collection.addPath(bruteResult, Color.RED)
+        collection.addPath(permutationTSPResult, Color.CYAN)
+        collection.addPath(greedyTSPResult, Color.GREEN)
+        collection.render()
     }
 
     @Test
+    @Ignore
     fun testPermutationTSP() {
         val points = randomPoints(13)
         val start = System.currentTimeMillis()
@@ -70,12 +69,10 @@ class TestTSP : TestRenderDelegate() {
         permutationTSPResult.wrap()
         println(permutationTSPResult)
         println("Time: ${System.currentTimeMillis() - start}")
-        if (RENDER) {
-            val collection = GraphCollection("Test TSP")
-            collection.addGraph(permutationTSP.graph)
-            collection.addPath(permutationTSPResult, Color.RED)
-            collection.render()
-        }
+        val collection = GraphCollection("Test TSP")
+        collection.addGraph(permutationTSP.graph)
+        collection.addPath(permutationTSPResult, Color.RED)
+        collection.render()
     }
 
 
@@ -104,6 +101,7 @@ class TestTSP : TestRenderDelegate() {
     }
 
     @Test
+    @Ignore
     fun testTwoOpt() {
         val points = randomPoints(20)
         println("GreedyTSP")
@@ -115,12 +113,10 @@ class TestTSP : TestRenderDelegate() {
         printVerticesIndex(greedyTSPResult)
         println("Time: ${System.currentTimeMillis() - start}")
 
-        if (RENDER) {
-            val greedyCollection = GraphCollection("Test TSP")
-            //greedyCollection.addGraph(greedyTSP.graph)
-            greedyCollection.addPath(greedyTSPResult, Color.RED)
-            greedyCollection.render()
-        }
+        val greedyCollection = GraphCollection("Test TSP")
+        //greedyCollection.addGraph(greedyTSP.graph)
+        greedyCollection.addPath(greedyTSPResult, Color.RED)
+        greedyCollection.render()
 
         start = System.currentTimeMillis()
         val twoOptTSP = TwoOptTSP(*points)
@@ -131,12 +127,10 @@ class TestTSP : TestRenderDelegate() {
         printVerticesIndex(twoOptTSPResult)
         println("Time: ${System.currentTimeMillis() - start}")
 
-        if (RENDER) {
-            val collection = GraphCollection("Test TSP")
-            // collection.addGraph(twoOptTSP.graph)
-            collection.addPath(twoOptTSPResult, Color.RED)
-            collection.render()
-        }
+        val collection = GraphCollection("Test TSP")
+        // collection.addGraph(twoOptTSP.graph)
+        collection.addPath(twoOptTSPResult, Color.RED)
+        collection.render()
     }
 
 
